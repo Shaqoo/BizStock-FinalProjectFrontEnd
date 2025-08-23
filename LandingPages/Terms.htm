@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BizStock - Terms of Service</title>
+  <link rel="shortcut icon" href="Favicon/Favicon.jpg" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+     
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #e3e8f0;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #2563eb, #3b82f6);
+      border-radius: 10px;
+      border: 3px solid #e3e8f0;
+      transition: background-color 0.3s ease;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #1e40af, #2563eb);
+    }
+ 
+    a {
+      color: #2563eb;
+      text-decoration: none;
+      transition: color 0.3s ease, text-decoration-color 0.3s ease;
+      position: relative;
+      outline-offset: 2px;
+    }
+    a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 2px;
+      background-color: transparent;
+      transition: background-color 0.3s ease;
+      border-radius: 2px;
+    }
+    a:hover,
+    a:focus {
+      color: #1e40af;
+      outline: none;
+    }
+    a:hover::after,
+    a:focus::after {
+      background-color: #1e40af;
+    }
+
+  
+    .btn-subtle-hover {
+      background-color: #2563eb;
+      color: white;
+      font-weight: 600;
+      padding: 0.75rem 1.75rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 3px 6px rgba(37, 99, 235, 0.4);
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+      display: inline-block;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .btn-subtle-hover:hover,
+    .btn-subtle-hover:focus {
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.6);
+      transform: scale(1.05);
+      outline: none;
+    }
+
+     
+    section {
+      border-radius: 0.75rem;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 4px 15px rgb(37 99 235 / 0.1);
+      background: #f9fafb;  
+      transition: box-shadow 0.3s ease;
+    }
+    section:nth-child(even) {
+      background: white;
+    }
+    section:hover {
+      box-shadow: 0 8px 30px rgb(37 99 235 / 0.15);
+    }
+
+    h2 {
+      color: #1e40af;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      font-size: 1.75rem;
+      letter-spacing: 0.02em;
+    }
+    p, li {
+      color: #374151;
+      line-height: 1.65;
+    }
+    ul {
+      margin-left: 1.25rem;
+    }
+
+   
+    @media (max-width: 768px) {
+      section {
+        padding: 1.5rem 1.75rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      .btn-subtle-hover {
+        padding: 0.65rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-white to-blue-50 font-sans leading-relaxed text-gray-800">
+
+ 
+  <header class="sticky top-0 bg-white shadow-md z-50">
+    <nav class="container mx-auto flex justify-between items-center p-5">
+      <div class="text-3xl font-extrabold text-blue-700 tracking-wide select-none">BizStock</div>
+      <ul class="flex space-x-8 font-semibold text-blue-700">
+        <li><a href="Home.htm" class="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">Home</a></li>
+        <li><a href="Home.htm" class="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">Features</a></li>
+        <li><a href="Home.htm" class="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">About</a></li>
+        <li><a href="Home.htm" class="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+ 
+  <main class="container mx-auto max-w-4xl px-6 py-16">
+    <h1 class="text-5xl font-extrabold text-center text-blue-700 mb-14 tracking-tight">
+      Terms of Service
+    </h1>
+
+    <section>
+      <h2>1. Introduction</h2>
+      <p>
+        Welcome to BizStock. These Terms of Service (“Terms”) govern your use of our website and services. By using BizStock, you agree to follow these Terms.
+      </p>
+    </section>
+
+    <section>
+      <h2>2. Use of Our Services</h2>
+      <ul class="list-decimal list-inside space-y-3">
+        <li><strong>Eligibility:</strong> You must be 18 or older or have guardian consent.</li>
+        <li><strong>Account Security:</strong> You’re responsible for keeping your login details safe.</li>
+        <li><strong>Acceptable Use:</strong> Don’t misuse the platform or disrupt other users.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Products and Orders</h2>
+      <ul class="list-disc list-inside space-y-3">
+        <li><strong>Accuracy:</strong> We try to keep product info accurate but mistakes can happen.</li>
+        <li><strong>Order Acceptance:</strong> We may cancel or refuse orders if needed.</li>
+        <li><strong>Delivery:</strong> Estimated delivery times aren’t guaranteed.</li>
+        <li><strong>Returns:</strong> Please check our Return Policy for details.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Payments</h2>
+      <ul class="list-disc list-inside space-y-3">
+        <li><strong>Security:</strong> Payments are handled securely via trusted gateways.</li>
+        <li><strong>Prices:</strong> Prices may change without notice.</li>
+        <li><strong>Taxes:</strong> You’re responsible for any taxes related to purchases.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>5. Intellectual Property</h2>
+      <p>
+        All content on BizStock including logos and text are owned by BizStock or its licensors. Unauthorized use is prohibited.
+      </p>
+    </section>
+
+    <section>
+      <h2>6. Limitation of Liability</h2>
+      <p>
+        BizStock is not liable for indirect or consequential damages. Services are provided "as is" without warranties.
+      </p>
+    </section>
+
+    <section>
+      <h2>7. Termination</h2>
+      <p>
+        We may suspend or terminate accounts violating these Terms. Users may also close accounts anytime.
+      </p>
+    </section>
+
+    <section>
+      <h2>8. Governing Law</h2>
+      <p>
+        These Terms are governed by the laws applicable where BizStock operates.
+      </p>
+    </section>
+
+    <section>
+      <h2>9. Changes to Terms</h2>
+      <p>
+        We may update these Terms occasionally. Continued use means acceptance of changes.
+      </p>
+    </section>
+
+    <section class="text-center mt-12">
+      <h2 class="text-blue-700 font-semibold mb-4 text-2xl">Contact Us</h2>
+      <p class="mb-4">
+        Questions? Reach us at
+        <a href="mailto:support@bizstock.com" class="underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">support@bizstock.com</a>.
+      </p>
+      <p class="text-blue-600 font-medium">
+        Last updated: <time datetime="2025-08-12">August 12, 2025</time>
+      </p>
+    </section>
+
+    <section class="text-center mt-8">
+      <a href="Home.htm" class="btn-subtle-hover focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+        Back to Home
+      </a>
+    </section>
+  </main>
+
+   
+  <footer class="bg-white border-t border-gray-300 text-gray-700 py-6 mt-auto">
+    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-6">
+      <p class="select-none">&copy; 2025 BizStock. All rights reserved.</p>
+      <div class="flex space-x-8 mt-4 md:mt-0 font-semibold">
+        <a href="Privacy.htm" class="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">Privacy Policy</a>
+        <a href="Terms.htm" class="underline text-blue-700">Terms of Service</a>
+        <a href="About.htm" class="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">About</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

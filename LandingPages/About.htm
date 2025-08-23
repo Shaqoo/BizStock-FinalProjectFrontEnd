@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BizStock - About Us</title>
+  <link rel="shortcut icon" href="Favicon/Favicon.jpg" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #e0e7ff;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #2563eb, #3b82f6);
+      border-radius: 10px;
+      border: 3px solid #e0e7ff;
+      transition: background-color 0.3s ease;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #1e40af, #2563eb);
+    }
+
+    a {
+      color: #2563eb;
+      text-decoration: none;
+      transition: color 0.3s ease, text-decoration-color 0.3s ease;
+      position: relative;
+      outline-offset: 2px;
+    }
+    a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 2px;
+      background-color: transparent;
+      transition: background-color 0.3s ease;
+      border-radius: 2px;
+    }
+    a:hover,
+    a:focus {
+      color: #1e40af;
+      outline: none;
+    }
+    a:hover::after,
+    a:focus::after {
+      background-color: #1e40af;
+    }
+
+    .btn-subtle-hover {
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
+      color: white;
+      font-weight: 600;
+      padding: 0.75rem 1.75rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.6);
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+      display: inline-block;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+    }
+    .btn-subtle-hover:hover,
+    .btn-subtle-hover:focus {
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.8);
+      transform: scale(1.05);
+      outline: none;
+    }
+
+    section {
+      border-radius: 0.75rem;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2.5rem;
+      background: white;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1);
+      transition: box-shadow 0.3s ease;
+    }
+    section:hover {
+      box-shadow: 0 8px 35px rgba(37, 99, 235, 0.15);
+    }
+
+    h1, h2 {
+      font-weight: 700;
+      color: #1e40af;
+      letter-spacing: 0.02em;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    p, li {
+      color: #374151;
+      line-height: 1.7;
+      font-size: 1.1rem;
+    }
+    ul {
+      margin-left: 1.25rem;
+      margin-top: 0.5rem;
+    }
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    body {
+      background: linear-gradient(180deg, #e0e7ff, #ffffff);
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.25rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      section {
+        padding: 1.5rem 1.75rem;
+      }
+      .btn-subtle-hover {
+        padding: 0.65rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans leading-relaxed text-gray-800">
+
+  <header class="sticky top-0 bg-white shadow-md z-50">
+    <nav class="container mx-auto flex justify-between items-center p-5">
+      <div class="text-3xl font-extrabold text-blue-700 tracking-wide select-none">BizStock</div>
+      <ul class="flex space-x-8 font-semibold text-blue-700">
+        <li><a href="Home.htm" class="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">Home</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container mx-auto max-w-5xl px-6 py-16">
+    <h1>About BizStock</h1>
+
+    <section>
+      <h2>Who We Are</h2>
+      <p>
+        BizStock is a customer-first platform designed to streamline your shopping and inventory management experience. Founded in 2024, we aim to empower customers, suppliers, and retailers with innovative, reliable, and user-friendly tools to make managing stock and shopping seamless and safe.
+      </p>
+    </section>
+
+    <section>
+      <h2>Our Mission</h2>
+      <p>
+        To revolutionize the retail experience by providing an all-in-one platform that combines secure online shopping with real-time inventory management and exceptional customer support.
+      </p>
+    </section>
+
+    <section>
+      <h2>What We Offer</h2>
+      <ul>
+        <li><strong>Secure Payments:</strong> State-of-the-art encryption to keep your transactions safe.</li>
+        <li><strong>Live Stock Updates:</strong> Real-time inventory tracking so you never face out-of-stock surprises.</li>
+        <li><strong>Fast & Reliable Delivery:</strong> Ensuring your orders reach you on time and intact.</li>
+        <li><strong>24/7 Customer Support:</strong> Friendly and knowledgeable agents always ready to help.</li>
+        <li><strong>Business Dashboards:</strong> Dedicated tools for suppliers and retailers to manage stock efficiently.</li>
+        <li><strong>Insightful Sales Analytics:</strong> Understand trends and customer behavior with detailed reports.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Our Values</h2>
+      <ul>
+        <li><strong>Customer Focus:</strong> Everything we do is designed with your needs in mind.</li>
+        <li><strong>Transparency:</strong> We keep you informed at every step, from purchase to delivery.</li>
+        <li><strong>Innovation:</strong> Constantly improving with the latest technology and feedback.</li>
+        <li><strong>Integrity:</strong> Honest dealings and secure, trustworthy services.</li>
+        <li><strong>Community:</strong> Building lasting relationships with our users and partners.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Why Choose BizStock?</h2>
+      <p>
+        With BizStock, you get more than just a marketplace. You gain a partner committed to making your shopping experience effortless, your stock management efficient, and your data safe. Whether you’re a casual shopper or a business, our platform adapts to your needs and grows with you.
+      </p>
+    </section>
+
+    <section class="text-center mt-12">
+      <button onclick="location.href='Home.htm'" class="btn-subtle-hover focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+        Back to Home
+      </button>
+    </section>
+  </main>
+
+  <footer class="bg-white border-t border-gray-300 text-gray-700 py-6 mt-auto">
+    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-6">
+      <p class="select-none">&copy; 2025 BizStock. All rights reserved.</p>
+      <div class="flex space-x-8 mt-4 md:mt-0 font-semibold text-blue-700">
+        <a href="Privacy.htm" class="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">Privacy Policy</a>
+        <a href="Terms.htm" class="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">Terms of Service</a>
+        <a href="About.htm" class="underline">About</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
