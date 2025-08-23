@@ -17,5 +17,3 @@ The **BizStock Frontend** is the user-facing part of the application, designed t
 - **CSS3** – Styling with responsiveness (including custom styles and gradients).
 - **JavaScript (Vanilla)** – Interactivity, form validations, and dynamic updates.
 - **REST API Integration** – Connects seamlessly with the BizStock backend services.
-
-### 📂 Project Structure
