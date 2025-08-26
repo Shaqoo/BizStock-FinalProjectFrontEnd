@@ -1,10 +1,11 @@
- 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   scroll-behavior: smooth;
 }
 
- 
+/* =========================
+   Section Titles & Buttons
+========================= */
 .section-title {
   font-size: 2rem;
   font-weight: bold;
@@ -24,7 +25,18 @@ body {
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
- 
+/* Pulse Attention Effect */
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
+  50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 215, 0, 0.6); }
+}
+.cta-button.attention {
+  animation: pulseGlow 2s infinite;
+}
+
+/* =========================
+   Navbar
+========================= */
 .nav-link {
   color: #333;
   position: relative;
@@ -49,7 +61,10 @@ body {
 .nav-link:hover::after {
   width: 100%;
 }
- 
+
+/* =========================
+   Scrollbar Styling
+========================= */
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;  
@@ -71,15 +86,18 @@ body {
   background: linear-gradient(180deg, #1e40af, #4338ca);
 }
 
- 
 * {
   scrollbar-width: thin;
   scrollbar-color: #4f46e5 #f0f4f8;
 }
 
- 
+/* =========================
+   Hero Section
+========================= */
 .hero {
   animation: fadeIn 1s ease-in-out;
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
 }
 
 .hero h1 {
@@ -90,7 +108,9 @@ body {
   animation: fadeIn 1.5s ease forwards;
 }
 
- 
+/* =========================
+   Feature Cards
+========================= */
 .feature-card {
   background: white;
   padding: 1.5rem;
@@ -108,19 +128,39 @@ body {
   background-color: #e6f0ff;
 }
 
-
 .feature-title {
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 0.75rem;
 }
 
- 
+/* Staggered Animation */
+.feature-card:nth-child(1) { animation-delay: 0.2s; }
+.feature-card:nth-child(2) { animation-delay: 0.4s; }
+.feature-card:nth-child(3) { animation-delay: 0.6s; }
+.feature-card:nth-child(4) { animation-delay: 0.8s; }
+.feature-card:nth-child(5) { animation-delay: 1s; }
+.feature-card:nth-child(6) { animation-delay: 1.2s; }
+.feature-card:nth-child(7) { animation-delay: 1.4s; }
+.feature-card:nth-child(8) { animation-delay: 1.6s; }
+.feature-card:nth-child(9) { animation-delay: 1.8s; }
+.feature-card:nth-child(10) { animation-delay: 2s; }
+.feature-card:nth-child(11) { animation-delay: 2.2s; }
+.feature-card:nth-child(12) { animation-delay: 2.4s; }
+.feature-card:nth-child(13) { animation-delay: 2.6s; }
+.feature-card:nth-child(14) { animation-delay: 2.8s; }
+.feature-card:nth-child(15) { animation-delay: 3s; }
+
+/* =========================
+   About Section
+========================= */
 #about p {
   line-height: 1.6;
 }
 
- 
+/* =========================
+   Footer
+========================= */
 .footer-link {
   color: #9ca3af;
   transition: color 0.3s ease;
@@ -130,7 +170,9 @@ body {
   color: white;
 }
 
- 
+/* =========================
+   Keyframes
+========================= */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -146,7 +188,29 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
- 
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Scroll reveal base */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.reveal.active {
+  animation: revealUp 0.8s forwards;
+}
+
+/* =========================
+   Responsive
+========================= */
 @media (max-width: 768px) {
   .section-title {
     font-size: 1.5rem;
@@ -170,28 +234,28 @@ body {
   }
 }
 
-
-/* Dark mode base styles */
+/* =========================
+   Dark Mode Styles
+========================= */
 body.dark {
-  background-color: #181a1f; /* Slightly lighter than pure black */
-  color: #e4e6eb; /* Soft off-white for text */
+  background-color: #181a1f;
+  color: #e4e6eb;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Section backgrounds */
 body.dark #home {
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899); /* bright, but softened gradient */
-  color: #f3f4f6; /* very light text */
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+  color: #f3f4f6;
 }
 
 body.dark #features {
-  background-color: #22272e; /* dark but not black */
-  color: #d1d5db; /* light gray */
+  background-color: #22272e;
+  color: #d1d5db;
 }
 
 body.dark #about {
-  background-color: #1f2937; /* slate dark */
-  color: #cbd5e1; /* soft gray */
+  background-color: #111827;
+  color: #cbd5e1;
 }
 
 body.dark #contact {
@@ -202,15 +266,12 @@ body.dark #contact {
 body.dark footer.footer {
   background-color: #22272e;
   color: #94a3b8;  
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
- 
 body.dark .feature-card {
   background-color: #2a2f3a;  
   color: #e0e7ff;  
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 body.dark .feature-card:hover {
@@ -218,12 +279,10 @@ body.dark .feature-card:hover {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
 }
 
- 
 body.dark .cta-button {
   background-color: #fbbf24;  
   color: #1f2937;  
   box-shadow: 0 4px 15px rgba(251, 191, 36, 0.6);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 body.dark .cta-button:hover {
@@ -231,26 +290,21 @@ body.dark .cta-button:hover {
   box-shadow: 0 6px 20px rgba(245, 158, 11, 0.8);
 }
 
-
 body.dark a {
   color: #93c5fd; 
-  transition: color 0.3s ease;
 }
 
 body.dark a:hover {
   color: #bfdbfe;  
 }
 
-
 body.dark nav ul li a {
   color: #d1d5db;
-  transition: color 0.3s ease;
 }
 
 body.dark nav ul li a:hover {
   color: #bfdbfe;
 }
-
 
 body.dark ::-webkit-scrollbar {
   width: 12px;
@@ -266,19 +320,20 @@ body.dark ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #3b82f6, #8b5cf6);
   border-radius: 10px;
   border: 3px solid #2a2f3a;
-  transition: background-color 0.3s ease;
 }
 
 body.dark ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #2563eb, #7c3aed);
 }
 
-
 body.dark {
   scrollbar-color: #8b5cf6 #2a2f3a;
   scrollbar-width: thin;
 }
 
+/* =========================
+   Smooth Transitions
+========================= */
 body,
 #home,
 #features,
@@ -299,17 +354,10 @@ body ::-webkit-scrollbar-thumb {
   transition: background 0.4s ease;
 }
 
-body.dark #about {
-  background-color: #111827;  
-  transition: background-color 0.4s ease, color 0.4s ease;
-}
-
-
 header,
 header nav {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
-
 
 body.dark header {
   background-color: #1f2937;  

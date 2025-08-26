@@ -1,0 +1,62 @@
+ body {
+      background: linear-gradient(to bottom right, #f8fafc, #e0f2fe);
+    }
+    .product-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .product-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+.cart-count-animate {
+  animation: count-bump 0.4s ease;
+} 
+::-webkit-scrollbar {
+  width: 8px;
+  height: 0px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #e2e8f0; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: black; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.774);
+}
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 #e2e8f0;
+}
+
+.flying-img {
+  border: 2px solid red;
+  box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.7);
+  background-color: white;
+  transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+
+ 
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.4s ease;
+}
+
+ 
