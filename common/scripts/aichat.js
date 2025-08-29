@@ -1,65 +1,5 @@
-let cartCount = localStorage.getItem("cartCount") || 0;
-  const cartCountSpan = document.getElementById("cart-count");
-  const cartIcon = cartCountSpan.closest("a");
-  const cartSound = document.getElementById("cart-sound");
 
-  cartCountSpan.innerText = cartCount;
-
-  function addToCart() {
-    const button = event.target;
-    const productCard = button.closest(".product-card");
-    const img = productCard.querySelector("img");
-
-    const imgClone = img.cloneNode(true);
-    const imgRect = img.getBoundingClientRect();
-    const cartRect = cartIcon.getBoundingClientRect();
-
-    imgClone.classList.add("flying-img");
-    imgClone.style.width = "50px";      
-    imgClone.style.height = "50px";
-    imgClone.style.left = imgRect.left + "px";
-    imgClone.style.top = imgRect.top + "px";
-    document.body.appendChild(imgClone);
-
-    const deltaX = cartRect.left - imgRect.left;
-    const deltaY = cartRect.top - imgRect.top;
-
-    requestAnimationFrame(() => {
-      imgClone.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.3)`;
-      imgClone.style.opacity = "0";
-    });
-
-    setTimeout(() => {
-      imgClone.remove();
-      cartIcon.classList.add("bump");
-      cartSound.play();
-      setTimeout(() => cartIcon.classList.remove("bump"), 400);
-    }, 700);
-    cartCount++;
-    cartCountSpan.innerText = cartCount;
-    cartCountSpan.classList.add("cart-count-animate");
-
- 
-setTimeout(() => {
-  cartCountSpan.classList.remove("cart-count-animate");
-}, 400);
-
-    localStorage.setItem("cartCount", cartCount);
-    cartCountSpan.innerText = cartCount;
-  }
-
-  const categoryBtns = document.querySelectorAll(".category-btn");
-  const products = document.querySelectorAll(".product-card");
-
-  categoryBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const category = btn.dataset.category;
-      products.forEach(prod => {
-        prod.style.display = (category === "all" || prod.dataset.category === category) ? "block" : "none";
-      });
-    });
-  });
-
+  function initAi(){
   const chatToggle = document.getElementById('chat-toggle');
   const chatWindow = document.getElementById('chat-window');
   const chatClose = document.getElementById('chat-close');
@@ -135,4 +75,4 @@ setTimeout(() => {
     chatBody.scrollTop = chatBody.scrollHeight;
     sound.currentTime = 0;
     sound.play();
-  }
+  }};

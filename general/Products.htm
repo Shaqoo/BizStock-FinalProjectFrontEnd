@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BizStock - Products</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/static/styles/Products.css">
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/common/styles/aichat.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="font-sans text-black-500 bg-gradient-to-b from-gray-50 to-gray-50 min-h-screen">
+ 
+  <div id="header-container"></div>
+
+<section class="p-6">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">⭐ Top Rated Products</h2>
+    <a href="top-rated.html" class="text-blue-600 font-medium hover:underline">See All</a>
+  </div>
+  <div id="top-rated-products" 
+       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  </div>
+</section>
+
+<section class="p-6">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">👀 Recently Viewed</h2>
+    <a href="recently-viewed.html" class="text-blue-600 font-medium hover:underline">See All</a>
+  </div>
+  <div id="recently-viewed-products" 
+       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  </div>
+</section>
+
+    
+
+<div id="ai-container"></div>
+
+
+
+<section class="p-6">
+  <h2 class="text-2xl font-bold mb-4">🛍 Other Products</h2>
+  <div id="other-products" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+     
+  </div>
+
+  <div class="flex justify-center items-center mt-6">
+    <a href="products.html" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+      See All Products →
+    </a>
+  </div>
+</section>
+
+
+
+ <div id="footer-container"></div>
+
+<audio id="cart-sound" src="/static/media/body-fall-47877.mp3" preload="auto"></audio>
+<audio id="chat-sound" src="/static/media/file-sounds-1150-pristine.mp3"></audio>
+<script src="/common/scripts/layout.js"></script>
+<script src="/common/scripts/header.js"></script>
+<script src="/common/scripts/footer.js"></script>
+<script src="/common/scripts/aichat.js"></script>
+<script src="/static/scripts/Products.js"></script>
+</body>
+</html>

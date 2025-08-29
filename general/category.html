@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Category Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/common/styles/aichat.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="font-sans text-black-500 bg-gradient-to-b from-gray-50 to-gray-50 min-h-screen">
+ 
+  <div id="header-container"></div>
+
+   <section class="p-6 bg-gray-50">
+    <div class="mb-6 text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">🛍️ Products in This Category</h2>
+        <p class="text-gray-600">Browse all the amazing products available in this category.</p>
+    </div>
+
+    <div id="products-results"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    </div>
+
+    <div id="pagination" class="flex justify-center items-center gap-2 mt-8">
+        <button id="prev-page" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">⬅ Prev</button>
+        <span id="page-info" class="text-gray-700 font-semibold"></span>
+        <button id="next-page" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Next ➡</button>
+    </div>
+</section>
+
+
+
+ <div id="ai-container"></div>
+
+  <div id="footer-container"></div>
+
+<audio id="cart-sound" src="/static/media/body-fall-47877.mp3" preload="auto"></audio>
+<audio id="chat-sound" src="/static/media/file-sounds-1150-pristine.mp3"></audio>
+<script src="/common/scripts/layout.js"></script>
+<script src="/common/scripts/header.js"></script>
+<script src="/common/scripts/footer.js"></script>
+<script src="/common/scripts/aichat.js"></script>
+<script src="/static/scripts/category.js"></script>
+</body>
+</html>

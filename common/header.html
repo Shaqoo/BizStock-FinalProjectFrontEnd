@@ -1,0 +1,65 @@
+<nav class="sticky top-0 z-50 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-4 shadow-lg">
+  <div class="flex items-center justify-between">
+    
+    <div class="flex items-center gap-3">
+      <img src="/static/images/Favicon.jpg" alt="Image" class="rounded-full w-10 h-10 border-2 border-white">
+      <h1 class="text-white font-bold text-xl">BizStock</h1>
+    </div>
+
+    <div class="flex-1 mx-6 hidden lg:flex">
+      <input id="search-box" type="search" placeholder="Search products..."
+    class="flex-1 px-4 py-2 rounded-l-lg text-gray-700 focus:ring-2 focus:ring-blue-300 outline-none">
+
+    <button id="search-btn"
+      class="px-4 bg-blue-900 text-white rounded-r-lg hover:bg-blue-800">🔍</button>
+    </div>
+
+
+    <div id="suggestions"
+      class="absolute left-40 top-full mt-1 w-50 max-h-60 overflow-y-auto 
+            border bg-white rounded-md shadow-lg hidden z-50 text-black">
+      </div>
+
+    <button id="menu-btn" class="lg:hidden text-white text-3xl focus:outline-none">
+      ☰
+    </button>
+    
+
+    <div id="auth-section" class="hidden lg:flex items-center gap-4 text-white">
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="lg:hidden hidden flex-col mt-4 gap-3 text-white">
+
+     <input  id="search-box-mobile" type="search" placeholder="Search products..."
+      class="w-full px-4 py-2 rounded-lg text-gray-700 focus:ring-2 focus:ring-blue-300 outline-none mb-3">
+    <button id="search-btn-mobile" class="w-full bg-blue-900 px-4 py-2 rounded-lg hover:bg-blue-800 mb-3">🔍 Search</button>
+
+     <div id="suggestions-mobile"
+      class="absolute left-40 top-full mt-1 w-50 max-h-60 overflow-y-auto 
+            border bg-white rounded-md shadow-lg hidden z-50 text-black">
+      </div>
+    
+     <button id="userMenuBtnMobile" class="flex items-center gap-2 focus:outline-none mb-3">
+      
+    </button>
+    
+    <div id="userMenuDropdownMobile" class="mt-2 bg-white text-gray-800 rounded-xl shadow-lg hidden">
+
+    </div>
+
+    <a href="cart.html" class="relative bg-white text-black px-5 py-2 rounded-lg shadow hover:bg-gray-200 flex items-center gap-2">
+      🛒 <span>Cart</span>
+      <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+    </a>
+  </div>
+</nav>
+
+<div class="sticky top-16 z-40 flex gap-4 overflow-x-auto px-6 py-4 bg-white shadow-md">
+  <button class="category-btn px-4 py-2 bg-blue-100 rounded-lg" data-category="all">📦 All</button>
+  <button class="category-btn px-4 py-2 bg-green-100 rounded-lg" data-category="electronics">💻 Electronics</button>
+  <button class="category-btn px-4 py-2 bg-pink-100 rounded-lg" data-category="fashion">👕 Fashion</button>
+  <button class="category-btn px-4 py-2 bg-yellow-100 rounded-lg" data-category="groceries">🍎 Groceries</button>
+  <button class="category-btn px-4 py-2 bg-purple-100 rounded-lg" data-category="home">🏠 Home</button>
+  <button class="category-btn px-4 py-2 bg-indigo-100 rounded-lg" data-category="gaming">🎮 Gaming</button>
+</div>
