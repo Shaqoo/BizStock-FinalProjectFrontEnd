@@ -1,7 +1,40 @@
 const apiBaseUrl = "https://localhost:7124/api/v1"
 
-const params = new URLSearchParams(window.location.search);
-const productId = params.get("id");
+
+document.addEventListener("DOMContentLoaded",async () => {
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get("id");
+  displayProduct(productId);
+  
+  if (!productId) {
+    console.warn("No product ID found in URL.");
+    return;
+  }
+
+  try{
+    const res = await fetch(`${apiBaseUrl}/RecentlyViewedProducts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify({
+         userId: null,
+         sessionId: "string",
+         productId: productId
+        })
+    });
+    const data = await res.json();
+    console.log("Recently viewed product added:", data);
+
+  } catch (err) {
+    console.error("Error adding recently viewed product:", err);
+  }
+
+});
+
+
+
 
 const getProduct = async (productId) =>{
   let product = await fetch(`${apiBaseUrl}/Products/by-id/${productId}`);
@@ -32,7 +65,7 @@ let getAvgRating = async (productId) =>{
 const additionalinfocontainer = document.getElementById('additional-info');
 
 
-async function displayProduct() {
+async function displayProduct(productId) {
 try
 {
  const product = await getProduct(productId);
@@ -61,7 +94,7 @@ try
     document.querySelector("#product-price").textContent = `$${product.data.sellingPrice.toFixed(2)}`;
     document.querySelector("#product-rating").innerHTML = `
   <span class="flex space-x-1">${renderStars(avgRating.data.item1)}</span>
-  <a href="reviews.html" class="text-sm text-blue-600 hover:underline">(${avgRating.data.item2} rating(s))</a>
+  <a href="reviews.html?productid=${productId}" class="text-sm text-blue-600 hover:underline">(${avgRating.data.item2} rating(s))</a>
 `;
     
     document.querySelector("#product-brand").innerHTML = `
@@ -111,7 +144,6 @@ try
 }
 }
 
-displayProduct();
 
 function addToCart() {
   const productImage = document.getElementById('product-image');

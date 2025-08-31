@@ -55,11 +55,35 @@
   </div>
 </nav>
 
-<div class="sticky top-16 z-40 flex gap-4 overflow-x-auto px-6 py-4 bg-white shadow-md">
-  <button class="category-btn px-4 py-2 bg-blue-100 rounded-lg" data-category="all">📦 All</button>
-  <button class="category-btn px-4 py-2 bg-green-100 rounded-lg" data-category="electronics">💻 Electronics</button>
-  <button class="category-btn px-4 py-2 bg-pink-100 rounded-lg" data-category="fashion">👕 Fashion</button>
-  <button class="category-btn px-4 py-2 bg-yellow-100 rounded-lg" data-category="groceries">🍎 Groceries</button>
-  <button class="category-btn px-4 py-2 bg-purple-100 rounded-lg" data-category="home">🏠 Home</button>
-  <button class="category-btn px-4 py-2 bg-indigo-100 rounded-lg" data-category="gaming">🎮 Gaming</button>
+<div class="flex items-center gap-2 bg-white shadow-lg rounded-lg p-3">
+  <div class="relative flex-shrink-0">
+    <button id="allCategoriesBtn"
+            class="px-4 py-2 bg-blue-600 text-white rounded-md hidden md:block">
+      All Categories
+    </button>
+    <ul id="all-categories"
+        class="absolute left-0 mt-2 hidden bg-white shadow-xl rounded-lg w-56 z-50">
+    </ul>
+  </div>
+  <div class="flex items-center gap-2 overflow-x-auto flex-1">
+    <button id="mobile-categories-btn"
+            class="px-4 py-2 bg-blue-600 text-white rounded-md md:hidden flex-shrink-0">
+      ☰ Categories
+    </button>
+
+    <button class="category-btn px-4 py-2 bg-green-100 rounded-lg flex-shrink-0" data-category="electronics">💻 Electronics</button>
+    <button class="category-btn px-4 py-2 bg-pink-100 rounded-lg flex-shrink-0" data-category="fashion">👕 Fashion</button>
+    <button class="category-btn px-4 py-2 bg-yellow-100 rounded-lg flex-shrink-0" data-category="groceries">🍎 Groceries</button>
+    <button class="category-btn px-4 py-2 bg-purple-100 rounded-lg flex-shrink-0" data-category="home">🏠 Home</button>
+    <button class="category-btn px-4 py-2 bg-indigo-100 rounded-lg flex-shrink-0" data-category="gaming">🎮 Gaming</button>
+    <button class="category-btn px-4 py-2 bg-red-100 rounded-lg flex-shrink-0" data-category="sports">⚽ Sports</button>
+  </div>
 </div>
+
+<div id="mobile-menu-cat"
+     class="fixed top-0 left-0 w-3/4 h-full bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50 overflow-x-auto">
+  <button id="close-mobile" class="p-3 text-red-600 font-bold">✖ Close</button>
+  <ul id="mobile-categories" class="p-3 space-y-2"></ul>
+</div>
+
+

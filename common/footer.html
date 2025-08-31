@@ -4,12 +4,12 @@
     <div>
       <h4 class="font-bold mb-3 text-white">Company</h4>
       <ul class="space-y-1">
-        <li><a href="#" class="hover:underline">About Us</a></li>
-        <li><a href="#" class="hover:underline">Careers</a></li>
-        <li><a href="#" class="hover:underline">Press</a></li>
-        <li><a href="#" class="hover:underline">Blog</a></li>
-        <li><a href="#" class="hover:underline">Privacy Policy</a></li>
-        <li><a href="#" class="hover:underline">Terms of Service</a></li>
+        <li><a href="/general/About.htm" class="hover:underline">About Us</a></li>
+        <li><a href="/general/careers.html" class="hover:underline">Careers</a></li>
+        <li><a href="/general/press.html" class="hover:underline">Press</a></li>
+        <li><a href="/general/blog.html" class="hover:underline">Blog</a></li>
+        <li><a href="/general/Privacy.htm" class="hover:underline">Privacy Policy</a></li>
+        <li><a href="/general/Terms.htm" class="hover:underline">Terms of Service</a></li>
       </ul>
     </div>
 
@@ -42,19 +42,38 @@
       <div class="flex gap-4 mb-4">
         <a href="#" class="hover:text-white">🌐 Facebook</a>
         <a href="#" class="hover:text-white">📷 Instagram</a>
-        <a href="#" class="hover:text-white">🐦 Twitter</a>
+        <!-- <a href="#" class="hover:text-white">🐦 Twitter</a>
+        <br>
         <a href="#" class="hover:text-white">💼 LinkedIn</a>
-        <a href="#" class="hover:text-white">▶️ YouTube</a>
+        <br>
+        <a href="#" class="hover:text-white">▶️ YouTube</a> -->
       </div>
 
 <h5 class="font-semibold mb-2">Newsletter</h5>
-<form id="newsletterForm" class="flex flex-col sm:flex-row gap-2">
-  <input type="email" placeholder="Your email" 
-         class="flex-1 px-3 py-2 rounded-lg text-gray-800 outline-none" required>
-  <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">
+<form id="newsletterForm" class="flex flex-col gap-3 w-full max-w-md">
+  <input 
+    type="email" 
+    placeholder="Your email" 
+    class="px-3 py-2 rounded-lg text-gray-800 outline-none border border-gray-300 w-full" 
+    required
+  >
+  <button 
+    type="submit" 
+    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition"
+  >
     Subscribe
   </button>
+
+  <div class="flex items-center gap-2 text-sm text-white">
+    <input type="checkbox" id="agree" required>
+    <label for="agree">
+      I agree to the 
+      <a href="/general/Privacy.htm" class="text-blue-600 hover:underline">Privacy Policy</a>
+    </label>
+  </div>
 </form>
+
+
       <div class="mt-4">
         <h5 class="font-semibold mb-1">Resources</h5>
         <ul class="space-y-1">

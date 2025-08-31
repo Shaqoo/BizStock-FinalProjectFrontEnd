@@ -217,6 +217,132 @@ searchBoxMobile.addEventListener("input", async () => {
   } catch (error) {
     console.error("Error fetching products:", error);
   }
-})};
+})
+
+};
+
+const colors = [
+  "bg-blue-100",
+  "bg-pink-100",
+  "bg-yellow-100",
+  "bg-purple-100",
+  "bg-green-100",
+  "bg-indigo-100",
+  "bg-red-100"
+];
+
+
+
+document.addEventListener("DOMContentLoaded",async () => {
+
+ await loadCategories();
+const allCategoriesBtn = document.getElementById("allCategoriesBtn");
+const allCategoriesList = document.getElementById("all-categories");
+
+allCategoriesBtn.addEventListener("mouseenter", () => {
+  allCategoriesList.classList.remove("hidden");
+});
+allCategoriesBtn.addEventListener("mouseleave", () => {
+  setTimeout(() => {
+    if (!allCategoriesList.matches(":hover")) {
+      allCategoriesList.classList.add("hidden");
+    }
+  }, 200);
+});
+allCategoriesList.addEventListener("mouseleave", () => {
+  allCategoriesList.classList.add("hidden");
+});
+
+document.getElementById("mobile-categories-btn").addEventListener("click", () => {
+    document.getElementById("mobile-menu-cat").classList.remove("-translate-x-full");
+  });
+  document.getElementById("close-mobile").addEventListener("click", () => {
+    document.getElementById("mobile-menu-cat").classList.add("-translate-x-full");
+  });
+
+});
+
+
+function createFlyoutItem(category) {
+  const li = document.createElement("li");
+  li.className = "relative group";
+  console.log(category.subCategories.length);
+  li.innerHTML = `
+    <a href="/general/category.html?id=${encodeURIComponent(category.id)}"
+       class="flex justify-between items-center px-3 py-2 hover:bg-blue-100 rounded-md">
+       <span>${category.icon || "📦"} ${category.name}</span>
+       ${category.subCategories?.length ? "▶" : ""}
+    </a>
+  `;
+
+  if (category.subCategories?.length) {
+    const subUl = document.createElement("ul");
+    subUl.className =
+      "absolute left-full top-0 hidden group-hover:block bg-white shadow-lg rounded-md w-56 z-50";
+    console.log(category.name)
+    category.subCategories.forEach(child => subUl.appendChild(createFlyoutItem(child)));
+    li.appendChild(subUl);
+  }
+  return li;
+}
+
+function createAccordionItem(category) {
+  const li = document.createElement("li");
+  li.innerHTML = `
+    <div class="flex justify-between items-center">
+      <a href="/general/category.html?id=${encodeURIComponent(category.id)}"
+         class="block py-2">${category.icon || "📦"} ${category.name}</a>
+      ${category.subCategories?.length ? `<button class="toggle">+</button>` : ""}
+    </div>
+    <ul class="ml-4 hidden"></ul>
+  `;
+  const toggleBtn = li.querySelector(".toggle");
+  if (toggleBtn) {
+    const subUl = li.querySelector("ul");
+    category.subCategories.forEach(child => subUl.appendChild(createAccordionItem(child)));
+
+    toggleBtn.addEventListener("click", () => {
+      subUl.classList.toggle("hidden");
+      toggleBtn.textContent = subUl.classList.contains("hidden") ? "+" : "-";
+    });
+  }
+  return li;
+}
+
+
+async function loadCategories() {
+  try {
+    const res = await fetch("https://localhost:7124/api/v1/Categories/tree");
+    const categories = await res.json();
+
+    try {
+      const allCategoriesList = document.getElementById("all-categories");
+      const mobileCategoriesList = document.getElementById("mobile-categories");
+
+      if (!allCategoriesList || !mobileCategoriesList) {
+        throw new Error("Category containers not found in DOM");
+      }
+
+      console.log("Categories loaded:", categories);
+      allCategoriesList.innerHTML = "";
+      mobileCategoriesList.innerHTML = "";
+
+      categories.data.forEach(cat => {
+        allCategoriesList.appendChild(createFlyoutItem(cat));
+      });
+
+      categories.data.forEach(cat => {
+        mobileCategoriesList.appendChild(createAccordionItem(cat));
+      });
+    } catch (domErr) {
+      console.error("Error rendering categories:", domErr);
+    }
+
+  } catch (err) {
+    console.error("Error loading categories:", err);
+  }
+}
+
+
 
 

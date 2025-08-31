@@ -1,30 +1,17 @@
 const apiBaseUrl = "https://localhost:7124/api/v1";
 let currentPage = 1;
 const pageSize = 20;
-let currentCategory = "all";
 let totalPages = 1;
 const prevPageBtn = document.getElementById("prev-page");
 const nextPageBtn = document.getElementById("next-page");
 const pageInfo = document.getElementById("page-info");
 const productList = document.getElementById("products-results");
 
-let currentQuery = "";
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const params = new URLSearchParams(window.location.search);
-  let id = params.get("id") || "";
-  currentQuery = id; 
-  console.log("Current category ID:", currentQuery);
-  fetchProducts();
-});
-
 
 
 async function fetchProducts() {
   try {
-    let url = `${apiBaseUrl}/Products/category/${currentQuery}?Page=${currentPage}&PageSize=${pageSize}`;
-    console.log(currentQuery)
-    //if (currentCategory && currentCategory !== "all") url += `&category=${encodeURIComponent(currentCategory)}`;
+    let url = `${apiBaseUrl}/Products/top-rated?pageNumber=${currentPage}&pageSize=${pageSize}`;
 
     const response = await fetch(url);
     if (!response.ok) throw new Error("Failed to fetch");
@@ -40,6 +27,11 @@ async function fetchProducts() {
     productList.innerHTML = `<p class="text-red-500">❌ Could not load Products.</p>`;
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    fetchProducts();
+});
+
 
 
 function renderResults(products) {

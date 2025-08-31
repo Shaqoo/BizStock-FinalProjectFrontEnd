@@ -1,0 +1,157 @@
+const apiBaseUrl = "https://localhost:7124/api/v1";
+let currentPage = 1;
+const pageSize = 20;
+let totalPages = 1;
+const prevPageBtn = document.getElementById("prev-page");
+const nextPageBtn = document.getElementById("next-page");
+const pageInfo = document.getElementById("page-info");
+const productList = document.getElementById("products-results");
+const sort = document.querySelector("#sort-price");
+
+let currentMode = "all"; 
+let ascendingSort = true;
+let currentMinPrice = 0;
+let currentMaxPrice = 999999;
+
+function fetchByCurrentMode() {
+    if (currentMode === "all") fetchProducts();
+    else if (currentMode === "sorted") fetchProductsSorted(ascendingSort);
+    else if (currentMode === "priceRange") fetchProductsByPriceRange(currentMinPrice, currentMaxPrice);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    fetchByCurrentMode();
+});
+
+
+async function fetchProducts() {
+  try {
+    let url = `${apiBaseUrl}/Products?Page=${currentPage}&PageSize=${pageSize}`;
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Failed to fetch");
+
+    const data = await response.json();
+    const products = data.data.items;
+    totalPages = data.data.totalPages;
+
+    renderResults(products);
+    updatePagination();
+  } catch (err) {
+    console.error("Error:", err);
+    productList.innerHTML = `<p class="text-red-500">❌ Could not load Products.</p>`;
+  }
+}
+
+sort.addEventListener("change", () => {
+    currentPage = 1;
+    ascendingSort = sort.value === "asc";
+    currentMode = "sorted";
+    fetchProductsSorted(ascendingSort);
+});
+
+
+async function fetchProductsSorted(ascending = true) {
+    try {
+        const url = `${apiBaseUrl}/Products/ordered-by-price?ascending=${ascending}&Page=${currentPage}&PageSize=${pageSize}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch sorted products");
+
+        const data = await response.json();
+        totalPages = data.data.totalPages;
+        renderResults(data.data.items);
+        updatePagination();
+    } catch (err) {
+        console.error(err);
+        productList.innerHTML = `<p class="text-red-500">❌ Could not load sorted products.</p>`;
+    }
+}
+
+
+document.getElementById("apply-price-filter").addEventListener("click", () => {
+    currentPage = 1;
+    currentMinPrice = Number(document.getElementById("min-price").value) || 0;
+    currentMaxPrice = Number(document.getElementById("max-price").value) || 999999;
+
+    if (currentMinPrice < 0 || currentMaxPrice < 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Invalid Price',
+            text: 'Prices cannot be negative',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+    currentMode = "priceRange";
+    fetchProductsByPriceRange(currentMinPrice, currentMaxPrice);
+});
+
+
+async function fetchProductsByPriceRange(min, max) {
+    try {
+        if (!min) min = 0;
+        if (!max) max = 999999; 
+        const url = `${apiBaseUrl}/Products/price-range?minPrice=${min}&maxPrice=${max}&Page=${currentPage}&PageSize=${pageSize}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch products by price range");
+
+        const data = await response.json();
+        totalPages = data.data.totalPages;
+        renderResults(data.data.items);
+        updatePagination();
+    } catch (err) {
+        console.error(err);
+        productList.innerHTML = `<p class="text-red-500">❌ Could not load products in price range.</p>`;
+    }
+}
+
+function renderResults(products) {
+  productList.innerHTML = "";
+  console.log(products);
+
+
+  if (!products || products.length === 0) {
+    productList.innerHTML = `<p class="text-gray-500">No products found.</p>`;
+    return;
+  }
+
+  products.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "bg-white rounded-lg shadow p-4";
+    card.onclick = () => window.location.href = `Product.html?id=${p.id}`;
+    card.classList.add("cursor-pointer");
+    
+    card.innerHTML = `
+      <img src="${p.imageUrl || 'placeholder.jpg'}" alt="${p.name}" 
+           class="w-full h-40 object-cover rounded">
+      <h3 class="text-lg font-semibold mt-2">${p.name}</h3>
+      <p class="text-sm text-gray-500">${p.name} • ${p.name}</p>
+      <p class="text-blue-600 font-bold mt-1">$${p.sellingPrice.toFixed(2)}</p>
+      <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add to Cart</button>
+    `;
+    productList.appendChild(card);
+  });
+}
+
+
+function updatePagination() {
+  pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+  prevPageBtn.disabled = currentPage === 1;
+  nextPageBtn.disabled = currentPage === totalPages;
+}
+
+prevPageBtn.addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    fetchByCurrentMode();
+  }
+});
+
+nextPageBtn.addEventListener("click", () => {
+  if (currentPage < totalPages) {
+    currentPage++;
+    fetchByCurrentMode();
+  }
+});
+
+

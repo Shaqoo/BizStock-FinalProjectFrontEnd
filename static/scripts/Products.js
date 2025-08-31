@@ -3,6 +3,7 @@
   const topRatedContainer = document.querySelector("#top-rated-products");
   const recentlyViewedContainer = document.querySelector("#recently-viewed-products");
   const otherProductsContainer = document.getElementById("other-products");
+  
 
   console.log("Fetching products...");
 
@@ -43,23 +44,7 @@
       otherProductsContainer.innerHTML = `<p class="text-gray-500">No products available.</p>`;
     }
 
-    
-    let recentResponse = await fetch("https://localhost:7124/api/v1/RecentlyViewedProducts");
-    let recentlyViewed = await recentResponse.json();
-
-    if (recentlyViewed.data !== null) {
-      recentlyViewedContainer.innerHTML = recentlyViewed.data.items.map(p => `
-        <div class="product-card bg-white rounded-xl shadow p-4">
-          <a href="product.html?id=${p.id}">
-            <img src="${p.imageUrl || 'placeholder.jpg'}" alt="${p.name}" class="w-full h-40 object-cover rounded-lg">
-          </a>
-          <h3 class="mt-2 font-semibold text-lg">${p.name}</h3>
-          <p class="text-gray-500">$${p.price}</p>
-        </div>
-      `).join("");
-    } else {
-      recentlyViewedContainer.innerHTML = `<p class="text-gray-500">No recently viewed products yet.</p>`;
-    }
+     loadRecentlyViewed();
 
   } catch (err) {
     console.error("Error fetching products:", err);
@@ -69,6 +54,56 @@
     recentlyViewedContainer.innerHTML = `<p class="text-red-500">⚠️ Failed to load recently viewed products.</p>`;
   }
 });
+
+
+async function loadRecentlyViewed() {
+  const recentResponse = await fetch("https://localhost:7124/api/v1/RecentlyViewedProducts", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }, 
+    credentials: "include"
+});
+
+  const recentlyViewed = await recentResponse.json();
+ console.log(recentlyViewed);
+  const container = document.querySelector("#recently-viewed-products");
+
+  if(recentlyViewed.data !== null)
+  {
+  const firstFour = recentlyViewed.data.items.slice(0, 4);
+
+  const productFetches = firstFour.map(items => getProduct(items.productId));
+  const products = await Promise.all(productFetches)
+
+    container.innerHTML = products.map(product => `
+    <div class="product-card bg-white rounded-xl shadow p-4">
+      <a href="product.html?id=${product.id}">
+        <img src="${product.imageUrl || 'placeholder.jpg'}" alt="${product.name}" class="w-full h-40 object-cover rounded-lg">
+      </a>
+      <h3 class="mt-2 font-semibold text-lg">${product.name}</h3>
+      <p class="text-gray-500">$${product.price}</p>
+    </div>
+  `).join("");
+
+  // if (recentlyViewed.data.items.length > 4) {
+    const seeAllBtn = document.createElement("button");
+    seeAllBtn.textContent = "See All";
+    seeAllBtn.className = "mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600";
+    seeAllBtn.onclick = () => window.location.href = "recentlyviewed.html";
+    container.appendChild(seeAllBtn);
+  //}
+  }
+  else {
+      container.innerHTML = `<p class="text-gray-500">No recently viewed products yet.</p>`;
+    }
+}
+
+const getProduct = async (productId) =>{
+  let product = await fetch(`https://localhost:7124/api/v1/Products/by-id/${productId}`);
+  return product.json();
+}
+
 
 
   
