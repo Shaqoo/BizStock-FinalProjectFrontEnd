@@ -24,8 +24,7 @@ async function fetchProducts() {
   try {
     let url = `${apiBaseUrl}/Products/category/${currentQuery}?Page=${currentPage}&PageSize=${pageSize}`;
     console.log(currentQuery)
-    //if (currentCategory && currentCategory !== "all") url += `&category=${encodeURIComponent(currentCategory)}`;
-
+  
     const response = await fetch(url);
     if (!response.ok) throw new Error("Failed to fetch");
 

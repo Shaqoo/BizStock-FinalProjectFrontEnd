@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customer Notifications</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/common/styles/aichat.css">
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+  <div id="header-container" class="sticky top-0 z-50"></div>
+
+  <main class="flex-grow flex items-center justify-center w-4/5 mx-auto">
+    <div class="w-full bg-white shadow-lg rounded-xl p-6">
+      
+      <div class="flex justify-between items-center border-b pb-3">
+        <h1 class="text-xl font-bold text-blue-600">Notifications</h1>
+        <div class="relative">
+          <button id="notificationBell" class="relative text-blue-600">
+            🔔
+            <span id="unreadCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full px-1.5">0</span>
+          </button>
+        </div>
+      </div>
+
+      <ul id="notificationsList" class="divide-y mt-4 max-h-96 overflow-y-auto">
+
+      </ul>
+
+      <div class="mt-4 text-right">
+        <button id="markAllBtn" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg">
+          Mark All as Read
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <audio id="notificationSound" src="/static/media/file-sounds-1150-pristine.mp3"></audio>
+  <div id="ai-container"></div>
+
+</body>
+
+<script src="/common/scripts/layout.js"></script>
+<script src="/common/scripts/header.js"></script>
+<script src="/common/scripts/footer.js"></script>
+<script src="/common/scripts/aichat.js"></script>
+<script src="/roles/Customer/Scripts/notification.js"></script>
+</body>
+</html>

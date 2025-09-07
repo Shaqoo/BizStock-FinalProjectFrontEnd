@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wishlist - BizStock</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/common/styles/aichat.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+<div id="header-container" class="sticky top-0 z-50"></div>
+ 
+  <header class="sticky bg-blue-600 text-white py-4 shadow-md">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">My Wishlist</h1>
+    </div>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 py-8 w-4/5">
+    <div id="wishlist-container" class="bg-white shadow-lg rounded-xl p-6">
+      
+    </div>
+      <div class="flex justify-center items-center gap-4 mt-4">
+      <button id="prevPage" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Prev</button>
+      <span id="pageInfo" class="font-medium"></span>
+      <button id="nextPage" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Next</button>
+    </div>
+  </main>
+  <div id="ai-container"></div>
+
+
+
+ <div id="footer-container"></div>
+<audio id="chat-sound" src="/static/media/file-sounds-1150-pristine.mp3"></audio>
+
+<script src="/common/scripts/layout.js"></script>
+<script src="/common/scripts/header.js"></script>
+<script src="/common/scripts/footer.js"></script>
+<script src="/common/scripts/aichat.js"></script>
+<script src="/roles/Customer/Scripts/wishlist.js"></script>
+</body>
+</html>

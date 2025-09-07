@@ -1,13 +1,13 @@
-  
-  function initFooter(){
+function initFooter() {
   const form = document.getElementById('newsletterForm');
+  if (!form) return; 
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();  
 
     const emailInput = form.querySelector('input').value;
 
-    if(!emailInput || !/\S+@\S+\.\S+/.test(emailInput)) {
+    if (!emailInput || !/\S+@\S+\.\S+/.test(emailInput)) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -25,5 +25,5 @@
     });
 
     form.querySelector('input').value = '';
-  })};
-
+  });
+}

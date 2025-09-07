@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BizStock Help Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/common/styles/aichat.css">
+  <style>
+    .animate-fadeIn { animation: fadeIn 0.4s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px);} to { opacity: 1; transform: translateY(0);} }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+  <header class="bg-white shadow-md p-6 text-center">
+    <h1 class="text-3xl font-bold text-indigo-600">BizStock Help Center</h1>
+    <p class="text-gray-500 mt-2">Find answers to common questions about your account, orders, and security</p>
+  </header>
+
+  <main class="max-w-5xl mx-auto py-10 px-4">
+    <!-- Categories Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
+      <button onclick="toggleSection('products')" class="category-btn bg-white shadow rounded-xl p-6 flex flex-col items-center hover:bg-indigo-50 transition">
+        <i class='bx bx-box text-4xl text-indigo-600'></i>
+        <span class="mt-2 font-semibold">Products</span>
+      </button>
+      <button onclick="toggleSection('delivery')" class="category-btn bg-white shadow rounded-xl p-6 flex flex-col items-center hover:bg-indigo-50 transition">
+        <i class='bx bx-truck text-4xl text-indigo-600'></i>
+        <span class="mt-2 font-semibold">Delivery</span>
+      </button>
+      <button onclick="toggleSection('payment')" class="category-btn bg-white shadow rounded-xl p-6 flex flex-col items-center hover:bg-indigo-50 transition">
+        <i class='bx bx-credit-card text-4xl text-indigo-600'></i>
+        <span class="mt-2 font-semibold">Payment</span>
+      </button>
+      <button onclick="toggleSection('returns')" class="category-btn bg-white shadow rounded-xl p-6 flex flex-col items-center hover:bg-indigo-50 transition">
+        <i class='bx bx-refresh text-4xl text-indigo-600'></i>
+        <span class="mt-2 font-semibold">Returns & Refunds</span>
+      </button>
+      <button onclick="toggleSection('security')" class="category-btn bg-white shadow rounded-xl p-6 flex flex-col items-center hover:bg-indigo-50 transition">
+        <i class='bx bx-shield-quarter text-4xl text-indigo-600'></i>
+        <span class="mt-2 font-semibold">Security</span>
+      </button>
+      <button onclick="toggleSection('account')" class="category-btn bg-white shadow rounded-xl p-6 flex flex-col items-center hover:bg-indigo-50 transition">
+        <i class='bx bx-user text-4xl text-indigo-600'></i>
+        <span class="mt-2 font-semibold">Account</span>
+      </button>
+    </div>
+
+    <!-- FAQ Sections -->
+    <div id="faq-container" class="space-y-10">
+      <!-- Products -->
+      <div id="products" class="faq-section hidden">
+        <h2 class="text-2xl font-bold text-indigo-600 mb-4">Products</h2>
+        <div class="space-y-2">
+          <button onclick="toggleAnswer('products','p1')" class="faq-btn">How do I search for products?</button>
+          <p id="p1" class="faq-answer hidden">Use the search bar at the top of any page to find products.</p>
+
+          <button onclick="toggleAnswer('products','p2')" class="faq-btn">Are product details verified?</button>
+          <p id="p2" class="faq-answer hidden">Yes, sellers must provide accurate details before listing.</p>
+
+          <button onclick="toggleAnswer('products','p3')" class="faq-btn">How do I check stock availability?</button>
+          <p id="p3" class="faq-answer hidden">Stock status is shown on each product page in real time.</p>
+
+          <button onclick="toggleAnswer('products','p4')" class="faq-btn">Can I pre-order items?</button>
+          <p id="p4" class="faq-answer hidden">Yes, pre-order is available on selected items.</p>
+
+          <button onclick="toggleAnswer('products','p5')" class="faq-btn">How do I compare products?</button>
+          <p id="p5" class="faq-answer hidden">Use the compare option on product pages to view side by side.</p>
+
+          <button onclick="toggleAnswer('products','p6')" class="faq-btn">What if a product is out of stock?</button>
+          <p id="p6" class="faq-answer hidden">You can set an alert to be notified when it’s back in stock.</p>
+        </div>
+      </div>
+
+      <!-- Delivery -->
+      <div id="delivery" class="faq-section hidden">
+        <h2 class="text-2xl font-bold text-indigo-600 mb-4">Delivery</h2>
+        <div class="space-y-2">
+          <button onclick="toggleAnswer('delivery','d1')" class="faq-btn">What are the delivery options?</button>
+          <p id="d1" class="faq-answer hidden">We offer standard and express delivery services.</p>
+
+          <button onclick="toggleAnswer('delivery','d2')" class="faq-btn">How can I track my order?</button>
+          <p id="d2" class="faq-answer hidden">Use the tracking link in your order confirmation email.</p>
+
+          <button onclick="toggleAnswer('delivery','d3')" class="faq-btn">Do you deliver internationally?</button>
+          <p id="d3" class="faq-answer hidden">Yes, we ship to selected countries worldwide.</p>
+
+          <button onclick="toggleAnswer('delivery','d4')" class="faq-btn">Can I change my delivery address?</button>
+          <p id="d4" class="faq-answer hidden">Yes, update it before order confirmation is complete.</p>
+
+          <button onclick="toggleAnswer('delivery','d5')" class="faq-btn">What if my package is delayed?</button>
+          <p id="d5" class="faq-answer hidden">You’ll be notified, and we’ll expedite where possible.</p>
+
+          <button onclick="toggleAnswer('delivery','d6')" class="faq-btn">Do you offer same-day delivery?</button>
+          <p id="d6" class="faq-answer hidden">Yes, available in select locations for eligible items.</p>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <div id="payment" class="faq-section hidden">
+        <h2 class="text-2xl font-bold text-indigo-600 mb-4">Payment</h2>
+        <div class="space-y-2">
+          <button onclick="toggleAnswer('payment','pay1')" class="faq-btn">What payment methods are accepted?</button>
+          <p id="pay1" class="faq-answer hidden">We accept cards, bank transfers, and mobile wallets.</p>
+
+          <button onclick="toggleAnswer('payment','pay2')" class="faq-btn">Is online payment secure?</button>
+          <p id="pay2" class="faq-answer hidden">Yes, all transactions use SSL encryption and tokenization.</p>
+
+          <button onclick="toggleAnswer('payment','pay3')" class="faq-btn">Can I pay on delivery?</button>
+          <p id="pay3" class="faq-answer hidden">Yes, cash on delivery is available in supported regions.</p>
+
+          <button onclick="toggleAnswer('payment','pay4')" class="faq-btn">Do you support installments?</button>
+          <p id="pay4" class="faq-answer hidden">Yes, selected products have flexible payment options.</p>
+
+          <button onclick="toggleAnswer('payment','pay5')" class="faq-btn">Why was my payment declined?</button>
+          <p id="pay5" class="faq-answer hidden">Check with your bank or try another payment method.</p>
+
+          <button onclick="toggleAnswer('payment','pay6')" class="faq-btn">How do I get a receipt?</button>
+          <p id="pay6" class="faq-answer hidden">Receipts are emailed and available in your order history.</p>
+        </div>
+      </div>
+
+      <!-- Returns & Refunds -->
+      <div id="returns" class="faq-section hidden">
+        <h2 class="text-2xl font-bold text-indigo-600 mb-4">Returns & Refunds</h2>
+        <div class="space-y-2">
+          <button onclick="toggleAnswer('returns','r1')" class="faq-btn">How do I request a return?</button>
+          <p id="r1" class="faq-answer hidden">Go to your orders page and select ‘Request Return’.</p>
+
+          <button onclick="toggleAnswer('returns','r2')" class="faq-btn">What is the return period?</button>
+          <p id="r2" class="faq-answer hidden">Most items can be returned within 7–14 days.</p>
+
+          <button onclick="toggleAnswer('returns','r3')" class="faq-btn">How long do refunds take?</button>
+          <p id="r3" class="faq-answer hidden">Refunds are processed within 5–10 business days.</p>
+
+          <button onclick="toggleAnswer('returns','r4')" class="faq-btn">Can all products be returned?</button>
+          <p id="r4" class="faq-answer hidden">No, perishable and hygiene items are non-returnable.</p>
+
+          <button onclick="toggleAnswer('returns','r5')" class="faq-btn">Do I pay for return shipping?</button>
+          <p id="r5" class="faq-answer hidden">Return shipping is free for damaged or wrong items.</p>
+
+          <button onclick="toggleAnswer('returns','r6')" class="faq-btn">How do I track my refund?</button>
+          <p id="r6" class="faq-answer hidden">Refund status is shown in your account’s order history.</p>
+        </div>
+      </div>
+
+      <!-- Security -->
+      <div id="security" class="faq-section hidden">
+        <h2 class="text-2xl font-bold text-indigo-600 mb-4">Security</h2>
+        <div class="space-y-2">
+          <button onclick="toggleAnswer('security','s1')" class="faq-btn">How do I enable 2FA?</button>
+          <p id="s1" class="faq-answer hidden">Enable it from your account settings under ‘Security’.</p>
+
+          <button onclick="toggleAnswer('security','s2')" class="faq-btn">What if I lose my authenticator?</button>
+          <p id="s2" class="faq-answer hidden">Use recovery codes or submit a lost access request.</p>
+
+          <button onclick="toggleAnswer('security','s3')" class="faq-btn">How do I reset my password?</button>
+          <p id="s3" class="faq-answer hidden">Click ‘Forgot Password’ on the login page.</p>
+
+          <button onclick="toggleAnswer('security','s4')" class="faq-btn">Is my data safe?</button>
+          <p id="s4" class="faq-answer hidden">Yes, we use encryption and follow strict compliance.</p>
+
+          <button onclick="toggleAnswer('security','s5')" class="faq-btn">What should I do if my account is hacked?</button>
+          <p id="s5" class="faq-answer hidden">Reset your password immediately and contact support.</p>
+
+          <button onclick="toggleAnswer('security','s6')" class="faq-btn">Can I get notified of suspicious activity?</button>
+          <p id="s6" class="faq-answer hidden">Yes, we send email alerts for unusual logins.</p>
+        </div>
+      </div>
+
+      <!-- Account -->
+      <div id="account" class="faq-section hidden">
+        <h2 class="text-2xl font-bold text-indigo-600 mb-4">Account</h2>
+        <div class="space-y-2">
+          <button onclick="toggleAnswer('account','a1')" class="faq-btn">What if I forgot my password?</button>
+          <p id="a1" class="faq-answer hidden">Use the password reset option to create a new one.</p>
+
+          <button onclick="toggleAnswer('account','a2')" class="faq-btn">How do I update my email?</button>
+          <p id="a2" class="faq-answer hidden">Go to account settings and update your email address.</p>
+
+          <button onclick="toggleAnswer('account','a3')" class="faq-btn">Can I change my username?</button>
+          <p id="a3" class="faq-answer hidden">Usernames are permanent and cannot be changed.</p>
+
+          <button onclick="toggleAnswer('account','a4')" class="faq-btn">How do I delete my account?</button>
+          <p id="a4" class="faq-answer hidden">Submit a request via the ‘Delete Account’ option.</p>
+
+          <button onclick="toggleAnswer('account','a5')" class="faq-btn">Why can’t I log in?</button>
+          <p id="a5" class="faq-answer hidden">Ensure credentials are correct or reset your password.</p>
+
+          <button onclick="toggleAnswer('account','a6')" class="faq-btn">How do I contact support?</button>
+          <p id="a6" class="faq-answer hidden">Use the Help Center contact form or email support.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+   <div id="ai-container"></div>
+
+
+  <footer class="bg-white shadow-inner py-6 text-center text-gray-500 text-sm">
+    © 2025 BizStock. All rights reserved.
+  </footer>
+
+  <script>
+    function toggleSection(id) {
+      const sections = document.querySelectorAll('.faq-section');
+      sections.forEach(sec => sec.classList.add('hidden'));
+      const section = document.getElementById(id);
+      section.classList.remove("hidden");
+      section.classList.add("animate-fadeIn");
+    }
+
+    function toggleAnswer(sectionId, answerId) {
+      const answers = document.querySelectorAll(`#${sectionId} .faq-answer`);
+      answers.forEach(ans => ans.classList.add('hidden'));
+      const answer = document.getElementById(answerId);
+      answer.classList.remove('hidden');
+      answer.classList.add('animate-fadeIn');
+    }
+  </script>
+
+  <style>
+    .faq-btn { display:block; width:100%; text-align:left; padding:0.75rem; background:#f9fafb; border-radius:0.5rem; font-weight:500; }
+    .faq-btn:hover { background:#eef2ff; }
+    .faq-answer { padding:0.5rem 1rem; background:#f3f4f6; border-radius:0.5rem; }
+  </style>
+  <script src="/common/scripts/aichat.js"></script>
+</body>
+</html>

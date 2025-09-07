@@ -1,0 +1,15 @@
+  .fade-in { animation: fadeIn 0.5s ease-in-out; }
+  @keyframes fadeIn { from {opacity:0} to {opacity:1} }
+
+  .digit-input { 
+    width:3rem; height:3rem; text-align:center; font-size:1.5rem; border:1px solid #cbd5e1; 
+    border-radius:0.5rem; transition: all 0.2s ease-in-out; 
+  }
+  .digit-input:focus { 
+    outline:none; border-color:#6366f1; box-shadow:0 0 0 3px rgba(99,102,241,0.4); 
+    transform: scale(1.05);
+  }
+
+  .toggle-btn { cursor:pointer; user-select:none; color:#4f46e5; font-weight:500; }
+  .login-btn { transition: transform 0.2s ease-in-out; }
+  .login-btn:hover { transform: scale(1.05); }

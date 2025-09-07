@@ -30,7 +30,7 @@
     let previewResponse = await fetch("https://localhost:7124/api/v1/Products?Page=1&PageSize=12");
     let previewProducts = await previewResponse.json();
 
-    if (previewProducts.data !== null) {
+    if (previewProducts.data !== null || previewProducts.data.items.length > 0) {
       otherProductsContainer.innerHTML = previewProducts.data.items.map(p => `
         <div class="product-card bg-white rounded-xl shadow p-4">
           <a href="product.html?id=${p.id}">
@@ -57,11 +57,16 @@
 
 
 async function loadRecentlyViewed() {
+   const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+  
+    const token = sessionStorage.getItem("accessToken");
+    if (token) {
+      headers.append("Authorization", `Bearer ${token}`);
+    }
   const recentResponse = await fetch("https://localhost:7124/api/v1/RecentlyViewedProducts", {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    }, 
+    headers: headers,
     credentials: "include"
 });
 
@@ -69,24 +74,25 @@ async function loadRecentlyViewed() {
  console.log(recentlyViewed);
   const container = document.querySelector("#recently-viewed-products");
 
-  if(recentlyViewed.data !== null)
+  if(recentlyViewed.data !== null && recentlyViewed.data.items.length > 0)
   {
   const firstFour = recentlyViewed.data.items.slice(0, 4);
 
   const productFetches = firstFour.map(items => getProduct(items.productId));
   const products = await Promise.all(productFetches)
+  console.log(products);
 
-    container.innerHTML = products.map(product => `
+    container.innerHTML = "";
+    container.innerHTML += products.map(product => `
     <div class="product-card bg-white rounded-xl shadow p-4">
-      <a href="product.html?id=${product.id}">
-        <img src="${product.imageUrl || 'placeholder.jpg'}" alt="${product.name}" class="w-full h-40 object-cover rounded-lg">
+      <a href="product.html?id=${product.data.id}">
+        <img src="${product.data.imageUrl}" alt="${product.data.name}" class="w-full h-40 object-cover rounded-lg">
       </a>
-      <h3 class="mt-2 font-semibold text-lg">${product.name}</h3>
-      <p class="text-gray-500">$${product.price}</p>
+      <h3 class="mt-2 font-semibold text-lg">${product.data.name}</h3>
+      <p class="text-gray-500">$${product.data.sellingPrice}</p>
     </div>
   `).join("");
 
-  // if (recentlyViewed.data.items.length > 4) {
     const seeAllBtn = document.createElement("button");
     seeAllBtn.textContent = "See All";
     seeAllBtn.className = "mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600";

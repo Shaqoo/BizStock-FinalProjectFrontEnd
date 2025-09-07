@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BizStock - Customer Registration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/static/styles/register.css">
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-100 to-blue-200 flex items-center justify-center min-h-screen">
+
+<div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-lg">
+  <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Register as Customer</h2>
+  
+  <form id="registerForm" class="space-y-6">
+    
+    <div class="form-step">
+      <h3 class="text-xl font-semibold mb-4 text-gray-700">Personal Info</h3>
+      <div class="relative mb-4">
+        <input type="text" name="firstName" placeholder=" " required 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">First Name</label>
+        <p class="text-red-500 text-sm mt-1 hidden"></p>
+      </div>
+      <div class="relative mb-4">
+        <input type="text" name="lastName" placeholder=" " required 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">Last Name</label>
+        <p class="text-red-500 text-sm mt-1 hidden"></p>
+      </div>
+      <div class="relative mb-4">
+        <input type="email" name="email" placeholder=" " required 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">Email</label>
+        <p class="text-red-500 text-sm mt-1 hidden"></p>
+      </div>
+      <div class="relative mb-4">
+        <input type="tel" name="phoneNumber" placeholder=" " required 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">Phone Number</label>
+        <p class="text-red-500 text-sm mt-1 hidden"></p>
+      </div>
+      <div class="flex justify-end mt-4">
+        <button type="button" id="next1" 
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Next</button>
+      </div>
+    </div>
+
+    <div class="form-step hidden">
+      <h3 class="text-xl font-semibold mb-4 text-gray-700">Security Info</h3>
+      <div class="relative mb-4">
+        <input type="password" name="password" placeholder=" " required 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">Password</label>
+        <button type="button" class="absolute right-3 top-3 toggle-password">
+          👁️
+        </button>
+        <p class="text-red-500 text-sm mt-1 hidden"></p>
+      </div>
+      <div class="relative mb-4">
+        <input type="password" name="confirmPassword" placeholder=" " required 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">Confirm Password</label>
+        <button type="button" class="absolute right-3 top-3 toggle-password">
+          👁️
+        </button>
+        <p class="text-red-500 text-sm mt-1 hidden"></p>
+      </div>
+      <div class="relative mb-4">
+        <input type="number" name="pin" placeholder=" " required min="1000" max="9999"
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">4-digit PIN</label>
+        <p class="text-red-500 text-sm mt-1 hidden"></p>
+      </div>
+      <div class="flex justify-between mt-4">
+        <button type="button" id="prev1" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">Back</button>
+        <button type="button" id="next2" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Next</button>
+      </div>
+    </div>
+
+    <div class="form-step hidden">
+      <h3 class="text-xl font-semibold mb-4 text-gray-700">Additional Info</h3>
+      <div class="relative mb-4">
+        <input type="text" name="address" placeholder=" " 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">Address</label>
+      </div>
+      <div class="relative mb-4">
+        <input type="text" name="businessName" placeholder=" " 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">Business Name</label>
+        <p class="text-red-500 text-sm mt-1 hidden"></p>
+      </div>
+      <div class="relative mb-4">
+        <input type="text" name="state" placeholder=" " 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">State</label>
+      </div>
+      <div class="relative mb-4">
+        <input type="text" name="taxId" placeholder=" " 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">Tax ID</label>
+        <p class="text-red-500 text-sm mt-1 hidden"></p>
+      </div>
+      <div class="relative mb-4">
+        <input type="date" name="birthDate" required
+               class="input-field w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">Birth Date</label>
+      </div>
+     <div class="relative mb-4">
+    <label for="gender" class="block text-gray-600 mb-1">Gender</label>
+    <select id="gender" name="gender" required
+            class="input-field w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <option value="">Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+      <option value="NonBinary">Non-Binary</option>
+      <option value="PreferNotToSay">Prefer not to say</option>
+    </select>
+    </div>
+
+      <div class="relative mb-4">
+        <select name="customerType" required
+                class="input-field w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Select Customer Type</option>
+          <option value="Retail">Individual</option>
+          <option value="Wholesale">Business</option>
+        </select>
+      </div>
+      <div class="flex justify-between mt-4">
+        <button type="button" id="prev2" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">Back</button>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Register</button>
+      </div>
+    </div>
+  </form>
+</div>
+<script src="/static/scripts/register.js"></script>
+</body>
+</html>

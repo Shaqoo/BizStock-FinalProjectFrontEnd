@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regenerate MFA</title>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+   <button onclick="window.history.back()" 
+      class="absolute left-4 top-4 bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded-lg shadow text-sm">
+      ⬅ Back
+    </button>
+
+
+  <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg text-center">
+    <h1 class="text-2xl font-bold mb-6">Regenerate MFA</h1>
+
+    <button id="regen-btn"
+      class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition shadow">
+      🔄 Regenerate MFA
+    </button>
+
+    <div id="mfa-result" class="hidden mt-8 space-y-6">
+      <div>
+        <h2 class="text-lg font-semibold mb-2">Scan this QR Code</h2>
+        <img id="qr-code" src="" alt="MFA QR Code" class="mx-auto w-40 h-40 border p-2 rounded-lg shadow">
+      </div>
+      <div>
+        <h2 class="text-lg font-semibold mb-2">Manual Entry Key</h2>
+        <p id="manual-key" class="bg-gray-100 px-4 py-2 rounded font-mono inline-block shadow"></p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold mb-2">Recovery Codes</h2>
+        <ul id="recovery-codes" class="grid grid-cols-2 gap-2 text-left font-mono text-sm bg-gray-50 p-4 rounded shadow"></ul>
+
+        <div class="flex justify-center gap-4 mt-4">
+          <button id="copy-codes" 
+            class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition">
+            📋 Copy Codes
+          </button>
+          <button id="download-codes" 
+            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+            ⬇ Download Codes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="/static/scripts/mfa-regenerate.js"></script>
+</body>
+</html>

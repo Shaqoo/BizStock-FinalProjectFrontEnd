@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BizStock - FAQ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/Favicon/Favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/common/styles/aichat.css">
+
+  <script>
+    function toggleFaq(id) {
+      const content = document.getElementById(id);
+      content.classList.toggle("hidden");
+      content.classList.toggle("animate-fadeIn");
+    }
+  </script>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.4s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-indigo-600 text-white shadow p-6 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">BizStock FAQ</h1>
+      <a href="/general/Home.htm" class="hover:underline">Home</a>
+    </div>
+  </header>
+
+  <section class="max-w-3xl mx-auto p-6 text-center">
+    <h2 class="text-3xl font-semibold mb-4">How can we help you?</h2>
+    <input type="text" placeholder="Search questions..." id="faqSearch" onkeyup="filterFaq()"
+      class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500" />
+  </section>
+
+  <section class="max-w-4xl mx-auto p-6 space-y-4" id="faqList">
+
+    <div class="bg-white rounded-2xl shadow-md p-6">
+      <h3 class="text-xl font-bold mb-2">Account & Login</h3>
+
+      <button onclick="toggleFaq('q1')" class="w-full text-left py-2 font-medium hover:text-indigo-600">How do I log in?</button>
+      <p id="q1" class="hidden mt-2 text-gray-600">Go to the <a href="/general/login.html" class="text-indigo-600 underline">Login Page</a> and enter your email & password. If 2FA is enabled, you’ll need to enter an authenticator or recovery code.</p>
+
+      <button onclick="toggleFaq('q2')" class="w-full text-left py-2 font-medium hover:text-indigo-600">What if I lost my authenticator or recovery code?</button>
+      <p id="q2" class="hidden mt-2 text-gray-600">If both are lost, submit a <a href="/general/lostAccess.html" class="text-red-600 underline">Lost Access Request</a>. You’ll fill out verification forms, and our admin team will contact you via your registered email.</p>
+
+      <button onclick="toggleFaq('q3')" class="w-full text-left py-2 font-medium hover:text-indigo-600">Can I change my password?</button>
+      <p id="q3" class="hidden mt-2 text-gray-600">Yes. Go to <a href="/changepassword" class="text-indigo-600 underline">Change Password</a>. If you forgot it, use the <a href="/general/forgotPassword.html" class="text-indigo-600 underline">Reset Password</a> option.</p>
+    </div>
+
+    
+    <div class="bg-white rounded-2xl shadow-md p-6">
+      <h3 class="text-xl font-bold mb-2">Security</h3>
+      <button onclick="toggleFaq('q4')" class="w-full text-left py-2 font-medium hover:text-indigo-600">How do I enable Two-Factor Authentication (2FA)?</button>
+      <p id="q4" class="hidden mt-2 text-gray-600">Go to your <a href="/settings/security" class="text-indigo-600 underline">Security Settings</a> and enable 2FA with an authenticator app. Save your recovery codes in a safe place.</p>
+
+      <button onclick="toggleFaq('q5')" class="w-full text-left py-2 font-medium hover:text-indigo-600">What if I detect suspicious activity?</button>
+      <p id="q5" class="hidden mt-2 text-gray-600">Immediately change your password, revoke active sessions, and contact <a href="mailto:support@bizstock.com" class="text-indigo-600 underline">support@bizstock.com</a>.</p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-md p-6">
+      <h3 class="text-xl font-bold mb-2">Transactions & Payments</h3>
+      <button onclick="toggleFaq('q6')" class="w-full text-left py-2 font-medium hover:text-indigo-600">How do I make a purchase?</button>
+      <p id="q6" class="hidden mt-2 text-gray-600">Browse products, add them to your cart, then proceed to checkout with your preferred payment method.</p>
+
+      <button onclick="toggleFaq('q7')" class="w-full text-left py-2 font-medium hover:text-indigo-600">Which payment methods are supported?</button>
+      <p id="q7" class="hidden mt-2 text-gray-600">We accept credit/debit cards, bank transfers, and BizStock wallet balance.</p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-md p-6">
+      <h3 class="text-xl font-bold mb-2">Orders & Delivery</h3>
+      <button onclick="toggleFaq('q8')" class="w-full text-left py-2 font-medium hover:text-indigo-600">How do I track my order?</button>
+      <p id="q8" class="hidden mt-2 text-gray-600">Go to <a href="/orders" class="text-indigo-600 underline">My Orders</a> to view tracking info.</p>
+
+      <button onclick="toggleFaq('q9')" class="w-full text-left py-2 font-medium hover:text-indigo-600">What if my order is delayed?</button>
+      <p id="q9" class="hidden mt-2 text-gray-600">Check tracking first. If issues persist, contact our <a href="/support" class="text-indigo-600 underline">Support Team</a>.</p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-md p-6">
+      <h3 class="text-xl font-bold mb-2 text-red-600">Lost Access Help</h3>
+      <p class="mb-3">If you cannot log in due to lost credentials or 2FA, visit the <a href="/general/lostAccess.html" class="text-red-600 underline">Lost Access Page</a>. You’ll need to provide identity verification details. Our admin will reach you via email.</p>
+      <a href="/general/lostAccess.html" class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700">Go to Lost Access Request</a>
+    </div>
+
+  </section>
+   <div id="ai-container"></div>
+
+  <footer class="bg-gray-900 text-gray-200 mt-12 py-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 px-6">
+      <div>
+        <h4 class="font-bold mb-2">BizStock</h4>
+        <p class="text-sm">Your trusted business stock and inventory platform.</p>
+      </div>
+      <div>
+        <h4 class="font-bold mb-2">Quick Links</h4>
+        <ul class="space-y-1 text-sm">
+          <li><a href="/general/login.html" class="hover:underline">Login</a></li>
+          <li><a href="/general/register.html" class="hover:underline">Register</a></li>
+          <li><a href="/general/helpcenter.html" class="hover:underline">Support</a></li>
+          <li><a href="/general/Privacy.htm" class="hover:underline">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-2">Contact Us</h4>
+        <p class="text-sm">Email: <a href="mailto:support@bizstock.com" class="underline">support@bizstock.com</a></p>
+        <p class="text-sm">Phone: +234 810 909 4694</p>
+      </div>
+    </div>
+    <div class="text-center mt-6 text-xs">&copy; 2025 BizStock. All rights reserved.</div>
+  </footer>
+
+  <script>
+    function filterFaq() {
+      const input = document.getElementById("faqSearch").value.toLowerCase();
+      const faqList = document.getElementById("faqList").getElementsByTagName("button");
+      for (let i = 0; i < faqList.length; i++) {
+        const txtValue = faqList[i].textContent || faqList[i].innerText;
+        faqList[i].style.display = txtValue.toLowerCase().includes(input) ? "block" : "none";
+      }
+    }
+  </script>
+  <script src="/common/scripts/aichat.js"></script>
+</body>
+</html>

@@ -1,22 +1,26 @@
 const apiBaseUrl = "https://localhost:7124/api/v1"
 
-
+let productId = "";
 document.addEventListener("DOMContentLoaded",async () => {
   const params = new URLSearchParams(window.location.search);
-  const productId = params.get("id");
-  displayProduct(productId);
-  
+  productId = params.get("id");
+  displayProduct(productId); 
   if (!productId) {
     console.warn("No product ID found in URL.");
     return;
   }
-
+ 
   try{
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+  
+    const token = sessionStorage.getItem("accessToken");
+    if (token) {
+      headers.append("Authorization", `Bearer ${token}`);
+    }
     const res = await fetch(`${apiBaseUrl}/RecentlyViewedProducts`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: headers,
       credentials: "include",
       body: JSON.stringify({
          userId: null,
@@ -116,8 +120,8 @@ try
      
     if(specifications.isSuccess == true)
     {
-     specifications.data.forEach(spec => {
-      document.querySelector('#specifications').innerHTML += ` <li>${spec.value}" ${spec.specificationName}</li>
+     specifications.data.specifications.forEach(spec => {
+      document.querySelector('#specifications').innerHTML += ` <li>${capitalizeFirst(spec.specificationName)}: ${spec.value}</li>
     `});
     } else{
         document.querySelector('#specifications').textContent = "No specifications available";
@@ -145,14 +149,22 @@ try
 }
 
 
-function addToCart() {
+async function addToCart(productId) {
   const productImage = document.getElementById('product-image');
   const cartIcon = document.getElementById('cart-icon');
   const cartSound = document.getElementById('cart-sound');
-  const cartCount = document.getElementById('cart-count');
+  const cartCount = document.getElementById('cart-count-desktop');
+  const cartCount2 = document.getElementById('cart-count-mobile');
 
+
+  if (!productImage) {
+    console.error("Missing required DOM elements for addToCart animation.");
+    return;
+  }
+  console.log(cartIcon)
   const imageRect = productImage.getBoundingClientRect();
   const cartRect = cartIcon.getBoundingClientRect();
+
 
   const scrollTop = window.scrollY || document.documentElement.scrollTop;
   const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
@@ -171,30 +183,104 @@ function addToCart() {
   const deltaX = cartRect.left + scrollLeft - (imageRect.left + scrollLeft);
   const deltaY = cartRect.top + scrollTop - (imageRect.top + scrollTop);
 
-  
   requestAnimationFrame(() => {
     flyingImage.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.3)`;
     flyingImage.style.opacity = '0';
   });
+flyingImage.addEventListener('transitionend', (function () {
+  const finished = new Set();
 
-  flyingImage.addEventListener('transitionend', () => {
-    flyingImage.remove();
-     
-    cartSound.currentTime = 0;
-    cartSound.play();
+  return async function (e) {
+    finished.add(e.propertyName);
 
-    cartIcon.classList.add('shake');
-    setTimeout(() => {
-      cartIcon.classList.remove('shake');
-    }, 400);
+    if (finished.has('transform') && finished.has('opacity')) {
 
-    
+      flyingImage.remove();
 
-    cartCount.classList.add('cart-count-animate');
-    setTimeout(() => {
-      cartCount.classList.remove('cart-count-animate');
-    }, 400);
-  });
+      if (cartSound) {
+        cartSound.currentTime = 0;
+        cartSound.play();
+      }
+
+      cartIcon.classList.add('shake');
+      setTimeout(() => {
+        cartIcon.classList.remove('shake');
+      }, 400);
+
+      let count = await cartAddition(productId);
+      console.log(count);
+
+      if (cartCount) {
+        cartCount.classList.add('cart-count-animate');
+        console.log('Incrementing cart count');
+        cartCount.textContent = count;
+        cartCount2.textContent = count;
+        setTimeout(() => {
+          cartCount.classList.remove('cart-count-animate');
+        }, 400);
+      }
+    }
+  };
+})());
+
+}
+let cartAdditionCalls = 0;
+async function cartAddition(productId) {
+  cartAdditionCalls++;
+  console.log(`cartAddition called ${cartAdditionCalls} time(s) ${new Date().toLocaleTimeString()}`);
+  let accessToken = sessionStorage.getItem("accessToken");
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  if (accessToken) {
+    headers.append("Authorization", `Bearer ${accessToken}`);
+  }
+
+  try {
+    const res = await fetch(`${apiBaseUrl}/Carts/item`, {
+      method: "POST",
+      headers: headers,
+      credentials: "include",
+      body: JSON.stringify({
+        productId: productId,
+        quantity: 1,
+        cartId: null
+      })
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (data.isSuccess) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Product Added',
+        text: 'The product was added to your cart successfully.',
+        timer: 2000,
+        showConfirmButton: false
+      });
+      return data.data.totalQuantity;
+
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to Add',
+        text: data.message || 'Failed to add product to cart.',
+        timer: 2000,
+        showConfirmButton: false
+      });
+      return null;
+    }
+
+  } catch (err) {
+    console.error(err);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'An unexpected error occurred. Please try again.',
+      timer: 2000,
+      showConfirmButton: false
+    });
+  }
 }
 
 function renderStars(rating) {
@@ -382,3 +468,126 @@ function renderReviews(reviews) {
 
       breakdownDiv.appendChild(row);
     }};
+
+let isAddToCartInitialized = false;
+
+document.addEventListener('header-containerLoaded', () => {
+  console.log("✅ headerLoaded event fired");
+  console.log(document.querySelectorAll("#add-to-cart-button").length);
+
+  if (isAddToCartInitialized) return;
+
+  const btn = document.getElementById("add-to-cart-button");
+  const wishlistbtn = document.getElementById("wishlist-btn-container");
+  if (!btn) {
+    console.error("❌ Button with ID 'add-to-cart-button' not found.");
+    return;
+  }
+
+  btn.addEventListener("click", () => {
+  console.log("🛒 Button clicked, calling addToCart");
+  addToCart(productId);
+});
+
+
+  isAddToCartInitialized = true;
+  if(!sessionStorage.getItem("accessToken")){
+     wishlistbtn.innerHTML = "";
+     return;
+   } 
+  wishlistbtn.innerHTML = `<button 
+  id="wishlist-btn"
+  data-in-wishlist="false"
+  class="bg-blue-500 text-white mb-2 px-6 py-2 rounded-lg shadow hover:bg-blue-600 transition"
+  onclick="toggleWishlist(this, '${productId}')">
+  🤍 Add to Wishlist
+</button>`
+initWishlistButton(wishlistbtn.querySelector("#wishlist-btn"), productId)
+});
+
+
+async function toggleWishlist(button, productId) {
+  const isInWishlist = button.dataset.inWishlist === "true";
+
+  try {
+    if (isInWishlist) {
+      const response = await fetch("https://localhost:7124/api/v1/Wishlists/remove-item", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`
+        },
+        body: JSON.stringify({ productId })
+      });
+
+      const data = await response.json();
+      if (response.ok && data.isSuccess) {
+        button.dataset.inWishlist = "false";
+        button.innerText = "🤍 Add to Wishlist";
+        button.classList.remove("active");
+        Swal.fire("Removed!", "Item removed from wishlist.", "success");
+      } else {
+        Swal.fire("Error", data.message || "Failed to remove item", "error");
+      }
+    } else {
+      const response = await fetch("https://localhost:7124/api/v1/Wishlists/add-item", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`
+        },
+        body: JSON.stringify({ productId })
+      });
+
+      const data = await response.json();
+      if (response.ok && data.isSuccess) {
+        button.dataset.inWishlist = "true";
+        button.innerText = "💖 In Wishlist";
+        button.classList.add("active");
+        Swal.fire("Added!", "Item added to wishlist.", "success");
+      } else {
+        Swal.fire("Error", data.message || "Failed to add item", "error");
+      }
+    }
+  } catch (error) {
+    console.error("Wishlist error:", error);
+    Swal.fire("Error", "Something went wrong.", "error");
+  }
+}
+
+
+
+function capitalizeFirst(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+async function initWishlistButton(button, productId) {
+  try {
+    const response = await fetch(`https://localhost:7124/api/v1/Wishlists/check/${productId}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.isSuccess) {
+      if (data.data === true) {
+        button.dataset.inWishlist = "true";
+        button.innerText = "💖 In Wishlist";
+        button.classList.add("active");
+      } else {
+        button.dataset.inWishlist = "false";
+        button.innerText = "🤍 Add to Wishlist";
+        button.classList.remove("active");
+      }
+    } else {
+      console.warn("Wishlist check failed:", data.message);
+    }
+  } catch (error) {
+    console.error("Error checking wishlist:", error);
+  }
+}
+

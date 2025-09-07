@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - BizStock</title>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/static/styles/login.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="/common/styles/aichat.css">
+</head>
+<body class="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+  <main class="w-full max-w-5xl grid md:grid-cols-2 rounded-2xl overflow-hidden shadow-xl bg-white">
+    <section class="hidden md:flex flex-col justify-between bg-blue-600 text-white p-10">
+     <div>
+      <img src="/static/images/Favicon.jpg" alt="BizStock Dashboard" 
+     class="mb-6 w-10 h-10 md:w-20 md:h-20 rounded-full shadow-lg border border-blue-500/20 object-cover" />
+
+      <h1 class="text-3xl font-bold">Welcome back 👋</h1>
+      <p class="mt-3 text-blue-100">Sign in to manage inventory, orders, and reports in BizStock.</p>
+  </div>
+  <ul class="space-y-3 mt-10">
+         
+  <li class="flex items-center gap-3">
+    <i data-lucide="package" class="w-5 h-5 text-blue-200"></i>
+    <span><strong>Real-time product stock</strong> updates</span>
+  </li>
+  <li class="flex items-center gap-3">
+    <i data-lucide="shopping-cart" class="w-5 h-5 text-blue-200"></i>
+    <span><strong>Seamless order management</strong> for buyers & sellers</span>
+  </li>
+  <li class="flex items-center gap-3">
+    <i data-lucide="truck" class="w-5 h-5 text-blue-200"></i>
+    <span><strong>Fast delivery tracking</strong> across all regions</span>
+  </li>
+  <!-- <li class="flex items-center gap-3">
+    <i data-lucide="shield-check" class="w-5 h-5 text-blue-200"></i>
+    <span><strong>Secure multi-factor login</strong> protection</span>
+  </li>
+  <li class="flex items-center gap-3">
+    <i data-lucide="search" class="w-5 h-5 text-blue-200"></i>
+    <span><strong>Intuitive product search</strong> with filters</span>
+  </li>
+  <li class="flex items-center gap-3">
+    <i data-lucide="boxes" class="w-5 h-5 text-blue-200"></i>
+    <span><strong>Inventory control</strong> to monitor stock levels</span>
+  </li>
+  <li class="flex items-center gap-3">
+    <i data-lucide="users" class="w-5 h-5 text-blue-200"></i>
+    <span><strong>Customer management</strong> for personalized service</span>
+  </li>
+  <li class="flex items-center gap-3">
+    <i data-lucide="headset" class="w-5 h-5 text-blue-200"></i>
+    <span><strong>24/7 customer support</strong> assistance</span>
+  </li>
+  <li class="flex items-center gap-3">
+    <i data-lucide="bar-chart-3" class="w-5 h-5 text-blue-200"></i>
+    <span><strong>Sales & performance analytics</strong> dashboard</span>
+  </li> -->
+      </ul>
+      <!-- <p class="text-sm text-blue-100 mt-10">Tip: Fingerprint login works on HTTPS (or localhost) with WebAuthn.</p> -->
+    </section>
+
+    <section class="p-8 md:p-10">
+      <h2 class="text-2xl font-semibold text-gray-800">Sign in</h2>
+      <p class="text-sm text-gray-500 mt-1">Use your email & password or continue with a provider.</p>
+      <form id="loginForm" class="mt-8 space-y-5" novalidate>
+      
+        <div id="grp-email" class="relative">
+          <input id="email" name="email" type="email" placeholder=" " autocomplete="off" 
+                 class="w-full border rounded-lg px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-gray-300" />
+          <label for="email" class="fl-label">Email</label>
+          <p class="error-msg text-sm text-red-500 mt-1">Email is required.</p>
+        </div>
+       
+        <div id="grp-password" class="relative">
+          <input id="password" name="password" type="password" placeholder=" " autocomplete="new-password"
+                 class="w-full border rounded-lg px-3 pt-5 pb-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-gray-300" />
+          <label for="password" class="fl-label">Password</label>
+          <button type="button" id="togglePass" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" aria-label="Toggle password visibility">
+         
+            <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.036 12.322a1.012 1.012 0 010-.644C3.423 7.51 7.36 5 12 5c4.64 0 8.577 2.51 9.964 6.678.07.2.07.444 0 .644C20.577 16.49 16.64 19 12 19c-4.64 0-8.577-2.51-9.964-6.678z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </button>
+          <p class="error-msg text-sm text-red-500 mt-1">Password is required.</p>
+        </div>
+
+        
+        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 active:bg-blue-800 transition">Login</button>
+
+       
+        <div id="formError" class="hidden text-sm bg-red-50 text-red-700 border border-red-200 rounded-lg p-3"></div>
+
+    
+        <div class="flex justify-between text-sm">
+          <a href="/general/forgotPassword.html" class="text-blue-600 hover:underline">Forgot password?</a>
+        </div>
+
+       
+       <div id="captchaWrap" class="hidden">
+        <div class="g-recaptcha mt-4" data-sitekey="6LePy7srAAAAAC6OSLJ3AiBSKtDbXC4occ2BU4tk" aria-label="Captcha verification"></div>
+        <p class="text-xs text-gray-500 mt-2">Please verify you’re human to continue.</p>
+      </div>
+
+      </form>
+
+      <div class="flex items-center gap-4 my-8">
+        <div class="h-px bg-gray-200 flex-1"></div>
+        <span class="text-xs text-gray-400">OR</span>
+        <div class="h-px bg-gray-200 flex-1"></div>
+      </div>
+
+<!--      
+      <div class="grid sm:grid-cols-2 gap-3" aria-label="social sign in options">
+
+        <button type="button"  id="googleLoginBtn" class="provider-btn w-full flex items-center justify-center gap-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 active:bg-blue-800">
+          <img alt="Google" class="w-5 h-5" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"/>
+          <span class="text-sm font-medium">Continue with Google</span>
+        </button>
+
+        <button type="button" id="microsoftLoginBtn" class="provider-btn w-full flex items-center justify-center gap-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 active:bg-blue-800">
+          <img alt="Microsoft" class="w-5 h-5" src="/static/images/MSFT.png"/>
+          <span class="text-sm font-medium">Continue with Microsoft</span>
+        </button>
+
+        <button type="button" class="provider-btn w-full flex items-center justify-center gap-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 active:bg-blue-800">
+          <img alt="GitHub" class="w-5 h-5" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"/>
+          <span class="text-sm font-medium">Continue with GitHub</span>
+        </button>
+
+        <button type="button" id="facebookLoginBtn" class="provider-btn w-full flex items-center justify-center gap-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 active:bg-blue-800">
+          <img alt="Facebook" class="w-5 h-5" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg"/>
+          <span class="text-sm font-medium">Continue with Facebook</span>
+        </button>
+
+        <button type="button" id="webauthnBtn" class="provider-btn w-full flex items-center justify-center gap-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 active:bg-blue-800 col-span-full">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 2C7.03 2 3 6.03 3 11v2a1 1 0 1 0 2 0v-2a7 7 0 1 1 14 0v1.5a12.5 12.5 0 0 1-4.45 9.56 1 1 0 0 0 1.27 1.55A14.5 14.5 0 0 0 21 12V11c0-4.97-4.03-9-9-9z" fill="currentColor"/>
+            <path d="M7 12a5 5 0 1 1 10 0v1c0 2.76-1.2 5.3-3.1 7.06a1 1 0 1 1-1.33-1.48A8 8 0 0 0 15 13v-1a3 3 0 1 0-6 0v.5c0 2.34-.94 4.59-2.6 6.23a1 1 0 1 1-1.4-1.42A7 7 0 0 0 9 12.5V12z" fill="currentColor"/>
+          </svg>
+          <span class="text-sm font-medium">Continue with Fingerprint</span>
+        </button> -->
+      <!-- </div> -->
+      <p class="text-center text-sm mt-8 text-gray-600">Don't have an account? <a href="#" class="text-blue-600 font-medium hover:underline">Register</a></p>
+    </section>
+  </main>
+   <div id="ai-container"></div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+ <script async defer crossorigin="anonymous" 
+  src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
+    <script>
+    lucide.createIcons();
+    </script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="/static/scripts/login.js"></script>
+  <script src="/static/scripts/externallogin.js"></script>
+  <script src="/common/scripts/aichat.js"></script>
+</body>
+</html>

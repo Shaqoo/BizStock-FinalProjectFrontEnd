@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recovery Code Login | BizStock</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+<link rel="stylesheet" href="/static/styles/recoverylogin.css">
+<link rel="stylesheet" href="/common/styles/aichat.css">
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-indigo-100">
+
+<div class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 fade-in">
+  <h1 class="text-3xl font-bold mb-4 text-center text-blue-700">Recovery Code Login</h1>
+  <p class="text-gray-600 mb-6 text-center">Enter your email and 10-digit recovery code to login.</p>
+
+  <input type="email" id="email" placeholder="Email"
+    class="w-full border rounded-lg px-3 py-3 mb-4 focus:ring-2 focus:ring-indigo-400" />
+
+  <div class="relative mb-6">
+    <div class="grid grid-cols-10 gap-2">
+      <input type="password" maxlength="1" class="digit-input w-10 h-12 text-center border rounded-lg" data-index="0">
+      <input type="password" maxlength="1" class="digit-input w-10 h-12 text-center border rounded-lg" data-index="1">
+      <input type="password" maxlength="1" class="digit-input w-10 h-12 text-center border rounded-lg" data-index="2">
+      <input type="password" maxlength="1" class="digit-input w-10 h-12 text-center border rounded-lg" data-index="3">
+      <input type="password" maxlength="1" class="digit-input w-10 h-12 text-center border rounded-lg" data-index="4">
+      <input type="password" maxlength="1" class="digit-input w-10 h-12 text-center border rounded-lg" data-index="5">
+      <input type="password" maxlength="1" class="digit-input w-10 h-12 text-center border rounded-lg" data-index="6">
+      <input type="password" maxlength="1" class="digit-input w-10 h-12 text-center border rounded-lg" data-index="7">
+      <input type="password" maxlength="1" class="digit-input w-10 h-12 text-center border rounded-lg" data-index="8">
+      <input type="password" maxlength="1" class="digit-input w-10 h-12 text-center border rounded-lg" data-index="9">
+    </div>
+    <span id="toggleVisibility" 
+          class="absolute -bottom-6 right-0 text-sm text-blue-600 cursor-pointer hover:underline">
+      Show
+    </span>
+  </div>
+
+  <button id="loginBtn" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 login-btn">
+    Login with Recovery Code
+  </button>
+
+  <div class="mt-4 flex flex-col space-y-2">
+    <a id="recoveryLink" href="/general/mfa.html" class="text-blue-600 hover:underline">
+      Login with code from Authenticator App
+    </a>
+    <a href="/general/lostAccess.html" class="text-blue-600 hover:underline">
+      Lost access to all methods?
+    </a>
+  </div>
+</div>
+ <div id="ai-container"></div>
+
+<script src="/static/scripts/recoverylogin.js"></script>
+<script src="/common/scripts/aichat.js"></script>
+</body>
+</html>

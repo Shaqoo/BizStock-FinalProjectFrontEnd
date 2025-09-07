@@ -1,4 +1,4 @@
- function initHeader() {
+async function initHeader() {
 const btn = document.getElementById('menu-btn');
 const menu = document.getElementById('mobile-menu');
 
@@ -7,77 +7,109 @@ btn.addEventListener('click', () => {
   menu.classList.toggle('hidden');
 });
 
-let isLoggedIn = true;
-let user = {
-  name: "Shaqo",
-  profilePic: "https://i.pravatar.cc/40"
-};
+// async function () {
+  const user = await currentUser();
 
-window.onload = function () {
+  if (user) {
+    isLoggedIn = true;
+    console.log("✅ Logged in user:", user);
+
+    renderUserUI(user);
+  } else {
+    isLoggedIn = false;
+    console.log("❌ Not logged in");
+
+    renderGuestUI();
+  }
+
+  setupDropdowns();
+  getCartCount(isLoggedIn);
+//};
+
+
+function renderUserUI(user) {
   const authSection = document.getElementById("auth-section");
   const userMenuBtnMobile = document.getElementById("userMenuBtnMobile");
   const userMenuDropdownMobile = document.getElementById("userMenuDropdownMobile");
-  
-
-  if (isLoggedIn) {
-    let userDropdownDesktop = `
+  let userDropdownDesktop = `
       <div class="relative" id="user-menu-desktop">
         <button id="userMenuBtnDesktop" class="flex items-center gap-2 focus:outline-none">
-          <img src="${user.profilePic}" alt="User" class="rounded-full w-10 h-10 border-2 border-white">
-          <span class="font-medium">Hi, ${user.name} 👋</span>
+          <img src="${user.profilepicture ?? "https://i.pravatar.cc/40"}" alt="User" class="rounded-full w-10 h-10 border-2 border-white">
+          <span class="font-medium">Hi, ${user.fullName.split(" ")[0]} 👋</span>
           <svg class="w-4 h-4 text-white transition-transform" id="userMenuArrowDesktop"
               xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </button>
         <div id="userMenuDropdownDesktop" class="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-xl shadow-lg hidden">
-          <a href="profile.html" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-          <a href="wishlist.html" class="block px-4 py-2 hover:bg-gray-100">Wishlist</a>
-          <a href="notifications.html" class="block px-4 py-2 hover:bg-gray-100">Notifications</a>
+          <a href="/roles/Customer/Pages/Profile.html" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+          <a href="/roles/Customer/Pages/wishlist.html" class="block px-4 py-2 hover:bg-gray-100">Wishlist</a>
+          <a href="/roles/Customer/Pages/notifications.html" class="block px-4 py-2 hover:bg-gray-100">Notifications</a>
           <a href="orders.html" class="block px-4 py-2 hover:bg-gray-100">Orders</a>
           <a href="help.html" class="block px-4 py-2 hover:bg-gray-100">Help</a>
           <button onclick="logout()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100">Logout</button>
         </div>
       </div>
-      <a href="cart.html" class="relative bg-white text-black px-3 py-1 rounded-lg shadow hover:bg-gray-200">
+      <a href="/general/Cart.html" id="cart-icon" class="relative bg-white text-black px-3 py-1 rounded-lg shadow hover:bg-gray-200">
         🛒 Cart
-        <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+        <span id="cart-count-desktop" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">0</span>
       </a>
     `;
      
-    userMenuBtnMobile.innerHTML = `<img src="${user.profilePic}" alt="User" class="rounded-full w-8 h-8 border-2 border-white">
-          <span class="font-medium">Hi, ${user.name}</span>
+    userMenuBtnMobile.innerHTML = `<img src="${user.profilepicture ?? "https://i.pravatar.cc/40"}" alt="User" class="rounded-full w-8 h-8 border-2 border-white">
+          <span class="font-medium">Hi, ${user.fullName.split(" ")[0]} 👋</span>
           <svg class="w-4 h-4 text-white transition-transform" id="userMenuArrowDesktop"
               xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
+           <a href="/general/Cart.html" id="cart-icon" class="relative bg-white text-black px-3 py-1 rounded-lg shadow hover:bg-gray-200">
+        🛒 Cart
+        <span id="cart-count-mobile" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+      </a>
           `
      
     userMenuDropdownMobile.innerHTML = `
-          <a href="profile.html" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-          <a href="wishlist.html" class="block px-4 py-2 hover:bg-gray-100">Wishlist</a>
-          <a href="notifications.html" class="block px-4 py-2 hover:bg-gray-100">Notifications</a>
+          <a href="/roles/Customer/Pages/Profile.html" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+          <a href="/roles/Customer/Pages/wishlist.html" class="block px-4 py-2 hover:bg-gray-100">Wishlist</a>
+          <a href="/roles/Customer/Pages/notifications.html" class="block px-4 py-2 hover:bg-gray-100">Notifications</a>
           <a href="orders.html" class="block px-4 py-2 hover:bg-gray-100">Orders</a>
           <a href="help.html" class="block px-4 py-2 hover:bg-gray-100">Help</a>
           <button onclick="logout()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100">Logout</button>`;
     
 
     authSection.innerHTML = userDropdownDesktop;
-  } else {
-    let guestLinks = `
-      <a href="Products.htm" class="text-white font-medium hover:underline">Back to Products</a>
-      <a href="login.html" class="font-medium hover:underline">Login</a>
-      <a href="register.html" class="font-medium hover:underline">Register</a>
-    `;
-    authSection.innerHTML = guestLinks;
-  }
+ 
+}
 
-  setupDropdowns();
-};
+function renderGuestUI() {
+  const authSection = document.getElementById("auth-section");
+  const userMenuBtnMobile = document.getElementById("userMenuBtnMobile");
 
-function logout() {
-  alert("Logging out...");
-  location.reload();
+  let guestLinks = `
+    <nav class="flex items-center gap-2">
+  <a href="/general/Products.htm"
+     class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm
+            bg-blue-600 text-white shadow hover:bg-blue-700 transition">
+    🛒 <span>Back to Products</span>
+  </a>
+
+  <a href="/general/login.html"
+     class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm
+            border border-blue-200 text-blue-700 bg-white hover:bg-blue-50 transition">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4Zm0 2c-3.31 0-6 2.02-6 4.5V20h12v-1.5c0-2.48-2.69-4.5-6-4.5Z"/>
+    </svg>
+    <span>Login</span>
+  </a>
+</nav>
+
+    <a href="/general/Cart.html" id="cart-icon" class="relative bg-white text-black px-3 py-1 rounded-lg shadow hover:bg-gray-200">
+        🛒 Cart
+        <span id="cart-count-mobile" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+      </a>
+  `;
+  authSection.innerHTML = guestLinks;
+  userMenuBtnMobile.innerHTML = guestLinks;
 }
 
 function setupDropdowns() {
@@ -103,6 +135,11 @@ function setupDropdowns() {
   });
 }
 
+function logout() {
+  alert("Logging out...");
+  window.location.href = "/general/login.html";
+  sessionStorage.clear();
+}
 
 
 
@@ -344,5 +381,85 @@ async function loadCategories() {
 }
 
 
+let getCartCount = async (isLoggedIn) => {
+  try {
+    let response;
+    let access = sessionStorage.getItem("accessToken");
+    console.log("Access Token:", access);
 
+    if (isLoggedIn) {
+      response = await fetch(`https://localhost:7124/api/v1/Carts/current?Page=0&PageSize=0`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${access}`
+        }
+      });
+    } else {
+      response = await fetch(`https://localhost:7124/api/v1/Carts/session?Page=0&PageSize=0`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include"
+      });
+    }
 
+    const data = await response.json();
+    console.log("Cart Data:", data);
+    console.log("Total Quantity:", data?.data?.totalQuantity ?? 0);
+
+    const cartCountDesktop = document.getElementById('cart-count-desktop');
+    const cartCountMobile = document.getElementById('cart-count-mobile');
+
+    const totalQty = data?.data?.totalQuantity ?? 0;
+
+    if (cartCountDesktop) {
+      cartCountDesktop.textContent = totalQty;
+    }
+    if (cartCountMobile) {
+      cartCountMobile.textContent = totalQty;
+    }
+
+  } catch (err) {
+    console.error("Cart fetch failed:", err);
+    const cartCountDesktop = document.getElementById("cart-count-desktop");
+    const cartCountMobile = document.getElementById("cart-count-mobile");
+    if (cartCountDesktop) cartCountDesktop.textContent = 0;
+    if (cartCountMobile) cartCountMobile.textContent = 0;
+  }
+};
+
+let currentUser = async () => {
+  const token = sessionStorage.getItem("accessToken");
+  if (!token || token === "undefined" || token === null) {
+    console.log("No token found, user is not logged in.");
+    sessionStorage.removeItem("accessToken"); 
+    isLoggedIn = false;
+    return null;
+  }
+
+  const response = await fetch(`https://localhost:7124/api/v1/Users/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  });
+
+  try {
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.log(data.message || "Unauthorized");
+      sessionStorage.removeItem("accessToken"); 
+      return null;
+    }
+
+    return data.data;
+  } catch (err) {
+    console.error("Failed to fetch current user:", err);
+    sessionStorage.removeItem("accessToken"); 
+    return null;
+  }
+};

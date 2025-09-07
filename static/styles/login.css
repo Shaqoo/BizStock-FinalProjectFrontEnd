@@ -1,0 +1,19 @@
+
+    .fl-label {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      transition: .18s ease; color: #9ca3af; pointer-events: none;
+    }
+    input:focus + .fl-label,
+    input:not(:placeholder-shown) + .fl-label {
+      top: -9px; font-size: 12px; color: #2563eb;
+    }
+    .shake { animation: shake .28s; }
+    @keyframes shake { 0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)} }
+    .error-msg{ display:none }
+    .has-error .error-msg{ display:block }
+    .has-error input{ border-color:#ef4444 }
+    .has-error .fl-label{ color:#ef4444 }
+
+    @media (forced-colors: active) {
+
+}

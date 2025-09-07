@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Verification</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/static/styles/verifyemail.css">
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+<div class="page-container">
+  <div class="page" id="verificationPage">
+
+    <div class="page-side page-front">
+      <h1 class="text-2xl font-bold mb-4">Verify Your Email</h1>
+      <p class="mb-6 text-center">Enter your email to receive a verification code.</p>
+      <input type="email" id="emailInput" placeholder="you@example.com" class="mb-4 p-2 rounded w-full text-black">
+      <button id="sendCodeBtn" class="bg-white text-blue-600 font-bold px-6 py-2 rounded hover:bg-gray-100 transition">Send Code</button>
+    </div>
+
+    <div class="page-side page-back">
+      <h1 class="text-2xl font-bold mb-4">Enter Verification Code</h1>
+      <p class="mb-6 text-center">
+  A one-time 8-digit verification code has been sent to your email. Do not share this code with anyone. It will expire shortly.
+</p>
+      <div class="code-inputs flex">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="code-digit">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="code-digit">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="code-digit">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="code-digit">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="code-digit">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="code-digit">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="code-digit">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="code-digit">
+      </div>
+      <button id="verifyCodeBtn" class="mt-6 bg-white text-blue-600 font-bold px-6 py-2 rounded hover:bg-gray-100 transition">Verify</button>
+      <div class="back-link" id="backToEmail">← Back</div>
+    </div>
+
+  </div>
+</div>
+<script src="/static/scripts/verifyemail.js"></script>
+</body>
+</html>

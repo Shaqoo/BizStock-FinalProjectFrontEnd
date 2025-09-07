@@ -44,6 +44,15 @@ body {
 }
 
 
+.wishlist-btn {
+      background-color: #fff;
+      color: #e91e63;
+      border: 1px solid #e91e63;
+    }
+    .wishlist-btn.active {
+      background-color: #e91e63;
+      color: #fff;
+    }
  
 
 @keyframes shake {

@@ -11,14 +11,13 @@
     <link rel="stylesheet" href="/common/styles/aichat.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body class="font-sans text-black-500 bg-gradient-to-b from-gray-50 to-gray-50 min-h-screen">
+<body class="sticky text-black-500 bg-gradient-to-b from-gray-50 to-gray-50 min-h-screen">
  
-  <div id="header-container"></div>
-
+   <div id="header-container" class="sticky top-0 z-50"></div>
 
    <main class="max-w-6xl mx-auto p-6" id="product-details">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div>
+      <div class="bg-white p-6 rounded-lg shadow-lg">
        <img id="product-image" src="/" alt="Laptop"
      class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
       </div>
@@ -28,8 +27,12 @@
   <h2 id="product-brand" class="text-black mb-2"></h2>
   <p id="product-price" class="text-blue-600 text-2xl font-bold mb-4"></p>
   <p id="product-rating" class="text-yellow-500 flex space-x-1"></p>
+   
+   <div id="wishlist-btn-container">
+  
+  </div>
 
-  <button class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 transition" onclick="addToCart()">🛒 Add to Cart</button>
+  <button id="add-to-cart-button" class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 transition">🛒 Add to Cart</button>
 
   <div class="mt-6 bg-gray-100 p-4 rounded-lg shadow">
     <h3 class="text-lg font-bold mb-2">Specifications</h3>
@@ -104,5 +107,6 @@
 <script src="/common/scripts/footer.js"></script>
 <script src="/common/scripts/aichat.js"></script>
 <script src="/static/scripts/Product.js"></script>
+<script src="/utils/tokenManger.js"></script>
 </body>
 </html>

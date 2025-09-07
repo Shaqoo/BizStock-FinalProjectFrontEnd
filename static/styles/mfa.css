@@ -1,0 +1,35 @@
+ .mfa-input {
+      width: 3.5rem;
+      height: 3.5rem;
+      text-align: center;
+      font-size: 2rem;
+      color: #fff;
+      background-color: #374151;
+      border: 2px solid #6b7280;
+      border-radius: 0.75rem;
+      transition: all 0.2s ease;
+    }
+
+    .mfa-input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.4);
+      outline: none;
+    }
+
+    .shake {
+      animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+    }
+
+    .card {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1);
+    }

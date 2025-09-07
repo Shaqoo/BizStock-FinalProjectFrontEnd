@@ -1,0 +1,54 @@
+body {
+      background: linear-gradient(135deg, #e8f0fe, #ffffff);
+    }
+    .page-container {
+      perspective: 1000px;
+    }
+    .page {
+      width: 500px;
+      height: 350px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease-in-out;
+      margin: auto;
+    }
+    .page-side {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      backface-visibility: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #1a73e8; 
+      color: white;
+    }
+    .page-back {
+      transform: rotateY(180deg);
+    }
+    .code-inputs input {
+      width: 3rem;
+      height: 3rem;
+      margin: 0.3rem;
+      font-size: 1.5rem;
+      text-align: center;
+      border-radius: 0.5rem;
+      border: none;
+      outline: none;
+      color: #1a73e8;
+      font-weight: bold;
+    }
+    .code-inputs input:focus {
+      box-shadow: 0 0 5px #ffffff;
+      background-color: #ffffff;
+    }
+    .back-link {
+      cursor: pointer;
+      color: #ffffff;
+      text-decoration: underline;
+      margin-top: 1rem;
+    }

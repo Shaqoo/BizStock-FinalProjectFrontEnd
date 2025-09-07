@@ -11,11 +11,15 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="font-sans text-black-500 bg-gradient-to-b from-gray-50 to-gray-50 min-h-screen">
+<body class="sticky text-black-500 bg-gradient-to-b from-gray-50 to-gray-50 min-h-screen">
  
-  <div id="header-container"></div>
+   <div id="header-container" class="sticky top-0 z-50"></div>
   
-  
+     <main class="px-4 py-6">
+    <div id="products-list"
+         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    </div>
+  </main>
 
   <div id="ai-container"></div>
 
@@ -29,5 +33,7 @@
 <script src="/common/scripts/header.js"></script>
 <script src="/common/scripts/footer.js"></script>
 <script src="/common/scripts/aichat.js"></script>
+<script src="/static/scripts/recentlyviewed.js"></script>
+<script src="/utils/tokenManger.js"></script>
 </body>
 </html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MFA Verification - BizStock</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/static/styles/mfa.css">
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="/common/styles/aichat.css">
+</head>
+<body class="flex items-center justify-center bg-blue-100 min-h-screen">
+  <div class="card w-full max-w-md text-center">
+    <h1 class="text-3xl font-bold mb-4">Authenticator Verification</h1>
+    <p class="text-gray-400 mb-2">
+      Enter the 6-digit code from your authenticator app.
+    </p>
+    <p class="text-xs text-red-500 mb-6">
+      For your security, never share this code with anyone.
+    </p>
+
+    <form id="mfaForm" class="flex justify-between mb-6">
+      <input type="text" maxlength="1" class="mfa-input" inputmode="numeric" pattern="\d*" required>
+      <input type="text" maxlength="1" class="mfa-input" inputmode="numeric" pattern="\d*" required>
+      <input type="text" maxlength="1" class="mfa-input" inputmode="numeric" pattern="\d*" required>
+      <input type="text" maxlength="1" class="mfa-input" inputmode="numeric" pattern="\d*" required>
+      <input type="text" maxlength="1" class="mfa-input" inputmode="numeric" pattern="\d*" required>
+      <input type="text" maxlength="1" class="mfa-input" inputmode="numeric" pattern="\d*" required>
+    </form>
+
+    <button 
+      id="verifyBtn"
+      type="button"
+      class="w-full bg-blue-600 py-2 rounded-lg text-white hover:bg-blue-700 transition"
+    >
+      Verify
+    </button>
+      
+    <div class="mt-4 flex flex-col space-y-2">
+    <a id="recoveryLink" href="/general/recoveryLogin.html" 
+       class="text-blue-600 hover:underline">
+      Login with recovery code
+    </a>
+    <a href="/general/lostAccess.html" 
+       class="text-blue-600 hover:underline">
+      Lost access to all methods?
+    </a>
+  </div>
+    <p id="message" class="mt-4 text-red-500"></p>
+  </div>
+ <div id="ai-container"></div>
+
+<script src="/static/scripts/mfa.js"></script>
+<script src="/common/scripts/aichat.js"></script>
+</body>
+</html>
