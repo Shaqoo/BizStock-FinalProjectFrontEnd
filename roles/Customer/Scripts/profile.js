@@ -109,11 +109,14 @@ let currentCustomer = async () => {
   function openModal(id) {
     document.getElementById('overlay').classList.remove('hidden');
     document.getElementById(id).classList.remove('hidden');
+    document.getElementById(id).classList.remove('modal-hidden');
+    
   }
 
   function closeModal(id) {
     document.getElementById('overlay').classList.add('hidden');
     document.getElementById(id).classList.add('hidden');
+    document.getElementById(id).classList.add('modal-hidden');
   }
 
 
@@ -222,4 +225,202 @@ updateBtn.addEventListener("click", async () => {
         console.error(err);
         Swal.fire("Error", "An error occurred while uploading", "error");
     }
+});
+
+
+
+
+// ---- Fingerprint registration script (complete) ----
+const startBtn = document.getElementById('startFingerprintBtn');
+const loader = document.getElementById('fingerprintLoader');
+
+let abortController = null;
+
+// COSE alg map (string -> integer)
+const COSE_ALG_MAP = {
+  ES256: -7,  RS256: -257, PS256: -37,
+  ES384: -35, RS384: -258, PS384: -38,
+  ES512: -36, RS512: -259, PS512: -39,
+  EdDSA: -8
+};
+
+function mapAlgToInt(alg) {
+  if (typeof alg === 'number') return alg;
+  if (!alg) return -7;
+  // Normalize string like "ES256", "es256", or "-7"
+  const s = String(alg).trim();
+  // try direct map
+  const key = s.toUpperCase();
+  if (COSE_ALG_MAP[key] !== undefined) return COSE_ALG_MAP[key];
+  // try parse integer (in case backend already provided stringified number)
+  const parsed = parseInt(s, 10);
+  if (!Number.isNaN(parsed)) return parsed;
+  console.warn('Unknown COSE alg:', alg, '-> defaulting to ES256 (-7)');
+  return -7; // safe default
+}
+
+function base64UrlToUint8Array(base64UrlString) {
+  if (!base64UrlString) return new Uint8Array();
+  const padding = '='.repeat((4 - (base64UrlString.length % 4)) % 4);
+  const base64 = (base64UrlString + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const raw = window.atob(base64);
+  const out = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; ++i) out[i] = raw.charCodeAt(i);
+  return out;
+}
+
+function bufferToBase64(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+startBtn.addEventListener('click', async () => {
+  if (abortController) {
+    abortController.abort();
+    Swal.fire({ icon: 'info', title: 'Registration Cancelled' });
+    loader.classList.add('hidden');
+    startBtn.textContent = 'Start';
+    startBtn.classList.replace('bg-gray-600', 'bg-green-600');
+    abortController = null;
+    return;
+  }
+
+  abortController = new AbortController();
+  loader.classList.remove('hidden');
+  startBtn.textContent = 'Cancel Registration';
+  startBtn.classList.replace('bg-green-600', 'bg-gray-600');
+
+  try {
+    const token = sessionStorage.getItem("accessToken");
+    if (!token) throw new Error("Please login first.");
+
+    const res = await fetch(`${apiBaseUrl}/Users/biometrics/generate-registration-options`, {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${token}` },
+      signal: abortController.signal
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error("Failed to generate registration options: " + text);
+    }
+
+    let options = await res.json();
+    console.log('raw options from server:', options);
+
+    // If backend wrapped in { value: ... } or JsonResult wrapper, unpack it
+    if (options && options.value) options = options.value;
+
+    // Basic sanity: must have rp and user
+    if (!options.rp || !options.user) {
+      throw new Error("Invalid options from server (rp/user missing). Check backend.");
+    }
+
+    // Normalize binary fields and case-sensitive strings
+    const publicKey = {};
+
+    // challenge -> Uint8Array
+    publicKey.challenge = base64UrlToUint8Array(options.challenge);
+
+    // rp -> keep id & name as strings (rp.id is required)
+    publicKey.rp = {
+      id: options.rp.id || window.location.hostname, // fallback if server forgot
+      name: options.rp.name || ""
+    };
+
+    // user -> id must be Uint8Array, name and displayName strings
+    publicKey.user = {
+      id: base64UrlToUint8Array(options.user.id),
+      name: options.user.name,
+      displayName: options.user.displayName
+    };
+
+    // pubKeyCredParams -> ensure { type: 'public-key', alg: -7 } etc.
+    if (!options.pubKeyCredParams || !Array.isArray(options.pubKeyCredParams) || options.pubKeyCredParams.length === 0) {
+      throw new Error("pubKeyCredParams missing or empty in server response.");
+    }
+    publicKey.pubKeyCredParams = options.pubKeyCredParams.map(p => ({
+      type: (p.type || 'public-key').toLowerCase() === 'publickey' ? 'public-key' : String(p.type || 'public-key').toLowerCase(),
+      alg: mapAlgToInt(p.alg)
+    }));
+
+    // timeout
+    if (options.timeout) publicKey.timeout = options.timeout;
+
+    // attestation -> lowercase 'none' etc.
+    publicKey.attestation = options.attestation ? String(options.attestation).toLowerCase() : 'none';
+
+    // authenticatorSelection -> normalize lowercase fields where required
+    if (options.authenticatorSelection) {
+      publicKey.authenticatorSelection = {};
+      if (options.authenticatorSelection.authenticatorAttachment) {
+        publicKey.authenticatorSelection.authenticatorAttachment =
+          String(options.authenticatorSelection.authenticatorAttachment).toLowerCase();
+      }
+      if (options.authenticatorSelection.requireResidentKey !== undefined) {
+        publicKey.authenticatorSelection.requireResidentKey = Boolean(options.authenticatorSelection.requireResidentKey);
+      }
+      if (options.authenticatorSelection.userVerification) {
+        publicKey.authenticatorSelection.userVerification =
+          String(options.authenticatorSelection.userVerification).toLowerCase();
+      }
+    }
+
+    // excludeCredentials -> ensure id is Uint8Array and type is 'public-key'
+    if (options.excludeCredentials && Array.isArray(options.excludeCredentials)) {
+      publicKey.excludeCredentials = options.excludeCredentials.map(c => ({
+        id: base64UrlToUint8Array(c.id),
+        type: (c.type || 'public-key').toLowerCase() === 'publickey' ? 'public-key' : String(c.type || 'public-key').toLowerCase(),
+        transports: c.transports // optional
+      }));
+    }
+
+    console.log("Normalized publicKey (about to call navigator.credentials.create):", publicKey);
+
+    // Create credential (this must run on a secure context: https or localhost)
+    const credential = await navigator.credentials.create({ publicKey });
+    if (!credential) throw new Error("navigator.credentials.create returned null/undefined.");
+
+    // Prepare attestation for backend
+    const attestationResponse = {
+      id: credential.id,
+      rawId: bufferToBase64(credential.rawId),
+      type: credential.type,
+      response: {
+        clientDataJSON: bufferToBase64(credential.response.clientDataJSON),
+        attestationObject: bufferToBase64(credential.response.attestationObject)
+      }
+    };
+
+    const verifyRes = await fetch(`${apiBaseUrl}/Users/biometrics/verify-registration`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(attestationResponse),
+      signal: abortController.signal
+    });
+
+    const verifyResult = await verifyRes.json();
+    if (!verifyRes.ok) throw new Error(verifyResult.message || JSON.stringify(verifyResult));
+
+    Swal.fire({ icon: 'success', title: 'Fingerprint Registered!' });
+    closeModal('fingerprintModal');
+
+  } catch (err) {
+    if (err && err.name === 'AbortError') {
+      console.log('Registration aborted');
+    } else {
+      console.error(err);
+      Swal.fire({ icon: 'error', title: 'Error', text: err.message || String(err) });
+    }
+  } finally {
+    loader.classList.add('hidden');
+    startBtn.textContent = 'Start';
+    startBtn.classList.replace('bg-gray-600', 'bg-green-600');
+    abortController = null;
+  }
 });

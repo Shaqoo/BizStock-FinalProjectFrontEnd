@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Service - Notifications</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+</head>
+<body class="flex h-screen bg-gray-50 text-gray-800">
+
+  <aside id="sidebar" class="w-64 bg-white shadow-lg h-screen flex flex-col transition-all duration-300">
+    <div class="flex items-center justify-between p-4 border-b">
+      <span id="brandText" class="text-xl font-bold text-blue-600">Customer Service</span>
+      <button id="toggleBtn" class="p-2 rounded hover:bg-blue-50 text-blue-600">
+        <i data-lucide="chevron-left"></i>
+      </button>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-2">
+      <a href="/roles/CustomerServiceOfficer/Dashboard.html" class="flex items-center p-2 rounded-lg hover:bg-blue-50 text-gray-700">
+        <i data-lucide="layout-dashboard" class="mr-3"></i><span class="link-text">Dashboard</span>
+      </a>
+      <a href="/roles/CustomerServiceOfficer/notifications.html" class="flex items-center p-2 rounded-lg bg-blue-500 text-white active-link">
+        <i data-lucide="bell" class="mr-3"></i><span class="link-text">Notifications</span>
+      </a>
+      <a href="/roles/CustomerServiceOfficer/chatthread.html" class="flex items-center p-2 rounded-lg hover:bg-blue-50 text-gray-700">
+        <i data-lucide="message-circle" class="mr-3"></i><span class="link-text">Threads</span>
+      </a>
+      <a href="orders.html" class="flex items-center p-2 rounded-lg hover:bg-blue-50 text-gray-700">
+        <i data-lucide="search" class="mr-3"></i><span class="link-text">Search Orders</span>
+      </a>
+      <a href="/roles/CustomerServiceOfficer/customers.html" class="flex items-center p-2 rounded-lg hover:bg-blue-50 text-gray-700">
+        <i data-lucide="users" class="mr-3"></i><span class="link-text">Customers</span>
+      </a>
+      <a href="/roles/CustomerServiceOfficer/profile.html" class="flex items-center p-2 rounded-lg hover:bg-blue-50 text-gray-700">
+        <i data-lucide="user" class="mr-3"></i><span class="link-text">Profile</span>
+      </a>
+      <a href="/roles/CustomerServiceOfficer/settings.html" class="flex items-center p-2 rounded-lg hover:bg-blue-50 text-gray-700">
+        <i data-lucide="settings" class="mr-3"></i><span class="link-text">Settings</span>
+      </a>
+      <a href="/general/Home.htm" class="flex items-center p-2 rounded-lg hover:bg-red-300 text-gray-700">
+      <i data-lucide="log-out" class="mr-3"></i>
+      <span class="link-text">Logout</span>
+    </a>
+    </nav>
+    <div id="csoInfo" class="p-4 border-t flex items-center space-x-3">
+    <img id="csoPic" src="/default-avatar.png" class="w-10 h-10 rounded-full border">
+    <div id="csoDetails">
+      <p id="csoName" class="font-semibold text-gray-800">Loading...</p>
+      <p id="csoRole" class="text-sm text-gray-500">Customer Service Officer</p>
+    </div>
+    </div>
+  </div>
+  </aside>
+
+  <main class="flex-1 p-6 overflow-y-auto">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-blue-600">Notifications</h1>
+      <div class="flex items-center gap-4">
+        <button id="markAllBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow">
+          Mark All as Read
+        </button>
+        <div class="relative">
+          <i data-lucide="bell" class="w-7 h-7 text-blue-600"></i>
+          <span id="unreadCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">0</span>
+        </div>
+      </div>
+    </div>
+    <div id="notificationsList" class="space-y-4"></div>
+  </main>
+<audio src="/static/media/file-sounds-1150-pristine.mp3" id="notificationSound"></audio>
+<script src="/roles/CustomerServiceOfficer/Script/notification.js"></script>
+<script src="/roles/CustomerServiceOfficer/Script/sidebar.js"></script>
+</body>
+</html>

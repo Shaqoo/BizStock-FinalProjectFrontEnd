@@ -45,9 +45,15 @@ const inputs = document.querySelectorAll('.mfa-input');
           message.classList.remove('text-red-500');
           message.classList.add('text-green-500');
           message.textContent = 'MFA verified! Redirecting...';
+          let token = data.data.accesstoken;
           sessionStorage.setItem('accessToken', data.data.accesstoken);
           sessionStorage.removeItem('tempToken');
-          setTimeout(() => window.location.href = '/general/Products.htm', 2000);
+          if(getRole(token) === "Customer"){
+            setTimeout(() => window.location.href = '/general/Products.htm', 2000);
+          }else if(getRole(token) === "CustomerService"){
+            setTimeout(() => window.location.href = '/roles/CustomerServiceOfficer/Dashboard.html', 2000);
+          }
+          //setTimeout(() => window.location.href = '/general/Products.htm', 2000);
         } else {
           if (data.message && data.message.toLowerCase().includes("user not found")) {
             Swal.fire({
@@ -72,3 +78,26 @@ const inputs = document.querySelectorAll('.mfa-input');
     });
 
     inputs[0].focus();
+
+function parseJwt(token) {
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    console.error("Error parsing JWT:", e);
+    return null;
+  }
+}
+
+let getRole = (token) =>{
+   let decodedJwt = parseJwt(token);
+   console.log(decodedJwt)
+   return decodedJwt["Role"];
+}

@@ -3,7 +3,7 @@
       20%, 60% { transform: translateX(-6px); }
       40%, 80% { transform: translateX(6px); }
     }
-    .shake { animation: shake 0.3s; }
+    .shake { animation: shake 0.5s; border: 2px solid #DC2626 !important; box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.3);}
     .floating-label {
       position: absolute;
       left: 12px;
@@ -17,7 +17,19 @@
       top: -8px;
       left: 8px;
       font-size: 12px;
-      color: #2563eb; /* shiny blue */
+      color: #2563eb;  
       background: white;
       padding: 0 4px;
+    }
+.spinner {
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid #3bf651;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }

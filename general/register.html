@@ -50,24 +50,31 @@
 
     <div class="form-step hidden">
       <h3 class="text-xl font-semibold mb-4 text-gray-700">Security Info</h3>
+
       <div class="relative mb-4">
-        <input type="password" name="password" placeholder=" " required 
+        <input id="password" type="password" name="password" placeholder=" " required 
+               title="Password must include: at least 8 characters, an uppercase letter, a number, and a special character like #, !, $, %, ^"
                class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+         <div id="strengthBar" class="h-2 rounded mt-1 transition-all"></div>
+         <p id="strengthText" class="text-sm font-medium mt-1"></p>
         <label class="floating-label">Password</label>
         <button type="button" class="absolute right-3 top-3 toggle-password">
           👁️
         </button>
         <p class="text-red-500 text-sm mt-1 hidden"></p>
       </div>
+
       <div class="relative mb-4">
-        <input type="password" name="confirmPassword" placeholder=" " required 
+        <input id="confirmPassword" type="password" name="confirmPassword" placeholder=" " required 
                class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
         <label class="floating-label">Confirm Password</label>
         <button type="button" class="absolute right-3 top-3 toggle-password">
           👁️
         </button>
-        <p class="text-red-500 text-sm mt-1 hidden"></p>
+        <div id="matchBar" class="h-2 rounded mt-1 transition-all"></div>
+        <p id="matchStatus" class="text-red-500 text-sm mt-1 hidden"></p>
       </div>
+
       <div class="relative mb-4">
         <input type="number" name="pin" placeholder=" " required min="1000" max="9999"
                class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -130,9 +137,10 @@
           <option value="Wholesale">Business</option>
         </select>
       </div>
-      <div class="flex justify-between mt-4">
+      <div id="buttonWrapper" class="flex justify-between mt-4">
         <button type="button" id="prev2" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">Back</button>
         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Register</button>
+         <p id="loadingMessage" class="text-green-700 text-center hidden">Creating your account...</p>
       </div>
     </div>
   </form>

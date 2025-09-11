@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complaints</title>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-image: url('/static/images/ChatBackground.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="complaintContainer" class="bg-white/80 backdrop-blur-md rounded-xl shadow-lg p-8 max-w-md text-center">
+    <p class="text-gray-600">Loading...</p>
+  </div>
+
+<script>
+    let apiBaseUrl = "https://localhost:7124/api/v1"
+    window.addEventListener("DOMContentLoaded", async () => {
+  const container = document.getElementById("complaintContainer");
+  container.innerHTML = `<p class="text-gray-500">Loading...</p>`;
+
+  try {
+    const res = await fetch(`${apiBaseUrl}/ChatThreads/my-open-thread`, {
+      headers: {
+        "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`
+      }
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data);
+      const threadId = data.data.id;
+
+      container.innerHTML = `
+        <h2 class="text-2xl font-bold mb-4">Welcome Back!</h2>
+        <p class="mb-4">You already have an ongoing conversation with our team.</p>
+        <button id="continueBtn" 
+                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">
+          Continue Conversation
+        </button>`
+
+      document.getElementById("continueBtn").addEventListener("click", () => {
+        window.location.href = `/roles/Customer/Pages/chatmessage.html?threadId=${threadId}`;
+      });
+
+    } else {
+      container.innerHTML = `
+        <h2 class="text-2xl font-bold mb-4">Welcome!</h2>
+        <p class="mb-4">How can we help you?</p>
+        <button id="newBtn" 
+                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+          Start New Conversation
+        </button>
+      `;
+
+      document.getElementById("newBtn").addEventListener("click", async () => {
+        const createRes = await fetch(`${apiBaseUrl}/ChatThreads`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`
+          },
+        });
+
+        if (createRes.ok) {
+          const newData = await createRes.json();
+          const threadId = newData.data;
+          window.location.href = `/roles/Customer/Pages/chatmessage.html?threadId=${threadId}`;
+        } else {
+          Swal.fire("Error", "Could not create a new conversation.", "error");
+        }
+      });
+    }
+  } catch (err) {
+    container.innerHTML = `<p class="text-red-500">Error loading complaints</p>`;
+  }
+});
+</script>
+</body>
+</html>

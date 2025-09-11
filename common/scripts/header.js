@@ -46,7 +46,7 @@ function renderUserUI(user) {
           <a href="/roles/Customer/Pages/wishlist.html" class="block px-4 py-2 hover:bg-gray-100">Wishlist</a>
           <a href="/roles/Customer/Pages/notifications.html" class="block px-4 py-2 hover:bg-gray-100">Notifications</a>
           <a href="orders.html" class="block px-4 py-2 hover:bg-gray-100">Orders</a>
-          <a href="help.html" class="block px-4 py-2 hover:bg-gray-100">Help</a>
+          <a href="/roles/Customer/Pages/customersSupport.html" class="block px-4 py-2 hover:bg-gray-100">Help</a>
           <button onclick="logout()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100">Logout</button>
         </div>
       </div>
@@ -73,7 +73,7 @@ function renderUserUI(user) {
           <a href="/roles/Customer/Pages/wishlist.html" class="block px-4 py-2 hover:bg-gray-100">Wishlist</a>
           <a href="/roles/Customer/Pages/notifications.html" class="block px-4 py-2 hover:bg-gray-100">Notifications</a>
           <a href="orders.html" class="block px-4 py-2 hover:bg-gray-100">Orders</a>
-          <a href="help.html" class="block px-4 py-2 hover:bg-gray-100">Help</a>
+          <a href="/roles/Customer/Pages/customersSupport.html" class="block px-4 py-2 hover:bg-gray-100">Help</a>
           <button onclick="logout()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100">Logout</button>`;
     
 

@@ -85,8 +85,10 @@
           <p class="error-msg text-sm text-red-500 mt-1">Password is required.</p>
         </div>
 
-        
-        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 active:bg-blue-800 transition">Login</button>
+        <div id="buttonWrapper">
+        <button id="loginBtn" type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 active:bg-blue-800 transition">Login</button>
+        </div>
+        <p id="loadingMessage" class="text-blue-600 text-center dot-typing hidden">Logging you in..</p>
 
        
         <div id="formError" class="hidden text-sm bg-red-50 text-red-700 border border-red-200 rounded-lg p-3"></div>
@@ -101,16 +103,14 @@
         <div class="g-recaptcha mt-4" data-sitekey="6LePy7srAAAAAC6OSLJ3AiBSKtDbXC4occ2BU4tk" aria-label="Captcha verification"></div>
         <p class="text-xs text-gray-500 mt-2">Please verify you’re human to continue.</p>
       </div>
-
       </form>
 
-      <div class="flex items-center gap-4 my-8">
+      <!-- <div class="flex items-center gap-4 my-8">
         <div class="h-px bg-gray-200 flex-1"></div>
         <span class="text-xs text-gray-400">OR</span>
         <div class="h-px bg-gray-200 flex-1"></div>
       </div>
 
-<!--      
       <div class="grid sm:grid-cols-2 gap-3" aria-label="social sign in options">
 
         <button type="button"  id="googleLoginBtn" class="provider-btn w-full flex items-center justify-center gap-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 active:bg-blue-800">
@@ -139,9 +139,17 @@
             <path d="M7 12a5 5 0 1 1 10 0v1c0 2.76-1.2 5.3-3.1 7.06a1 1 0 1 1-1.33-1.48A8 8 0 0 0 15 13v-1a3 3 0 1 0-6 0v.5c0 2.34-.94 4.59-2.6 6.23a1 1 0 1 1-1.4-1.42A7 7 0 0 0 9 12.5V12z" fill="currentColor"/>
           </svg>
           <span class="text-sm font-medium">Continue with Fingerprint</span>
-        </button> -->
-      <!-- </div> -->
-      <p class="text-center text-sm mt-8 text-gray-600">Don't have an account? <a href="#" class="text-blue-600 font-medium hover:underline">Register</a></p>
+        </button>
+
+        <div id="webauthnOverlay" class="fixed inset-0 bg-black/50 flex flex-col items-center justify-center hidden z-50">
+      <div class="bg-white p-6 rounded-lg flex flex-col items-center gap-4">
+          <div class="loader border-4 border-blue-300 border-t-blue-600 rounded-full w-12 h-12 animate-spin"></div>
+          <span class="text-sm font-medium">Waiting for fingerprint...</span>
+          <button id="cancelWebauthn" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Cancel</button>
+      </div>
+      </div>
+      </div> -->
+      <p class="text-center text-sm mt-8 text-gray-600">Don't have an account? <a href="/general/register.html" class="text-blue-600 font-medium hover:underline">Register</a></p>
     </section>
   </main>
    <div id="ai-container"></div>

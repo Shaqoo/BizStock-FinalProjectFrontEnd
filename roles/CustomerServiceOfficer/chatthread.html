@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Service - Chat Thread</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+</head>
+<body class="flex h-screen bg-gray-100">
+  <aside id="sidebar" class="w-64 bg-white shadow-lg h-screen flex flex-col transition-all duration-300">
+    <div class="flex items-center justify-between p-4 border-b">
+      <span id="brandText" class="text-xl font-bold text-blue-600">Customer Service</span>
+      <button id="toggleBtn" class="p-2 rounded hover:bg-blue-50 text-blue-600">
+        <i data-lucide="chevron-left"></i>
+      </button>
+    </div>
+    <nav class="flex-1 p-4 space-y-2">
+      <a href="/roles/CustomerServiceOfficer/Dashboard.html" class="flex items-center p-2 rounded-lg hover:bg-blue-50 text-gray-700">
+        <i data-lucide="layout-dashboard" class="mr-3"></i><span class="link-text">Dashboard</span>
+      </a>
+      <a href="/roles/CustomerServiceOfficer/notifications.html" class="flex items-center p-2 rounded-lg hover:bg-blue-50 text-gray-700">
+        <i data-lucide="bell" class="mr-3"></i><span class="link-text">Notifications</span>
+      </a>
+      <a href="/roles/CustomerServiceOfficer/chatthread.html" class="flex items-center p-2 rounded-lg bg-blue-500 text-white active-link">
+        <i data-lucide="message-circle" class="mr-3"></i><span class="link-text">Threads</span>
+      </a>
+      <a href="#" class="flex items-center p-2 rounded-lg hover:bg-blue-50 text-gray-700">
+        <i data-lucide="search" class="mr-3"></i><span class="link-text">Search Orders</span>
+      </a>
+      <a href="/roles/CustomerServiceOfficer/customers.html" class="flex items-center p-2 rounded-lg hover:bg-blue-50 text-gray-700">
+        <i data-lucide="users" class="mr-3"></i><span class="link-text">Customers</span>
+      </a>
+      <a href="/roles/CustomerServiceOfficer/profile.html" class="flex items-center p-2 rounded-lg hover:bg-blue-50 text-gray-700">
+        <i data-lucide="user" class="mr-3"></i><span class="link-text">Profile</span>
+      </a>
+      <a href="/roles/CustomerServiceOfficer/settings.html" class="flex items-center p-2 rounded-lg hover:bg-blue-50 text-gray-700">
+        <i data-lucide="settings" class="mr-3"></i><span class="link-text">Settings</span>
+      </a>
+        <a href="/general/Home.htm" class="flex items-center p-2 rounded-lg hover:bg-red-300 text-gray-700">
+      <i data-lucide="log-out" class="mr-3"></i>
+      <span class="link-text">Logout</span>
+    </a>
+    </nav>
+    <div id="csoInfo" class="p-4 border-t flex items-center space-x-3">
+    <img id="csoPic" src="/" class="w-10 h-10 rounded-full border">
+    <div id="csoDetails">
+      <p id="csoName" class="font-semibold text-gray-800">Loading...</p>
+      <p id="csoRole" class="text-sm text-gray-500">Customer Service Officer</p>
+    </div>
+    </div>
+  </div>
+  </aside>
+
+  <main class="flex-1 p-6 overflow-y-auto">
+     <div class="grid grid-cols-4 gap-4 mb-6">
+    <div class="bg-white p-4 rounded-xl shadow">
+        <h3 class="text-sm text-gray-500">Open Threads</h3>
+        <p id="openThreads" class="text-xl font-bold">0</p>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow">
+        <h3 class="text-sm text-gray-500">In Progress</h3>
+        <p id="inProgressThreads" class="text-xl font-bold">0</p>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow">
+        <h3 class="text-sm text-gray-500">Closed Threads</h3>
+        <p id="closedThreads" class="text-xl font-bold">0</p>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow">
+        <h3 class="text-sm text-gray-500">Total Threads</h3>
+        <p id="totalThreads" class="text-xl font-bold">0</p>
+    </div>
+</div>
+
+<div class="bg-white shadow rounded-xl overflow-x-auto mb-6">
+  <table class="min-w-full border-collapse">
+    <thead>
+      <tr class="bg-gray-100 text-left">
+        <th class="p-3 border-b">Profile</th>
+        <th class="p-3 border-b">Customer</th>
+        <th class="p-3 border-b">Date Created</th>
+        <th class="p-3 border-b">Status</th>
+        <th class="p-3 border-b">Action</th>
+      </tr>
+    </thead>
+    <tbody id="chatThreadList"></tbody>
+  </table>
+</div>
+
+</main>
+
+<script src="/roles/CustomerServiceOfficer/Script/chatThread.js"></script>
+<script src="/roles/CustomerServiceOfficer/Script/sidebar.js"></script>
+</body>
+</html>

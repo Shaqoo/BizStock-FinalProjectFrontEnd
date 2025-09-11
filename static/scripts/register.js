@@ -3,7 +3,15 @@
   const next2 = document.getElementById('next2');
   const prev1 = document.getElementById('prev1');
   const prev2 = document.getElementById('prev2');
+  const passwordInput = document.getElementById('password');
+  const confirmPasswordInput = document.getElementById('confirmPassword');
+  const strengthBar = document.getElementById('strengthBar');
+  const strengthText = document.getElementById('strengthText');
+  const matchBar = document.getElementById('matchBar');
+  const matchStatus = document.getElementById('matchStatus');
   const form = document.getElementById('registerForm');
+  const buttonWrapper = document.getElementById('buttonWrapper');
+  const loadingMessage = document.getElementById('loadingMessage');
   let currentStep = 0;
 
   function showStep(i) {
@@ -64,6 +72,72 @@
   prev1.addEventListener('click', () => { currentStep = 0; showStep(currentStep); });
   prev2.addEventListener('click', () => { currentStep = 1; showStep(currentStep); });
 
+  passwordInput.addEventListener('input', () => {
+      const val = passwordInput.value;
+
+  const hasUpper = /[A-Z]/.test(val);
+  const hasNumber = /[0-9]/.test(val);
+  const hasSpecial = /[#!@$%^&*]/.test(val);
+  const isLong = val.length >= 8;
+
+  const checksPassed = [hasUpper, hasNumber, hasSpecial, isLong].filter(Boolean).length;
+  if (val.length === 0) {
+    strengthBar.className = "h-2 rounded mt-1 bg-gray-300 w-0";
+    strengthText.textContent = "";
+    return;
+  }
+
+  if (!hasSpecial) {
+    strengthBar.className = "h-2 rounded mt-1 bg-red-500 w-1/3";
+    strengthText.textContent = "Weak (missing special character)";
+    strengthText.className = "text-red-600 text-sm font-medium mt-1";
+    return;
+  }
+
+  if (checksPassed < 3) {
+    strengthBar.className = "h-2 rounded mt-1 bg-yellow-500 w-2/3";
+    strengthText.textContent = "Medium";
+    strengthText.className = "text-yellow-600 text-sm font-medium mt-1";
+    return;
+  }
+
+  if (checksPassed === 4) {
+    strengthBar.className = "h-2 rounded mt-1 bg-green-500 w-full";
+    strengthText.textContent = "Strong";
+    strengthText.className = "text-green-600 text-sm font-medium mt-1";
+    return;
+  }
+
+    });
+
+  confirmPasswordInput.addEventListener('input', () => {
+      const match = passwordInput.value === confirmPasswordInput.value;
+      matchStatus.textContent = match ? "✔ Passwords match" : "✘ Passwords do not match";
+      matchStatus.className = match
+        ? "text-green-600 text-sm mt-1"
+        : "text-red-500 text-sm mt-1";
+      const val = passwordInput.value;
+      let strength = 0;
+      if (val.length >= 8) strength++;
+      if (/[A-Z]/.test(val)) strength++;
+      if (/[0-9]/.test(val)) strength++;
+      if (/[^A-Za-z0-9]/.test(val)) strength++;
+
+      switch (strength) {
+    case 0:
+    case 1:
+      matchBar.className = "h-2 rounded mt-1 bg-red-500 w-1/3";
+      break;
+    case 2:
+      matchBar.className = "h-2 rounded mt-1 bg-yellow-500 w-2/3";
+      break;
+    case 3:
+    case 4:
+      matchBar.className = "h-2 rounded mt-1 bg-green-500 w-full";
+      break;
+      }
+    });
+
   document.querySelectorAll('.toggle-password').forEach(btn => {
     btn.addEventListener('click', () => {
       const input = btn.parentElement.querySelector('input');
@@ -74,6 +148,11 @@
   form.addEventListener('submit', async e => {
     e.preventDefault();
     if (!validateStep3()) return;
+    buttonWrapper.innerHTML = `
+        <div class="w-full flex justify-center">
+          <div class="spinner"></div>
+        </div>
+      `;
     const data = Object.fromEntries(new FormData(form).entries());
     data.pin = parseInt(data.pin);
 
@@ -84,14 +163,23 @@
         body: JSON.stringify(data)
       });
       const result = await res.json();
+      loadingMessage.classList.remove('hidden');
+        setTimeout(() => {
+        loadingMessage.classList.add('hidden');
+      }, 3000);
+
       console.log(result);
       if (!res.ok) 
         {
+
            Swal.fire({
             icon: 'error',
             title: 'Registration Failed',
             text: result.message || 'Something went wrong'
             });
+            buttonWrapper.innerHTML = ` <button type="button" id="prev2" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">Back</button>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Register</button>
+         <p id="loadingMessage" class="text-green-700 text-center hidden">Creating your account...</p>`;
             return;
         }
         Swal.fire({
@@ -167,6 +255,10 @@ ${result.data.recoveryCodes.join('\n')}
           title: 'Oops...',
           text: err.message
         });
+        buttonWrapper.innerHTML = ` <button type="button" id="prev2" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">Back</button>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Register</button>
+         <p id="loadingMessage" class="text-green-700 text-center hidden">Creating your account...</p>`
+         return;
       }
   });
 

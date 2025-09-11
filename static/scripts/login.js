@@ -20,7 +20,9 @@ const email = document.getElementById('email');
 const password = document.getElementById('password');
 const formError = document.getElementById('formError');
 const captchaWrap = document.getElementById('captchaWrap');
-const webauthnBtn = document.getElementById('webauthnBtn');
+const buttonWrapper = document.getElementById('buttonWrapper');
+const loadingMessage = document.getElementById('loadingMessage');
+const loginBtn = document.getElementById('loginBtn');
 
 let failed = 0;
 let captchaToken = null;
@@ -95,6 +97,12 @@ form.addEventListener('submit', async (e) => {
 
   console.log('Sending CaptchaToken:', bodyData.CaptchaToken);
 
+ loginBtn.disabled = true;
+  buttonWrapper.innerHTML = `
+    <div class="w-full flex justify-center">
+      <div class="spinner"></div>
+    </div>
+  `;
   try {
     const response = await fetch(`${apiBaseUrl}/Users/login`, {
       method: 'POST',
@@ -109,8 +117,31 @@ form.addEventListener('submit', async (e) => {
     } catch {
         result = { ok: false, message: text };
     }
+    console.log(result.data.status);
+    const status = "LOGIN_SUCCESS";
+    console.log(String(result.data.status) === status);
+    loadingMessage.classList.remove('hidden');
+    if(result.isSuccess && String(result.data.status) === String(status))
+    {
+        console.log(result)
+        captchaWrap.classList.add('hidden');   
+        Swal.fire({ 
+            icon: 'success', 
+            title: 'Login Successful', 
+            timer: 2000, 
+            showConfirmButton: false 
+        });
+        captchaToken = null;
+        if(window.grecaptcha) grecaptcha.reset();
+        sessionStorage.setItem('accessToken', result.data.accessToken);
+        sessionStorage.removeItem('tempToken');
 
-    if(result.isSuccess){
+        setTimeout(() => {
+        loadingMessage.classList.add('hidden');
+        window.location.href = '/general/Products.htm';
+      }, 3000);
+    }
+    else if(result.isSuccess && String(result.data.status) !== String(status)){
        console.log(result)
         captchaWrap.classList.add('hidden');   
         Swal.fire({ 
@@ -122,9 +153,16 @@ form.addEventListener('submit', async (e) => {
         captchaToken = null;
         if(window.grecaptcha) grecaptcha.reset();
         sessionStorage.setItem("tempToken", result.data.token);
-        window.location.href = "/general/mfa.html";
 
+         setTimeout(() => {
+        loadingMessage.classList.add('hidden');
+        window.location.href = "/general/mfa.html";
+      }, 3000);
     } else {
+        loginBtn.disabled = false;
+        buttonWrapper.innerHTML = `
+          <button id="loginBtn" type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 active:bg-blue-800 transition">Login</button>
+        `;
         if(result.message?.includes('CAPTCHA validation failed.')){
             captchaWrap.classList.remove('hidden');
             if(window.grecaptcha) grecaptcha.reset(); 
@@ -197,6 +235,10 @@ form.addEventListener('submit', async (e) => {
 }
 
 } catch(error){
+    loginBtn.disabled = false;
+        buttonWrapper.innerHTML = `
+          <button id="loginBtn" type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 active:bg-blue-800 transition">Login</button>
+        `;
     console.log(error);
     captchaWrap.classList.add('hidden');
     Swal.fire({ icon: 'error', title: 'Login Failed', text: 'Something went wrong. Please try again.' });
@@ -204,5 +246,87 @@ form.addEventListener('submit', async (e) => {
 });
  
 
+
+const webauthnBtn = document.getElementById("webauthnBtn");
+const overlay = document.getElementById("webauthnOverlay");
+const cancelBtn = document.getElementById("cancelWebauthn");
+let abortController = null;
+
+webauthnBtn.addEventListener("click", async () => {
+  const { value: email } = await Swal.fire({
+    title: 'Enter your email',
+    input: 'email',
+    inputLabel: 'Email',
+    inputPlaceholder: 'Enter your registered email',
+    showCancelButton: true
+  });
+
+  if (!email) return; 
+
+  sessionStorage.setItem("email", email); 
+
+  overlay.classList.remove("hidden");
+  abortController = new AbortController();
+
+  try {
+    const optionsRes = await fetch(`${apiBaseUrl}/Users/generate-login-options`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(email),
+      signal: abortController.signal
+    });
+
+    if (!optionsRes.ok) throw new Error("Failed to get login options");
+    const options = await optionsRes.json();
+
+    options.challenge = Uint8Array.from(atob(options.challenge), c => c.charCodeAt(0));
+    if (options.allowCredentials) {
+      options.allowCredentials = options.allowCredentials.map(cred => ({
+        ...cred,
+        id: Uint8Array.from(atob(cred.id), c => c.charCodeAt(0))
+      }));
+    }
+    const assertion = await navigator.credentials.get({ publicKey: options, signal: abortController.signal });
+
+    const loginDto = {
+      id: assertion.id,
+      rawId: btoa(String.fromCharCode(...new Uint8Array(assertion.rawId))),
+      type: assertion.type,
+      response: {
+        clientDataJSON: btoa(String.fromCharCode(...new Uint8Array(assertion.response.clientDataJSON))),
+        authenticatorData: btoa(String.fromCharCode(...new Uint8Array(assertion.response.authenticatorData))),
+        signature: btoa(String.fromCharCode(...new Uint8Array(assertion.response.signature))),
+        userHandle: assertion.response.userHandle ? btoa(String.fromCharCode(...new Uint8Array(assertion.response.userHandle))) : null
+      }
+    };
+
+    
+    const verifyRes = await fetch(`${apiBaseUrl}/Users/verify-login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loginDto)
+    });
+
+    const verifyResult = await verifyRes.json();
+    if (!verifyRes.ok) throw new Error(verifyResult.message || "Login failed");
+
+    Swal.fire({ icon: 'success', title: 'Login Successful', text: 'Welcome back!' });
+  } catch (err) {
+    if (err.name === "AbortError") {
+      Swal.fire({ icon: 'info', title: 'Login Cancelled', text: 'You cancelled the fingerprint login.' });
+    } else {
+      console.error(err);
+      Swal.fire({ icon: 'error', title: 'Login Error', text: err.message });
+    }
+  } finally {
+    abortController = null;
+    overlay.classList.add("hidden");
+  }
+});
+
+
+cancelBtn.addEventListener("click", () => {
+  if (abortController) abortController.abort();
+});
 
 
