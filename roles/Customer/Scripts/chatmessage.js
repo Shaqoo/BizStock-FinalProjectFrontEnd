@@ -167,7 +167,7 @@ const messageSound = document.getElementById("messageSound");
   });
 
 connection.on("MessageRead", (data) => {
-  const msgDiv = document.querySelector(`[data-id="${data.MessageId}"]`);
+  const msgDiv = document.querySelector(`[data-id="${data.messageId}"]`);
   if (msgDiv) {
     const status = msgDiv.querySelector(".message-status");
     if (status) {
@@ -181,8 +181,43 @@ connection.on("MessageRead", (data) => {
 
   connection.on("MessageReactionReceived", (data) => {
     messageSound.play();
-    console.log("Reaction received:", data);
-  });
+  console.log("Reaction received:", data);
+
+  const msgDiv = document.querySelector(`[data-id="${data.messageId}"]`);
+  if (!msgDiv) return;
+
+  const bubble = msgDiv.querySelector(".message-bubble");
+  if (!bubble) return;
+
+  let reactionsContainer = bubble.querySelector(".reactions-container");
+  if (!reactionsContainer) {
+    reactionsContainer = document.createElement("div");
+    reactionsContainer.className = "reactions-container flex space-x-1 mt-1 text-sm";
+    bubble.appendChild(reactionsContainer);
+  }
+
+
+  const oldReaction = reactionsContainer.querySelector(`[data-user-id="${data.userId}"]`);
+  if (oldReaction) {
+    if (oldReaction.dataset.emoji === data.emoji) return;
+
+    oldReaction.textContent = data.emoji;
+    oldReaction.dataset.emoji = data.emoji;
+    return;
+  }
+
+  
+  const emojiEl = document.createElement("span");
+  emojiEl.dataset.emoji = data.emoji;
+  emojiEl.dataset.userId = data.userId;
+  emojiEl.className = "bg-gray-200 rounded-full px-1";
+  emojiEl.textContent = data.emoji;
+  emojiEl.style.cursor = "pointer";
+  emojiEl.title = data.userId == getCurrentUserId() ? "You" : "Customer Service Officer";
+
+  reactionsContainer.appendChild(emojiEl);
+});
+
 
   async function startConnection() {
     try {
@@ -268,7 +303,7 @@ function buildMessageDiv(msg, msgDate) {
     if(!msg.isRead){
       markAsRead(msg.id);
     }
-    
+
     div.className += " flex items-start space-x-2";
     div.innerHTML = `
       <img src="${getAvatarUrl("CSO")}" alt="CSO" class="w-8 h-8 rounded-full">
@@ -324,6 +359,7 @@ function buildMessageDiv(msg, msgDate) {
   msg.reactions.forEach(r => {
     const emojiEl = document.createElement("span");
     emojiEl.dataset.emoji = r.emoji;
+    emojiEl.dataset.userId = r.userId;
     emojiEl.className = "bg-gray-200 rounded-full px-1";
     emojiEl.textContent = `${r.emoji}`;
     emojiEl.style.cursor = "pointer";
@@ -638,7 +674,7 @@ sendBtn.addEventListener("click", async () => {
 async function markAsRead(messageId) {
   try {
     await fetch(`${apiBaseUrl}/ChatMessages/${messageId}/read`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`,
         "Content-Type": "application/json"

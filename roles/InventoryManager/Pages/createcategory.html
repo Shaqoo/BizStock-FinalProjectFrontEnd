@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Category</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 flex items-center justify-center">
+  <button onclick="window.history.back()" 
+      class="absolute left-4 top-4 bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg shadow text-sm">
+      ⬅ Back
+    </button>
+  <div class="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md">
+    <h1 class="text-2xl font-bold text-center text-green-700 mb-6">Create New Category</h1>
+
+    <form id="categoryForm" class="space-y-5">
+      
+      <div>
+        <label class="block mb-1 font-semibold text-gray-700">Category Name</label>
+        <input type="text" id="name" required
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400">
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold text-gray-700">Description</label>
+        <textarea id="description" rows="3"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"></textarea>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold text-gray-700">Parent Category (Optional)</label>
+        <select id="parentCategory" 
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400">
+          <option value="">-- None (Top Level) --</option>
+        </select>
+      </div>
+
+      <button type="submit"
+        class="w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition">
+        Create Category
+      </button>
+    </form>
+
+    <p id="status" class="text-center mt-4 text-sm"></p>
+  </div>
+
+<script src="/roles/InventoryManager/Scripts/createcategory.js"></script>
+</body>
+</html>

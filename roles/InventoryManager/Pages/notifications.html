@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Manager Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+</head>
+<body class="bg-gray-100 flex h-screen">
+
+  <aside id="sidebar" class="w-64 bg-white shadow-lg flex flex-col fixed h-full transition-transform transform -translate-x-full lg:translate-x-0 z-50">
+
+  </aside>
+
+
+  <button id="sidebarToggle" class="lg:hidden fixed top-4 left-4 bg-blue-600 text-white p-2 rounded-md z-50">
+    ☰
+  </button>
+
+
+<main class="flex-1 h-screen p-6 overflow-y-auto lg:ml-64 bg-gray-50">
+  <div class="h-full p-4 bg-white rounded shadow flex flex-col">
+    <div class="flex justify-between items-center mb-3">
+      <h2 class="text-xl font-bold">🔔 Notifications</h2>
+      <button id="markAllBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow">
+        Mark All as Read
+      </button>
+    </div>
+
+    <div class="relative">
+          <span id="unreadCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">0</span>
+        </div>
+
+    <div id="notificationsList" class="flex-1 space-y-2 overflow-y-auto"></div>
+  </div>
+</main>
+
+<audio src="/static/media/file-sounds-1150-pristine.mp3" id="notificationSound"></audio>
+  <script src="/roles/InventoryManager/Scripts/notifications.js"></script>
+  <script src="/roles/InventoryManager/Scripts/sidebar.js"></script>
+</body>
+</html>

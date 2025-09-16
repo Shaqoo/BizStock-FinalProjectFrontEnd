@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Management - Inventory Manager</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+</head>
+<body class="bg-gray-100 min-h-screen">
+   <aside id="sidebar" class="w-64 bg-white shadow-lg flex flex-col fixed h-full transition-transform transform -translate-x-full lg:translate-x-0 z-50">
+
+  </aside>
+
+
+  <button id="sidebarToggle" class="lg:hidden fixed top-4 left-4 bg-blue-600 text-white p-2 rounded-md z-50">
+    ☰
+  </button>
+  <div class="flex-1 h-screen p-6 overflow-y-auto lg:ml-64 space-y-6">
+
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-xl font-bold mb-4">🔍 Search Product Stock</h2>
+      <div class="flex space-x-3">
+        <input id="searchInput" type="text" placeholder="Enter product name or SKU"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:ring-indigo-300">
+        <button onclick="searchProductStock()" 
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Search</button>
+      </div>
+      <div id="searchResults" class="mt-4"></div>
+    </div>
+
+  
+<div class="bg-white p-6 rounded-lg shadow mb-6">
+  
+  <h2 class="text-xl font-bold mb-4">📦 Stock Movements</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    
+   
+    <div class="flex flex-wrap items-center gap-2">
+  <label class="text-gray-700 font-semibold w-full sm:w-auto">Date Range:</label>
+  
+  <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+    <input type="date" id="start-date" class="border rounded px-2 py-1 flex-1 min-w-[120px]">
+    <span>-</span>
+    <input type="date" id="end-date" class="border rounded px-2 py-1 flex-1 min-w-[120px]">
+    <button id="apply-date-filter"
+            class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+      Apply
+    </button>
+  </div>
+</div>
+
+    <div class="flex items-center gap-3 relative">
+      <button id="dropdownStatusBtn"
+              class="border rounded-lg px-4 py-2 bg-white flex justify-between items-center shadow-sm w-full">
+        <span id="selectedStatusValue">🔽 Sort by Movement</span>
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <ul id="dropdownStatusList"
+          class="absolute z-10 mt-2 bg-white border rounded-lg shadow-lg hidden w-max min-w-full">
+        <li class="status-option px-4 py-2 hover:bg-gray-100 cursor-pointer" data-value="all">🔽 All</li>
+        <li class="status-option px-4 py-2 hover:bg-gray-100 cursor-pointer" data-value="Inbound">📥 Inbound</li>
+        <li class="status-option px-4 py-2 hover:bg-gray-100 cursor-pointer" data-value="Outbound">📤 Outbound</li>
+        <li class="status-option px-4 py-2 hover:bg-gray-100 cursor-pointer" data-value="AdjustmentIn">➕ Adjustment In</li>
+        <li class="status-option px-4 py-2 hover:bg-gray-100 cursor-pointer" data-value="AdjustmentOut">➖ Adjustment Out</li>
+        <li class="status-option px-4 py-2 hover:bg-gray-100 cursor-pointer" data-value="TransferIn">📦➡️ Transfer In</li>
+        <li class="status-option px-4 py-2 hover:bg-gray-100 cursor-pointer" data-value="TransferOut">⬅️📦 Transfer Out</li>
+      </ul>
+    </div>
+
+      <div id="movementsTable" class="bg-white rounded-lg p-8 mt-6"></div>
+  <div></div>
+   <div class="flex justify-between items-center px-4 py-3 border-t">
+        <p class="text-sm text-gray-600 paginationInfo">Showing 1–10 of 50</p>
+        <div class="flex gap-1 paginationContainer">
+          <button class="px-3 py-1 border rounded hover:bg-gray-100">&laquo; Prev</button>
+          <button class="px-3 py-1 border rounded bg-blue-600 text-white">1</button>
+          <button class="px-3 py-1 border rounded hover:bg-gray-100">2</button>
+          <button class="px-3 py-1 border rounded hover:bg-gray-100">3</button>
+          <button class="px-3 py-1 border rounded hover:bg-gray-100">Next &raquo;</button>
+        </div>
+      </div>
+    </div>
+</div>
+  
+    <div class="bg-white shadow rounded-lg p-6">
+      <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-bold" title="Manage stock adjustments, transfers, and quantity updates">⚙️ Stock Actions</h2>
+    <a href="/roles/InventoryManager/Pages/addProductQuantity.html" 
+       class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">
+      ➕ Add Product Quantity
+    </a>
+  </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div>
+          <h3 class="font-semibold mb-2">Adjust Stock</h3>
+          <div class="mb-2 relative">
+          <label class="font-semibold">Product</label>
+          <input id="productSearch" placeholder="Search product..." class="border p-2 rounded w-full">
+          <ul id="productSuggestions" 
+              class="absolute z-10 bg-white border rounded shadow mt-1 hidden max-h-48 overflow-y-auto w-full"></ul>
+          <input type="hidden" id="adjustProductId">
+        </div>
+
+        <div class="mb-2">
+          <label class="font-semibold">Warehouse</label>
+          <select id="adjustWarehouseId" class="border p-2 rounded w-full">
+          
+          </select>
+        </div>
+
+        <div class="mb-2">
+          <label class="font-semibold">Quantity</label>
+          <input id="adjustQuantity" type="number" placeholder="Quantity" class="border p-2 rounded w-full">
+        </div>
+
+        <div class="mb-2">
+          <label class="font-semibold">Adjustment Type</label>
+          <select id="adjustType" class="border p-2 rounded w-full">
+            <option value="Increase">Increase</option>
+            <option value="Decrease">Decrease</option>
+          </select>
+        </div>
+
+        <div class="mb-2">
+          <label class="font-semibold">Reason</label>
+          <input id="adjustReason" placeholder="Reason" class="border p-2 rounded w-full">
+        </div>
+
+        <button id="adjustButton" 
+          class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+          Adjust
+        </button>
+
+        </div>
+
+        
+        <div>
+          <h3 class="font-semibold mb-2">Transfer Stock</h3>
+          <div class="mb-2 relative">
+          <label class="font-semibold">Product</label>
+          <input id="productSearchTransfer" placeholder="Search product..." class="border p-2 rounded w-full">
+          <ul id="productTransferSuggestions" 
+              class="absolute z-10 bg-white border rounded shadow mt-1 hidden max-h-48 overflow-y-auto w-full"></ul>
+          <input type="hidden" id="transferProductId">
+        </div>
+
+        <div class="mb-2">
+          <label class="font-semibold">From Warehouse</label>
+          <select id="fromWarehouseId" class="border p-2 rounded w-full">
+          
+          </select>
+        </div>
+
+        <div class="mb-2">
+          <label class="font-semibold">To Warehouse</label>
+          <select id="toWarehouseId" class="border p-2 rounded w-full">
+          
+          </select>
+        </div>
+        <input id="transferQuantity" type="number" placeholder="Quantity" class="border p-2 rounded w-full mb-2">
+        <input id="transferReason" placeholder="Reason (optional)" class="border p-2 rounded w-full mb-2">
+        <button id="transferButton"
+          class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">Transfer</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+<script src="/roles/InventoryManager/Scripts/stockmanagement.js"></script>
+<script src="/roles/InventoryManager/Scripts/sidebar.js"></script>
+</body>
+</html>

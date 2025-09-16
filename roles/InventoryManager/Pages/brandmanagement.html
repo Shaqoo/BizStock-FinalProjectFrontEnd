@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brand Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+</head>
+<body class="bg-gray-50">
+  <main class="max-w-7xl mx-auto p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-indigo-700">Brand Management</h1>
+      <button onclick="window.location.href='/roles/InventoryManager/Pages/createbrand.html'"
+        class="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700">
+        + Create Brand
+      </button>
+    </div>
+
+
+    <div class="mb-6 flex gap-2">
+      <input id="searchInput" type="text" placeholder="Search brands..."
+        class="flex-1 border rounded-lg px-4 py-2">
+      <button onclick="searchBrands()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg">Search</button>
+    </div>
+
+    <div id="brandList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+    <div class="flex justify-center mt-6 gap-2" id="pagination"></div>
+  </main>
+
+  <div id="updateModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+      <h2 class="text-lg font-bold mb-4">Update Brand</h2>
+      <form id="updateForm" class="space-y-3">
+        <input type="hidden" id="updateId">
+        <input type="text" id="updateName" class="w-full border rounded p-2" placeholder="Brand Name">
+        <input type="url" id="updateWebsite" class="w-full border rounded p-2" placeholder="Website URL">
+        <input type="text" id="updateLogo" class="w-full border rounded p-2" placeholder="Logo URL">
+        <textarea id="updateDescription" class="w-full border rounded p-2" placeholder="Description"></textarea>
+        <div class="flex justify-end gap-2">
+          <button type="button" onclick="closeModal('updateModal')" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+          <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script src="/roles/InventoryManager/Scripts/brandMnagement.js"></script>
+</body>
+</html>

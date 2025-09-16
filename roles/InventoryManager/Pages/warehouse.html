@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Manager - Warehouses</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+ 
+  <header class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <button onclick="window.history.back()" 
+    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">
+    ⬅ Back
+  </button>
+      <h1 class="text-2xl font-bold text-gray-800">📦 Inventory Manager</h1>
+      <button id="openCreateForm"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">
+        ➕ Add Warehouse
+      </button>
+    </div>
+  </header>
+
+  
+  <main class="flex-1 max-w-7xl mx-auto px-6 py-8">
+    <div class="flex items-center mb-6">
+      <input id="searchInput" type="text" placeholder="Search warehouses..."
+        class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-200">
+      <button id="searchBtn" class="ml-3 bg-gray-700 text-white px-4 py-2 rounded-lg">
+        🔍 Search
+      </button>
+    </div>
+
+       
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+      <table class="min-w-full text-left text-sm">
+        <thead class="bg-gray-50 border-b">
+          <tr>
+            <th class="px-6 py-3">Name</th>
+            <th class="px-6 py-3">Location</th>
+            <th class="px-6 py-3">Active</th>
+            <th class="px-6 py-3">Items</th>
+            <th class="px-6 py-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="warehouseTable" class="divide-y divide-gray-200">
+          
+        </tbody>
+      </table>
+
+       
+      <div id="loadingSpinner" class="py-10 flex justify-center hidden">
+        <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+
+      
+      <div id="emptyState" class="py-10 text-center text-gray-500 hidden">
+        📭 No warehouses found
+      </div>
+    </div>
+
+     
+    <div class="flex justify-between items-center mt-6">
+      <div class="flex items-center space-x-2">
+        <button id="prevPage"
+          class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50">⬅ Prev</button>
+        <button id="nextPage"
+          class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50">Next ➡</button>
+        <span id="pageInfo" class="ml-2 text-gray-600"></span>
+      </div>
+      <div>
+        <label for="pageSize" class="mr-2 text-gray-700">Page Size:</label>
+        <select id="pageSize" class="border rounded px-2 py-1">
+          <option value="5">5</option>
+          <option value="10" selected>10</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+    </div>
+  </main>
+
+  
+  <div id="warehouseModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+      <h2 id="modalTitle" class="text-xl font-semibold mb-4">Add Warehouse</h2>
+      <form id="warehouseForm" class="space-y-4">
+        <input type="hidden" id="warehouseId">
+        <div>
+          <label class="block text-gray-700">Name</label>
+          <input id="warehouseName" type="text" required
+            class="w-full border border-gray-300 rounded-lg px-3 py-2">
+        </div>
+        <div>
+          <label class="block text-gray-700">Location</label>
+          <input id="warehouseLocation" type="text" required
+            class="w-full border border-gray-300 rounded-lg px-3 py-2">
+        </div>
+        <div class="flex justify-end space-x-2">
+          <button type="button" id="closeModal"
+            class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg">
+            Cancel
+          </button>
+          <button type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script src="/roles/InventoryManager/Scripts/warehouse.js"></script>
+</body>
+</html>

@@ -53,7 +53,7 @@ const inputs = document.querySelectorAll('.mfa-input');
           }else if(getRole(token) === "CustomerService"){
             setTimeout(() => window.location.href = '/roles/CustomerServiceOfficer/Dashboard.html', 2000);
           }
-          //setTimeout(() => window.location.href = '/general/Products.htm', 2000);
+          setTimeout(() => window.location.href = '/general/Products.htm', 2000);
         } else {
           if (data.message && data.message.toLowerCase().includes("user not found")) {
             Swal.fire({

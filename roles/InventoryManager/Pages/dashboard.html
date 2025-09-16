@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Manager Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex h-screen">
+
+  <aside class="w-64 bg-white shadow-lg flex flex-col overflow-y-auto">
+    <div class="p-6 text-2xl font-bold border-b">BizStock Inventory</div>
+    <nav class="flex-1 p-4 space-y-2">
+      <a href="#" class="block p-2 rounded hover:bg-gray-200">🏠 Home</a>
+      <a href="#" class="block p-2 rounded hover:bg-gray-200">🏷️ Products</a>
+      <a href="#" class="block p-2 rounded hover:bg-gray-200">🏢 Warehouses</a>
+      <a href="#" class="block p-2 rounded hover:bg-gray-200">🔄 Stock Management</a>
+      <a href="#" class="block p-2 rounded hover:bg-gray-200">🧾 Purchase Orders</a>
+      <a href="#" class="block p-2 rounded hover:bg-gray-200">📊 Reports</a>
+      <a href="#" class="block p-2 rounded hover:bg-gray-200">🔔 Notifications</a>
+      <a href="#" class="block p-2 rounded hover:bg-gray-200">⚙️ Settings</a>
+      <a href="#" class="block p-2 rounded hover:bg-gray-200">🚪 LogOut</a>
+    </nav>
+  </aside>
+
+  <main class="flex-1 p-6 overflow-y-auto">
+    <header class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">Dashboard</h1>
+      <div class="flex items-center space-x-4">
+        <span class="text-gray-600">Hello, Manager</span>
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full border" alt="profile">
+      </div>
+    </header>
+
+    <section class="bg-white shadow-md rounded-lg p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold">Purchase Orders</h2>
+        <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">+ Create PO</button>
+      </div>
+      <table class="w-full border-collapse">
+        <thead>
+          <tr class="bg-gray-200 text-left">
+            <th class="p-2">PO #</th>
+            <th class="p-2">Supplier</th>
+            <th class="p-2">Status</th>
+            <th class="p-2">Created On</th>
+            <th class="p-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b hover:bg-gray-50">
+            <td class="p-2">PO-001</td>
+            <td class="p-2">ABC Supplies</td>
+            <td class="p-2"><span class="px-2 py-1 bg-yellow-200 text-yellow-800 rounded">Pending</span></td>
+            <td class="p-2">2025-09-10</td>
+            <td class="p-2 space-x-2">
+              <button class="px-3 py-1 bg-blue-500 text-white rounded">View</button>
+              <button class="px-3 py-1 bg-gray-500 text-white rounded">Edit</button>
+            </td>
+          </tr>
+          <tr class="border-b hover:bg-gray-50">
+            <td class="p-2">PO-002</td>
+            <td class="p-2">XYZ Traders</td>
+            <td class="p-2"><span class="px-2 py-1 bg-green-200 text-green-800 rounded">Received</span></td>
+            <td class="p-2">2025-09-08</td>
+            <td class="p-2 space-x-2">
+              <button class="px-3 py-1 bg-blue-500 text-white rounded">View</button>
+              <button class="px-3 py-1 bg-gray-500 text-white rounded">Edit</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+</body>
+</html>

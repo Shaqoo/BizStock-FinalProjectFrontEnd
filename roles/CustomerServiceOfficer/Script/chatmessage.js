@@ -166,7 +166,7 @@ function getCurrentUserId() {
   });
 
 connection.on("MessageRead", (data) => {
-  const msgDiv = document.querySelector(`[data-id="${data.MessageId}"]`);
+  const msgDiv = document.querySelector(`[data-id="${data.messageId}"]`);
   if (msgDiv) {
     const status = msgDiv.querySelector(".message-status");
     if (status) {
@@ -177,11 +177,44 @@ connection.on("MessageRead", (data) => {
   console.log("Message read:", data);
 });
 
-  connection.on("MessageReactionReceived", (data) => {
-    console.log("Reaction received:", data);
-    msgSound.play();
-  });
+ connection.on("MessageReactionReceived", (data) => {
+    messageSound.play();
+  console.log("Reaction received:", data);
 
+  const msgDiv = document.querySelector(`[data-id="${data.messageId}"]`);
+  if (!msgDiv) return;
+
+  const bubble = msgDiv.querySelector(".message-bubble");
+  if (!bubble) return;
+
+  let reactionsContainer = bubble.querySelector(".reactions-container");
+  if (!reactionsContainer) {
+    reactionsContainer = document.createElement("div");
+    reactionsContainer.className = "reactions-container flex space-x-1 mt-1 text-sm";
+    bubble.appendChild(reactionsContainer);
+  }
+
+
+  const oldReaction = reactionsContainer.querySelector(`[data-user-id="${data.userId}"]`);
+  if (oldReaction) {
+    if (oldReaction.dataset.emoji === data.emoji) return;
+
+    oldReaction.textContent = data.emoji;
+    oldReaction.dataset.emoji = data.emoji;
+    return;
+  }
+
+  
+  const emojiEl = document.createElement("span");
+  emojiEl.dataset.emoji = data.emoji;
+  emojiEl.dataset.userId = data.userId;
+  emojiEl.className = "bg-gray-200 rounded-full px-1";
+  emojiEl.textContent = data.emoji;
+  emojiEl.style.cursor = "pointer";
+  emojiEl.title = data.userId == getCurrentUserId() ? "You" : "Customer Service Officer";
+
+  reactionsContainer.appendChild(emojiEl);
+});
   async function startConnection() {
     try {
       await connection.start();
@@ -688,7 +721,7 @@ sendBtn.addEventListener("click", async () => {
 async function markAsRead(messageId) {
   try {
     await fetch(`${apiBaseUrl}/ChatMessages/${messageId}/read`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`,
         "Content-Type": "application/json"

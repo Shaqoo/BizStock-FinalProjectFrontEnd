@@ -94,7 +94,7 @@ const fileInput = document.getElementById("profilePicInput");
     }
 
     const formData = new FormData();
-    formData.append("profilePicture", file);
+    formData.append("file", file);
 
     try {
       const response = await fetch(`${apiBaseUrl}/Users/profile-picture`, {
@@ -112,12 +112,15 @@ const fileInput = document.getElementById("profilePicInput");
           text: "Profile picture updated successfully.",
         });
         fileInput.value = "";
+        previewContainer.classList.add("hidden");
       } else {
         Swal.fire({
           icon: "error",
           title: "Upload Failed",
           text: "Could not upload profile picture. Try again.",
         });
+        fileInput.value = "";
+        previewContainer.classList.add("hidden");
       }
     } catch (err) {
       console.error(err);
@@ -126,5 +129,7 @@ const fileInput = document.getElementById("profilePicInput");
         title: "Error",
         text: "Something went wrong while uploading.",
       });
+      fileInput.value = "";
+      previewContainer.classList.add("hidden");
     }
   });
