@@ -105,7 +105,7 @@ function renderGuestUI() {
 
     <a href="/general/Cart.html" id="cart-icon" class="relative bg-white text-black px-3 py-1 rounded-lg shadow hover:bg-gray-200">
         🛒 Cart
-        <span id="cart-count-mobile" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+        <span id="cart-count-mobile" class="cart-count absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">0</span>
       </a>
   `;
   authSection.innerHTML = guestLinks;

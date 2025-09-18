@@ -48,18 +48,14 @@
     });
     const data = await res.json();
 
-    if (!Array.isArray(data.data.items)) return;
-      if (!data.ok) {
-        productSuggestions.classList.add("hidden");
-        return;
-      }
-      const payload = await res.json();
       const items = data.data.items;
       if (!Array.isArray(items) || items.length === 0) {
         productSuggestions.innerHTML = `<li class="px-3 py-2 text-sm text-gray-500">No results</li>`;
         productSuggestions.classList.remove("hidden");
         return;
       }
+
+      console.log(items);
 
       productSuggestions.innerHTML = items.map(p => `
         <li class="flex items-center gap-3 px-3 py-2 hover:bg-sky-50 cursor-pointer" data-id="${p.id}">

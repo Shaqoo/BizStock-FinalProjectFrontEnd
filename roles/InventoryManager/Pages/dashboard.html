@@ -5,26 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventory Manager Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
 </head>
 <body class="bg-gray-100 flex h-screen">
 
-  <aside class="w-64 bg-white shadow-lg flex flex-col overflow-y-auto">
-    <div class="p-6 text-2xl font-bold border-b">BizStock Inventory</div>
-    <nav class="flex-1 p-4 space-y-2">
-      <a href="#" class="block p-2 rounded hover:bg-gray-200">🏠 Home</a>
-      <a href="#" class="block p-2 rounded hover:bg-gray-200">🏷️ Products</a>
-      <a href="#" class="block p-2 rounded hover:bg-gray-200">🏢 Warehouses</a>
-      <a href="#" class="block p-2 rounded hover:bg-gray-200">🔄 Stock Management</a>
-      <a href="#" class="block p-2 rounded hover:bg-gray-200">🧾 Purchase Orders</a>
-      <a href="#" class="block p-2 rounded hover:bg-gray-200">📊 Reports</a>
-      <a href="#" class="block p-2 rounded hover:bg-gray-200">🔔 Notifications</a>
-      <a href="#" class="block p-2 rounded hover:bg-gray-200">⚙️ Settings</a>
-      <a href="#" class="block p-2 rounded hover:bg-gray-200">🚪 LogOut</a>
-    </nav>
+  <aside id="sidebar" class="w-64 bg-white shadow-lg flex flex-col fixed h-full transition-transform transform -translate-x-full lg:translate-x-0 z-50">
+
   </aside>
 
-  <main class="flex-1 p-6 overflow-y-auto">
-    <header class="flex justify-between items-center mb-6">
+
+  <button id="sidebarToggle" class="lg:hidden fixed top-4 left-4 bg-blue-600 text-white p-2 rounded-md z-50">
+    ☰
+  </button>
+
+  <main class="flex-1 p-6 overflow-y-auto lg:ml-64">
+    <header id="dashboardHeader" class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold">Dashboard</h1>
       <div class="flex items-center space-x-4">
         <span class="text-gray-600">Hello, Manager</span>
@@ -72,6 +67,7 @@
       </table>
     </section>
   </main>
-
+<script src="/roles/InventoryManager/Scripts/dashboard.js"></script>
+<script src="/roles/InventoryManager/Scripts/sidebar.js"></script>
 </body>
 </html>

@@ -153,8 +153,11 @@ async function addToCart(productId) {
   const productImage = document.getElementById('product-image');
   const cartIcon = document.getElementById('cart-icon');
   const cartSound = document.getElementById('cart-sound');
-  const cartCount = document.getElementById('cart-count-desktop');
+  const cartCount = document.getElementsByClassName('cart-count-desktop');
   const cartCount2 = document.getElementById('cart-count-mobile');
+  const cart = document.querySelector('.cart-count');
+  console.log(cartCount)
+  console.log(cartCount2)
 
 
   if (!productImage) {
@@ -209,14 +212,24 @@ flyingImage.addEventListener('transitionend', (function () {
 
       let count = await cartAddition(productId);
       console.log(count);
-
-      if (cartCount) {
+      console.log(cartCount)
+      if (cartCount !== null && cartCount !== undefined && cartCount.length > 0) {
         cartCount.classList.add('cart-count-animate');
         console.log('Incrementing cart count');
+        console.log(count);
         cartCount.textContent = count;
         cartCount2.textContent = count;
         setTimeout(() => {
           cartCount.classList.remove('cart-count-animate');
+        }, 400);
+      }
+      else{
+        cart.classList.add('cart-count-animate');
+        console.log('Incrementing cart count');
+        console.log(count);
+        cart.textContent = count;
+        setTimeout(() => {
+          cart.classList.remove('cart-count-animate');
         }, 400);
       }
     }

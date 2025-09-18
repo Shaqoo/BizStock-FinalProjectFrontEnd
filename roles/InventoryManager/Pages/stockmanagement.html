@@ -38,7 +38,7 @@
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
     
    
-    <div class="flex flex-wrap items-center gap-2">
+<div class="flex flex-wrap items-center gap-2">
   <label class="text-gray-700 font-semibold w-full sm:w-auto">Date Range:</label>
   
   <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
@@ -51,6 +51,7 @@
     </button>
   </div>
 </div>
+
 
     <div class="flex items-center gap-3 relative">
       <button id="dropdownStatusBtn"
@@ -72,6 +73,36 @@
         <li class="status-option px-4 py-2 hover:bg-gray-100 cursor-pointer" data-value="TransferOut">⬅️📦 Transfer Out</li>
       </ul>
     </div>
+<div class="flex gap-6 items-center">
+  <label for="filterWarehouseId" class="font-semibold">Filter By Warehouse</label>
+     <button id="filterWarehouseBtn" 
+          class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 cursor-pointer transition-colors">
+    Filter
+  </button>  
+  <select id="filterWarehouseId" class="border p-2 rounded cursor-pointer">
+  </select>
+</div>
+
+<div></div>
+
+<div class="flex flex-wrap items-center gap-3 mb-4">
+<div class="relative w-full sm:w-auto">
+    <input id="filterProductName" 
+           type="text" 
+           placeholder="Enter Product name"
+           class="border rounded-lg p-2 w-full sm:w-64">
+    <ul id="filterProductSuggestions" 
+        class="absolute bg-white border rounded-lg shadow mt-1 hidden w-full max-h-40 overflow-y-auto z-10"></ul>
+    <input type="text" id="hiddenFilterProductId" class="hidden">
+  </div>
+  <button id="filterProductBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+    Filter by Product
+  </button>
+</div>
+
+<div></div>
+
+    
 
       <div id="movementsTable" class="bg-white rounded-lg p-8 mt-6"></div>
   <div></div>

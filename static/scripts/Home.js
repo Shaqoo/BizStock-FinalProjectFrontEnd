@@ -44,3 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
+document.querySelector('#getStartedBtn2').addEventListener('click',() =>{
+  window.location.href = '/general/Products.htm';
+})
+

@@ -7,13 +7,17 @@ let movementType = "all";
 let startDate = "";
 let endDate = "";
 let totalPages = 1;
+let filterWarehouseId = "";
+let filterProductId = "";
 
 
 
-let fetchByCurrentMode = async () => {
+let fetchByCurrentMode = () => {
     if (currentMode === "all") loadStockMovements();
     else if (currentMode === "filterByDateRange") fetchByDateRange(startDate, endDate);
     else if (currentMode === "filterByMovementType") filterByMovementType(movementType);
+    else if (currentMode === "filterByWarehouse") filterByWarehouse(filterWarehouseId);
+    else if (currentMode === "filterByProduct") filterByProduct(filterProductId);
 }
 
 
@@ -233,24 +237,6 @@ async function renderMovementsTable(data) {
 }
 
 
-const prevBtn = document.getElementById("hasPrevBtn");
-const nextBtn = document.getElementById("hasNextBtn");
-
-if (prevBtn){
-prevBtn.addEventListener("click", () => {
-    if (currentPage > 1) {
-    currentPage--;
-    loadStockMovements();
-    }
-})};
-
-if(nextBtn){
-nextBtn.addEventListener("click", () => {
-    currentPage++;
-    loadStockMovements();
-})};
-
-
     
 const dateFilterBtn = document.getElementById("apply-date-filter");
 
@@ -294,6 +280,91 @@ async function fetchByDateRange(startDate, endDate) {
         isFetching = false;
   }
 }
+
+
+const filterByWarehouseBtn = document.querySelector("#filterWarehouseBtn");
+
+filterByWarehouseBtn.addEventListener("click", async () => {
+  const warehouseId = document.getElementById("filterWarehouseId").value;
+  currentMode = "filterByWarehouse";
+  filterWarehouseId = warehouseId;
+  filterByWarehouse(warehouseId);  
+})
+
+async function filterByWarehouse(warehouseId) {
+  if (!warehouseId) {
+    Swal.fire({ icon: "warning", title: "Missing Warehouse", text: "Please select a warehouse." });
+    return;
+  }
+  if(isFetching) return;
+  isFetching = true;
+  try {
+    const response = await fetch(`${API_BASE}/StockMovements/warehouse/${warehouseId}?Page=${currentPage}&PageSize=${itemsPerPage}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`
+      }
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch stock movements.");
+
+    const data = await response.json();
+
+    
+    renderMovementsTable(data.data.items);
+
+    totalPages = data.data.totalPages;
+    updatePagination();
+    currentMode = "filterByWarehouse";
+
+  } catch (err) {
+    Swal.fire({ icon: "error", title: "Error", text: err.message });
+  }finally{
+    isFetching = false;
+  }
+}
+
+
+const filterByProductBtn = document.querySelector("#filterProductBtn");
+
+filterByProductBtn.addEventListener("click", async () => {
+  const productId = document.getElementById("hiddenFilterProductId").value;
+  currentMode = "filterByProduct";
+  filterProductId = productId;
+  filterByProduct(productId);  
+})
+
+async function filterByProduct(productId) {
+  if (!productId) {
+    Swal.fire({ icon: "warning", title: "Missing Product", text: "Please select a Product." });
+    return;
+  }
+  if(isFetching) return;
+  isFetching = true;
+  try {
+    const response = await fetch(`${API_BASE}/StockMovements/Product/${productId}?Page=${currentPage}&PageSize=${itemsPerPage}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`
+      }
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch stock movements.");
+
+    const data = await response.json();
+
+    
+    renderMovementsTable(data.data.items);
+
+    totalPages = data.data.totalPages;
+    updatePagination();
+  } catch (err) {
+    Swal.fire({ icon: "error", title: "Error", text: err.message });
+  }finally{
+    isFetching = false;
+  }
+}
+ 
 
 
 const dropdownBtn = document.getElementById("dropdownStatusBtn");
@@ -510,6 +581,11 @@ async function loadWarehouses() {
       `<option value="${w.id}">${w.name} (${w.location})</option>`
     ).join("");
 
+    const filterWarehouse = document.getElementById("filterWarehouseId");
+    filterWarehouse.innerHTML = data.data.items.map(w => 
+      `<option value="${w.id}">${w.name} (${w.location})</option>`
+    ).join("");
+
   } catch (err) {
     console.error("Failed to load warehouses", err);
   }
@@ -563,6 +639,54 @@ async function fetchTransferProducts(query) {
 
 productSearchTransfer.addEventListener("input", debounce(e => {
   fetchTransferProducts(e.target.value.trim());
+}, 800)); 
+
+const productDetails = document.querySelector("#filterProductName");
+const filterProductSuggestions = document.querySelector('#filterProductSuggestions');
+const hiddenFilterProductId = document.querySelector('#hiddenFilterProductId');
+
+async function fetchFilterSuggestionProducts(query) {
+  if (query.length < 2) {
+    filterProductSuggestions.classList.add("hidden");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/Products/search?pageNumber=1&pageSize=10&keyword=${encodeURIComponent(query)}`, {
+      headers: { "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}` }
+    });
+    const data = await res.json();
+
+    if (!Array.isArray(data.data.items)) return;
+
+    filterProductSuggestions.innerHTML = data.data.items.map(p => `
+      <li class="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2" 
+          data-id="${p.id}" data-name="${p.name}">
+        <img src="${p.imageUrl || '/placeholder.png'}" alt="${p.name}" class="w-8 h-8 object-cover rounded">
+        <div>
+          <div class="font-medium">${p.name}</div>
+          <div class="text-xs text-gray-500">SKU: ${p.sku} | ${p.category}</div>
+        </div>
+      </li>
+    `).join("");
+
+    filterProductSuggestions.classList.remove("hidden");
+
+    [...filterProductSuggestions.querySelectorAll("li")].forEach(li => {
+      li.addEventListener("click", () => {
+        productDetails.value = li.dataset.name;
+        hiddenFilterProductId.value = li.dataset.id;
+        filterProductSuggestions.classList.add("hidden");
+      });
+    });
+
+  } catch (err) {
+    console.error("Product search error", err);
+  }
+}
+
+productDetails.addEventListener("input", debounce(e => {
+  fetchFilterSuggestionProducts(e.target.value.trim());
 }, 800)); 
 
 

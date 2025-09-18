@@ -62,7 +62,7 @@
           <i data-lucide="message-circle" class="w-6 h-6 text-blue-500"></i>
           <div>
             <p class="text-sm text-gray-500">Open Threads</p>
-            <p class="text-xl font-bold">12</p>
+            <p id="openThreads" class="text-xl font-bold">12</p>
           </div>
         </div>
       </div>
@@ -71,7 +71,7 @@
           <i data-lucide="users" class="w-6 h-6 text-green-500"></i>
           <div>
             <p class="text-sm text-gray-500">Active Customers</p>
-            <p class="text-xl font-bold">245</p>
+            <p id="activeCustomers" class="text-xl font-bold">245</p>
           </div>
         </div>
       </div>
@@ -80,7 +80,7 @@
           <i data-lucide="shopping-cart" class="w-6 h-6 text-yellow-500"></i>
           <div>
             <p class="text-sm text-gray-500">Pending Orders</p>
-            <p class="text-xl font-bold">34</p>
+            <p id="pendingOrders" class="text-xl font-bold">34</p>
           </div>
         </div>
       </div>
@@ -89,14 +89,14 @@
           <i data-lucide="bell" class="w-6 h-6 text-red-500"></i>
           <div>
             <p class="text-sm text-gray-500">Unread Notifications</p>
-            <p class="text-xl font-bold">5</p>
+            <p id="unreadNotifications" class="text-xl font-bold">5</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="bg-white shadow rounded-xl p-6 border-t-4 border-blue-500">
+      <div id="notifications" class="bg-white shadow rounded-xl p-6 border-t-4 border-blue-500">
         <div class="flex items-center gap-3">
           <i data-lucide="bell" class="w-6 h-6 text-blue-500"></i>
           <h2 class="font-semibold">Notifications</h2>
@@ -104,7 +104,7 @@
         <p class="text-sm text-gray-600 mt-2">See alerts and updates from customers.</p>
       </div>
 
-      <div class="bg-white shadow rounded-xl p-6 border-t-4 border-blue-500">
+      <div id="chatthreads" class="bg-white shadow rounded-xl p-6 border-t-4 border-blue-500">
         <div class="flex items-center gap-3">
           <i data-lucide="message-circle" class="w-6 h-6 text-blue-500"></i>
           <h2 class="font-semibold">Chat Threads</h2>
@@ -120,7 +120,7 @@
         <p class="text-sm text-gray-600 mt-2">Look up customer orders by email or ID.</p>
       </div>
 
-      <div class="bg-white shadow rounded-xl p-6 border-t-4 border-blue-500">
+      <div id="customers" class="bg-white shadow rounded-xl p-6 border-t-4 border-blue-500">
         <div class="flex items-center gap-3">
           <i data-lucide="users" class="w-6 h-6 text-blue-500"></i>
           <h2 class="font-semibold">Customers</h2>
