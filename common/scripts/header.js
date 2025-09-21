@@ -411,9 +411,15 @@ let getCartCount = async (isLoggedIn) => {
 
     const cartCountDesktop = document.getElementById('cart-count-desktop');
     const cartCountMobile = document.getElementById('cart-count-mobile');
+    const cart = document.querySelectorAll('.cart-count');
+     
 
-    const totalQty = data?.data?.totalQuantity ?? 0;
 
+    const totalQty = data?.data?.totalQuantity;
+    console.log(cart)
+    if(cart.length > 0){
+      cart.forEach(item => item.textContent = totalQty)
+    }
     if (cartCountDesktop) {
       cartCountDesktop.textContent = totalQty;
     }

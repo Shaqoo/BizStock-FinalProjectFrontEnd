@@ -54,7 +54,7 @@ const inputs = document.querySelectorAll('.mfa-input');
             setTimeout(() => window.location.href = '/roles/CustomerServiceOfficer/Dashboard.html', 2000);
           }
           else{
-            setTimeout(() => window.location.href = '/roles/InventoryManager/dashboard.html', 2000);
+            window.location.href = '/roles/InventoryManager/Pages/dashboard.html';
           }
           setTimeout(() => window.location.href = '/general/Products.htm', 2000);
         } else {

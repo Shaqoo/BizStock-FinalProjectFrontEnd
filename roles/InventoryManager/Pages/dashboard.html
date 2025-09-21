@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventory Manager Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
 </head>
 <body class="bg-gray-100 flex h-screen">
@@ -18,7 +19,10 @@
     ☰
   </button>
 
+  
+  
   <main class="flex-1 p-6 overflow-y-auto lg:ml-64">
+   
     <header id="dashboardHeader" class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold">Dashboard</h1>
       <div class="flex items-center space-x-4">
@@ -27,46 +31,110 @@
       </div>
     </header>
 
-    <section class="bg-white shadow-md rounded-lg p-6">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-semibold">Purchase Orders</h2>
-        <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">+ Create PO</button>
+   
+    <section id="dashboardStats" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    
+    </section>
+
+     
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-lg font-bold mb-4">Purchase Order Status</h2>
+        <canvas id="orderStatusChart" height="200"></canvas>
+         <div class="mt-4 grid grid-cols-2 gap-4 text-center">
+      <div>
+        <p class="text-gray-500">Total Purchase Orders</p>
+        <p class="text-2xl font-bold" id="poTotal">0</p>
       </div>
-      <table class="w-full border-collapse">
-        <thead>
-          <tr class="bg-gray-200 text-left">
-            <th class="p-2">PO #</th>
-            <th class="p-2">Supplier</th>
-            <th class="p-2">Status</th>
-            <th class="p-2">Created On</th>
-            <th class="p-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b hover:bg-gray-50">
-            <td class="p-2">PO-001</td>
-            <td class="p-2">ABC Supplies</td>
-            <td class="p-2"><span class="px-2 py-1 bg-yellow-200 text-yellow-800 rounded">Pending</span></td>
-            <td class="p-2">2025-09-10</td>
-            <td class="p-2 space-x-2">
-              <button class="px-3 py-1 bg-blue-500 text-white rounded">View</button>
-              <button class="px-3 py-1 bg-gray-500 text-white rounded">Edit</button>
-            </td>
-          </tr>
-          <tr class="border-b hover:bg-gray-50">
-            <td class="p-2">PO-002</td>
-            <td class="p-2">XYZ Traders</td>
-            <td class="p-2"><span class="px-2 py-1 bg-green-200 text-green-800 rounded">Received</span></td>
-            <td class="p-2">2025-09-08</td>
-            <td class="p-2 space-x-2">
-              <button class="px-3 py-1 bg-blue-500 text-white rounded">View</button>
-              <button class="px-3 py-1 bg-gray-500 text-white rounded">Edit</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div>
+        <p class="text-gray-500">TotaL Amount Spent</p>
+        <p class="text-2xl font-bold text-green-600" id="poSpend">$0</p>
+      </div>
+    </div>
+      </div>
+
+      
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-lg font-bold mb-4">Top Selling Products</h2>
+        <canvas id="topProductsChart" height="200"></canvas>
+         <h2 class="text-xl font-semibold mb-4">Products</h2>
+    <canvas id="productChart"></canvas>
+    <div class="mt-4 grid grid-cols-2 gap-4 text-center">
+      <div>
+        <p class="text-gray-500">Total</p>
+        <p class="text-2xl font-bold" id="productTotal">0</p>
+      </div>
+      <div>
+        <p class="text-gray-500">Stock Value</p>
+        <p class="text-2xl font-bold text-blue-600" id="stockValue">$0</p>
+      </div>
+    </div>
+      </div>
+    </section>
+
+     
+   <section class="bg-white p-6 rounded-lg shadow-md">
+  <h2 class="text-lg font-bold mb-4">Low Stock Alerts</h2>
+  <ul id="lowStockProducts" class="divide-y divide-gray-200">
+    
+    <li class="py-2 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="/static/images/Favicon.jpg" alt="Product A" class="w-10 h-10 rounded object-cover" />
+        <span>Product A</span>
+      </div>
+      <span class="text-red-600 font-semibold">3 left</span>
+    </li>
+
+    <li class="py-2 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="path/to/product-b.jpg" alt="Product B" class="w-10 h-10 rounded object-cover" />
+        <span>Product B</span>
+      </div>
+      <span class="text-red-600 font-semibold">5 left</span>
+    </li>
+
+    <li class="py-2 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="path/to/product-c.jpg" alt="Product C" class="w-10 h-10 rounded object-cover" />
+        <span>Product C</span>
+      </div>
+      <span class="text-red-600 font-semibold">2 left</span>
+    </li>
+
+  </ul>
+</section>
+
+
+     <section class="bg-white p-6 rounded-lg shadow-md mt-4">
+      <h2 class="text-lg font-bold mb-4">Recent Activity</h2>
+      <ul id="activity-list" class="space-y-4">
+        <li class="flex items-start">
+          <span class="w-3 h-3 mt-2 rounded-full bg-blue-500"></span>
+          <p class="ml-3 text-gray-700"><strong>Purchase Order #PO-1245</strong> confirmed with Supplier A.</p>
+          <span class="ml-auto text-sm text-gray-400">2h ago</span>
+        </li>
+        <li class="flex items-start">
+          <span class="w-3 h-3 mt-2 rounded-full bg-green-500"></span>
+          <p class="ml-3 text-gray-700"><strong>Product B</strong> stock updated to 120 units.</p>
+          <span class="ml-auto text-sm text-gray-400">5h ago</span>
+        </li>
+        <li class="flex items-start">
+          <span class="w-3 h-3 mt-2 rounded-full bg-red-500"></span>
+          <p class="ml-3 text-gray-700"><strong>Product C</strong> is now below minimum stock level.</p>
+          <span class="ml-auto text-sm text-gray-400">1d ago</span>
+        </li>
+        <li class="flex items-start">
+          <span class="w-3 h-3 mt-2 rounded-full bg-yellow-500"></span>
+          <p class="ml-3 text-gray-700"><strong>Supplier X</strong> delivered 200 units of Product D.</p>
+          <span class="ml-auto text-sm text-gray-400">2d ago</span>
+        </li>
+      </ul>
     </section>
   </main>
+
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
 <script src="/roles/InventoryManager/Scripts/dashboard.js"></script>
 <script src="/roles/InventoryManager/Scripts/sidebar.js"></script>
 </body>

@@ -10,6 +10,7 @@ let totalPages = "";
 
 
 async function renderCart() {
+  console.log("Rendering cart...");
   const cartContainer = document.getElementById("cart-items");
 
   const paginatedItems = await getCart(currentPage,itemsPerPage);
@@ -42,8 +43,11 @@ if (paginatedItems.items.items.length === 0) {
       onclick="updateQuantity('${item.productId}')">+</button>
   </div>
 
-  <button class="ml-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-    onclick="removeProduct('${item.cartId}', '${item.productId}')">Remove</button>
+<button class="ml-4 text-red-500 hover:text-red-700"
+        onclick="removeProduct('${item.cartId}', '${item.productId}')"
+        title="Remove item">
+  <i class="fas fa-trash-alt"></i>
+</button>
 `);
 
   });
@@ -57,12 +61,10 @@ if (paginatedItems.items.items.length === 0) {
 
 function updateQuantity(id) {
   cartAddition(id);
-  renderCart();
 }
 
 function decreaseQuantity(id,cartId) {
   decreaseItem(id,cartId);
-  renderCart();
 }
 
 function removeProduct(cartId,id) {
@@ -149,15 +151,26 @@ async function cartAddition(productId) {
 
     const data = await res.json();
     console.log(data);
+    console.log(cartCount)
+    console.log(cartCount2)
     if(cartCount){
       cartCount.innerText = data.data.totalQuantity;
     }
     if(cartCount2){
       cartCount2.innerText = data.data.totalQuantity;
     }
-    document.getElementById(`${productId}-quantity`).innerText = data.data.totalQuantity;
+    const cart = document.querySelectorAll('.cart-count');
+    console.log(cart)
+     
+    if(cart.length > 0){
+      cart.forEach(item => item.textContent = data.data.totalQuantity)
+    }
     console.log(data.data.totalQuantity)
 
+    const el = document.getElementById(`${productId}-quantity`);
+    let currentQty = parseInt(el.innerText) || 0;
+    let newQty = currentQty + 1;
+    el.innerText = newQty;
     if (data.isSuccess) {
       Swal.fire({
         icon: 'success',
@@ -218,7 +231,18 @@ async function decreaseItem(productId,cartId) {
     if(cartCount2){
       cartCount2.innerText = data.data.totalQuantity;
     }
-    document.getElementById(`${productId}-quantity`).innerText = data.data.totalQuantity;
+    const cart = document.querySelectorAll('.cart-count');
+    console.log(cart)
+     
+    if(cart.length > 0){
+      cart.forEach(item => item.textContent = data.data.totalQuantity)
+    }
+    const el = document.getElementById(`${productId}-quantity`);
+    let currentQty = parseInt(el.innerText) || 0;
+    let newQty = currentQty - 1;
+
+    el.innerText = newQty < 0 ? 0 : newQty;
+
 
 
      if (data.isSuccess) {

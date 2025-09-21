@@ -219,9 +219,16 @@ flyingImage.addEventListener('transitionend', (function () {
         console.log(count);
         cartCount.textContent = count;
         cartCount2.textContent = count;
+      
         setTimeout(() => {
           cartCount.classList.remove('cart-count-animate');
         }, 400);
+      }
+      const cart = document.querySelectorAll('.cart-count');
+      console.log(cart)
+      
+      if(cart.length > 0){
+        cart.forEach(item => item.textContent = count)
       }
       else{
         cart.classList.add('cart-count-animate');

@@ -12,12 +12,20 @@
 <body class="bg-gradient-to-r from-blue-100 to-blue-200 flex items-center justify-center min-h-screen">
 
 <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-lg">
-  <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Register as Customer</h2>
+  <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Customer Registration</h2>
+ <img src="/static/images/Favicon.jpg" alt="Logo" class="mb-4 ml-48 w-14 h-14">
+
   
   <form id="registerForm" class="space-y-6">
     
     <div class="form-step">
-      <h3 class="text-xl font-semibold mb-4 text-gray-700">Personal Info</h3>
+      <h3 class="text-xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M10 2a5 5 0 00-3.47 8.53A7 7 0 003 17h14a7 7 0 00-3.53-6.47A5 5 0 0010 2z" />
+      </svg>
+      Personal Info
+    </h3>
+
       <div class="relative mb-4">
         <input type="text" name="firstName" placeholder=" " required 
                class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -49,7 +57,13 @@
     </div>
 
     <div class="form-step hidden">
-      <h3 class="text-xl font-semibold mb-4 text-gray-700">Security Info</h3>
+      <h3 class="text-xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" d="M12 1.5a4.5 4.5 0 00-4.5 4.5v3H7a2 2 0 00-2 2v9a2 2 0 002 2h10a2 2 0 002-2v-9a2 2 0 00-2-2h-.5v-3A4.5 4.5 0 0012 1.5zm-3 4.5a3 3 0 116 0v3h-6v-3zm3 5.75a.75.75 0 01.75.75v2a.75.75 0 01-1.5 0v-2A.75.75 0 0112 11.75z" clip-rule="evenodd" />
+      </svg>
+      Security Info
+    </h3>
+
 
       <div class="relative mb-4">
         <input id="password" type="password" name="password" placeholder=" " required 
@@ -58,9 +72,14 @@
          <div id="strengthBar" class="h-2 rounded mt-1 transition-all"></div>
          <p id="strengthText" class="text-sm font-medium mt-1"></p>
         <label class="floating-label">Password</label>
-        <button type="button" class="absolute right-3 top-3 toggle-password">
-          👁️
-        </button>
+        <button type="button" class="absolute right-3 top-3 toggle-password text-gray-600 hover:text-gray-800">
+   
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.478 0-8.268-2.943-9.542-7z" />
+    </svg>
+  </button>
         <p class="text-red-500 text-sm mt-1 hidden"></p>
       </div>
 
@@ -69,7 +88,11 @@
                class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
         <label class="floating-label">Confirm Password</label>
         <button type="button" class="absolute right-3 top-3 toggle-password">
-          👁️
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.478 0-8.268-2.943-9.542-7z" />
+    </svg>
         </button>
         <div id="matchBar" class="h-2 rounded mt-1 transition-all"></div>
         <p id="matchStatus" class="text-red-500 text-sm mt-1 hidden"></p>
@@ -88,7 +111,13 @@
     </div>
 
     <div class="form-step hidden">
-      <h3 class="text-xl font-semibold mb-4 text-gray-700">Additional Info</h3>
+     <h3 class="text-xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zM9 9a1 1 0 112 0v4a1 1 0 11-2 0V9zm0-4a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
+    </svg>
+    Additional Info
+  </h3>
+
       <div class="relative mb-4">
         <input type="text" name="address" placeholder=" " 
                class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
