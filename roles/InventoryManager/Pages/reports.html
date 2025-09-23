@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Reports</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex">
+
+    <aside id="sidebar" class="w-64 bg-white shadow-lg flex flex-col fixed h-full transition-transform transform -translate-x-full lg:translate-x-0 z-50">
+
+  </aside>
+
+
+  <button id="sidebarToggle" class="lg:hidden fixed top-4 left-4 bg-blue-600 text-white p-2 rounded-md z-50">
+    ☰
+  </button>
+  
+
+  <main class="flex-1 lg:ml-64 p-6 space-y-6">
+    <header class="flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Reports</h1>
+      <span class="text-gray-600">Hello, Manager 👋</span>
+    </header>
+
+   
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white shadow rounded-lg p-4 text-center">
+        <p class="text-gray-500">Total POs</p>
+        <h2 id="totalPOs" class="text-2xl font-bold">0</h2>
+      </div>
+      <div class="bg-white shadow rounded-lg p-4 text-center">
+        <p class="text-gray-500">Total Spend</p>
+        <h2 id="totalSpend" class="text-2xl font-bold">$0</h2>
+      </div>
+      <div class="bg-white shadow rounded-lg p-4 text-center">
+        <p class="text-gray-500">Stock Value</p>
+        <h2 id="stockValue" class="text-2xl font-bold">$0</h2>
+      </div>
+      <div class="bg-white shadow rounded-lg p-4 text-center">
+        <p class="text-gray-500">Active Products</p>
+        <h2 id="activeProducts" class="text-2xl font-bold">0</h2>
+      </div>
+    </section>
+
+ 
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="bg-white shadow rounded-lg p-4">
+        <h3 class="font-semibold mb-4">Purchase Order Status</h3>
+        <canvas id="poStatusChart" height="200"></canvas>
+      </div>
+
+      <div class="bg-white shadow rounded-lg p-4">
+         <div>
+      <select id="trendFilter" class="border rounded-lg px-3 py-2 text-gray-700">
+        <option value="daily">Daily</option>
+        <option value="weekly" selected>Weekly</option>
+        <option value="monthly">Monthly</option>
+      </select>
+    </div>
+        <h3 class="font-semibold mb-4">Purchase Orders Trend</h3>
+        <canvas id="poTrendChart" height="200"></canvas>
+      </div>
+
+      <div class="bg-white shadow rounded-lg p-4">
+        <h3 class="font-semibold mb-4">Top Suppliers</h3>
+        <canvas id="topSuppliersChart" height="200"></canvas>
+      </div>
+
+      <div class="bg-white shadow rounded-lg p-4">
+        <h3 class="font-semibold mb-4">Product Stock Health</h3>
+        <canvas id="productStockChart" height="200"></canvas>
+      </div>
+
+       <div class="bg-white shadow rounded-lg p-6">
+      <h3 class="font-semibold mb-4 text-lg text-gray-700">Stock Movement Breakdown</h3>
+      <div id="stockMovementChart" style="width:100%; height:400px;"></div>
+    </div>
+
+<div class="bg-white shadow rounded-lg p-4">
+  <div class="flex justify-between items-center mb-4">
+    <h3 class="font-semibold">Stock Movement Trend</h3>
+    <div class="flex space-x-2">
+      <select id="trendRange" class="border rounded p-1 text-sm">
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+      </select>
+      <button id="toggleChartType" class="border rounded px-2 py-1 text-sm bg-gray-100 hover:bg-gray-200">
+        Switch to Line
+      </button>
+    </div>
+  </div>
+
+   
+  <div id="categoryToggles" class="flex flex-wrap gap-3 mb-4 text-sm">
+    <label><input type="checkbox" value="Inbound" checked /> Inbound</label>
+    <label><input type="checkbox" value="Outbound" checked /> Outbound</label>
+    <label><input type="checkbox" value="AdjustmentIn" checked /> Adjustment In</label>
+    <label><input type="checkbox" value="AdjustmentOut" checked /> Adjustment Out</label>
+    <label><input type="checkbox" value="TransferIn" checked /> Transfer In</label>
+    <label><input type="checkbox" value="TransferOut" checked /> Transfer Out</label>
+  </div>
+
+  <canvas id="stockTrendChart" height="300"></canvas>
+</div>
+
+    </section>
+  </main>
+
+ 
+<script src="/roles/InventoryManager/Scripts/reports.js"></script>
+<script src="/roles/InventoryManager/Scripts/sidebar.js"></script>
+</body>
+</html>

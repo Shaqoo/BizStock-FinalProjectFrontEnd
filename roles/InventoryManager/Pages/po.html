@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventory Manager - Purchase Orders</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/roles/InventoryManager/Styles/po.css">
 </head>
 <body class="bg-gray-100 flex h-screen">
 
@@ -23,6 +26,7 @@
     
     <header id="dashboardHeader" class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold">Purchase Orders</h1>
+      
       <div class="flex items-center space-x-4">
         <span class="text-gray-600">Hello, Manager</span>
         <img src="/" class="w-10 h-10 rounded-full border" alt="profile">
@@ -31,15 +35,13 @@
 
    
     <section class="bg-white shadow-md rounded-lg p-6 mb-6">
-      <form id="filterForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div id="filterForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
         
         
         <div>
           <label class="block text-sm font-medium mb-1">Supplier</label>
           <select id="supplierFilter" class="w-full border rounded-md p-2">
-            <option value="">All</option>
-            <option value="supplier1">Supplier 1</option>
-            <option value="supplier2">Supplier 2</option>
+            <option value="all">All</option>
           </select>
         </div>
         
@@ -47,11 +49,13 @@
         <div>
           <label class="block text-sm font-medium mb-1">Status</label>
           <select id="statusFilter" class="w-full border rounded-md p-2">
-            <option value="">All</option>
+            <option value="all">All</option>
             <option value="Draft">Draft</option>
             <option value="Confirmed">Confirmed</option>
             <option value="Received">Received</option>
+            <option value="PartiallyReceived">Partially Received</option>
             <option value="Cancelled">Cancelled</option>
+            <option value="Rejected">Rejected</option>
           </select>
         </div>
 
@@ -67,15 +71,20 @@
 
          
         <div class="md:col-span-4 flex justify-end">
-          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+          <button id="applyFilters" type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
             Apply Filters
           </button>
         </div>
-      </form>
+      </div>
     </section>
 
    
     <section class="bg-white shadow-md rounded-lg p-6">
+      <div id="loadingOverlay" style="display: none;">
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
+  </div>
+</div>
       <table id="purchaseOrdersTable" class="w-full border-collapse">
         <thead>
           <tr class="bg-gray-50">

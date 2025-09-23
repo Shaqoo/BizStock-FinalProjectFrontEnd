@@ -14,10 +14,10 @@ window.onload = () => {
       <a href="/roles/InventoryManager/Pages/stockmanagement.html" title="Stock Management" class="block p-2 rounded hover:bg-gray-200 flex items-center space-x-2">
         <span>🔄</span><span>Stock Management</span>
       </a>
-      <a href="#" title="Purchase Orders" class="block p-2 rounded hover:bg-gray-200 flex items-center space-x-2">
+      <a href="/roles/InventoryManager/Pages/po.html" title="Purchase Orders" class="block p-2 rounded hover:bg-gray-200 flex items-center space-x-2">
         <span>🧾</span><span>Purchase Orders</span>
       </a>
-      <a href="#" title="Reports" class="block p-2 rounded hover:bg-gray-200 flex items-center space-x-2">
+      <a href="/roles/InventoryManager/Pages/reports.html" title="Reports" class="block p-2 rounded hover:bg-gray-200 flex items-center space-x-2">
         <span>📊</span><span>Reports</span>
       </a>
       <a href="/roles/InventoryManager/Pages/notifications.html" title="Notifications" class="block p-2 rounded hover:bg-gray-200 flex items-center space-x-2">

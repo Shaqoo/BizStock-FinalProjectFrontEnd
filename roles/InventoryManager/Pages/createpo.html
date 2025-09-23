@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Purchase Order</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+
+  <header class="sticky top-0 bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">➕ Create Purchase Order</h1>
+    <span class="text-gray-600">BizStock Manager</span>
+  </header>
+
+
+  <main class="flex-1 p-6">
+    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
+      <form id="createPOForm" class="space-y-6">
+
+        
+        <div>
+          <label class="block font-medium mb-1">Supplier</label>
+          <select id="supplierId" class="w-full border rounded p-2" required>
+            <option value="">-- Select Supplier --</option>
+            <option value="guid-1">Supplier A</option>
+            <option value="guid-2">Supplier B</option>
+          </select>
+        </div>
+
+        
+        <div>
+          <label class="block font-medium mb-1">Expected Delivery Date</label>
+          <input type="date" id="expectedDeliveryDate" class="w-full border rounded p-2" />
+        </div>
+
+       
+        <div>
+          <label class="block font-medium mb-1">Notes</label>
+          <textarea id="notes" class="w-full border rounded p-2"></textarea>
+        </div>
+
+       <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-medium mb-1">Discount (%)</label>
+            <input type="number" step="0.01" id="discount" class="w-full border rounded p-2" value="0" />
+          </div>
+          <div>
+            <label class="block font-medium mb-1">Tax (%)</label>
+            <input type="number" step="0.01" id="tax" class="w-full border rounded p-2" value="0" />
+          </div>
+        </div>
+
+       
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Items</h3>
+          <div id="itemsContainer" class="space-y-2"></div>
+          <ul id="productSuggestions" class="absolute bg-white shadow-lg border rounded w-full max-w-md hidden z-50"></ul>
+
+          <button type="button" onclick="addItemRow()" class="mt-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+            ➕ Add Item
+          </button>
+        </div>
+
+       
+        <div class="text-right font-bold text-lg">
+          Total Amount: <span id="totalAmount">$0.00</span>
+        </div>
+
+       
+        <div class="text-right">
+          <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+            ✅ Create PO
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+ 
+  <footer class="bg-white shadow p-4 text-center text-gray-600 text-sm">
+    © 2025 BizStock — Inventory Management
+  </footer>
+<script src="/roles/InventoryManager/Scripts/createpo.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purchase Order Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+</head>
+<body class="bg-gray-100 p-6">
+
+  <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-2xl font-bold mb-4">Purchase Order Details</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div><strong>PO Number:</strong> <span id="poNumber"></span></div>
+      <div><strong>Supplier:</strong> <span id="supplierName"></span></div>
+      <div><strong>Status:</strong> <span id="status" class="px-2 py-1 rounded text-sm"></span></div>
+      <div><strong>Created At:</strong> <span id="createdAt"></span></div>
+      <div><strong>Approved At:</strong> <span id="approvedAt"></span></div>
+      <div><strong>Approved By:</strong> <span id="approvedBy"></span></div>
+      <div class="col-span-2"><strong>Total Amount:</strong> <span id="totalAmount" class="font-bold text-lg"></span></div>
+    </div>
+
+
+    <h2 class="text-xl font-semibold mb-2">Items</h2>
+    <table class="w-full border-collapse">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="p-3 border text-left">Image</th>
+          <th class="p-3 border text-left">Product</th>
+          <th class="p-3 border text-left">Ordered Qty</th>
+          <th class="p-3 border text-left">Received Qty</th>
+          <th class="p-3 border text-left">Unit Price</th>
+          <th class="p-3 border text-left">Line Total</th>
+          <th class="p-3 border text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="poItemsBody"></tbody>
+    </table>
+
+
+<div id="addItemModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" onclick="closeAddItemModal(event)">
+
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative" onclick="event.stopPropagation()">
+    <h2 class="text-xl font-semibold mb-4">Add Item</h2>
+
+     
+    <form id="addItemForm" class="flex flex-col gap-4">
+     
+      <div>
+        <label class="font-semibold">Product</label>
+        <input id="productSearch" placeholder="Search product..." class="border p-2 rounded w-full">
+        <ul id="productSuggestions" 
+            class="absolute z-10 bg-white border rounded shadow mt-1 hidden max-h-48 overflow-y-auto w-full"></ul>
+        <input type="hidden" id="productId">
+        <input type="hidden" id="productName">
+      </div>
+
+    
+      <div>
+        <label class="font-semibold">Ordered Quantity</label>
+        <input type="number" id="orderedQty" placeholder="Ordered Quantity" class="border p-2 rounded w-full" required>
+      </div>
+
+      
+      <div>
+        <label class="font-semibold">Unit Price</label>
+        <input type="number" id="unitPrice" placeholder="Unit Price" class="border p-2 rounded w-full" required>
+      </div>
+
+     
+      <div id="btns" class="flex justify-end gap-2">
+        
+    <button type="button" onclick="hideAddItemModal()" class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded flex items-center space-x-2">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+      <span>Cancel</span>
+    </button>
+
+   
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center space-x-2">
+       
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      <span>Add Item</span>
+    </button>
+
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="receiveModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white w-full max-w-2xl p-6 rounded shadow-lg">
+    <h2 class="text-xl font-bold mb-4">Receive Items for PO <span id="receivePONumber"></span></h2>
+    
+    <form id="receiveForm">
+      <div id="receiveItemsContainer" class="space-y-3"></div>
+      
+      <div class="mt-6 flex justify-end space-x-2">
+        <button type="button" onclick="closeReceiveModal()" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">✖ Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">✅ Confirm Receive</button>
+      </div>
+    </form>
+  </div>
+</div>
+    
+    <div id="statusActions" class="flex space-x-4 mt-6"></div>
+  </div>
+
+<script src="/roles/InventoryManager/Scripts/po-details.js"></script>
+</body>
+</html>

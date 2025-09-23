@@ -163,6 +163,7 @@ form.addEventListener('submit', async (e) => {
         buttonWrapper.innerHTML = `
           <button id="loginBtn" type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 active:bg-blue-800 transition">Login</button>
         `;
+        console.log(result);
         if(result.message?.includes('CAPTCHA validation failed.')){
             captchaWrap.classList.remove('hidden');
             if(window.grecaptcha) grecaptcha.reset(); 
@@ -242,6 +243,10 @@ form.addEventListener('submit', async (e) => {
     console.log(error);
     captchaWrap.classList.add('hidden');
     Swal.fire({ icon: 'error', title: 'Login Failed', text: 'Something went wrong. Please try again.' });
+     captchaWrap.classList.remove('hidden');
+            if(window.grecaptcha) grecaptcha.reset(); 
+            formError.textContent = 'Captcha failed. Please complete the captcha and try again.';
+            formError.classList.remove('hidden');
 }
 });
  

@@ -73,6 +73,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     confirmed: 45,
     received: 30,
     cancelled: 8,
+    partiallyReceived: 15,
+    rejected: 5,
     totalSpent: 10000,
     totalOrders: 50,
     outStandingAmount: 50000
@@ -99,16 +101,48 @@ function load()
       </div>`
 
    
-    new Chart(document.getElementById("orderStatusChart"), {
-      type: "doughnut",
-      data: {
-        labels: ["Draft", "Confirmed", "Received", "Cancelled"],
-        datasets: [{
-          data: [orderStats.draft, orderStats.confirmed, orderStats.received, orderStats.cancelled],
-          backgroundColor: ["#fbbf24", "#3b82f6", "#10b981", "#ef4444"],
-        }]
+   new Chart(document.getElementById("orderStatusChart"), {
+  type: "doughnut",
+  data: {
+    labels: ["Draft", "Confirmed", "Partially Received", "Received", "Rejected", "Cancelled"],
+    datasets: [{
+      data: [
+        orderStats.draft,
+        orderStats.confirmed,
+        orderStats.partiallyReceived,
+        orderStats.received,
+        orderStats.rejected,
+        orderStats.cancelled
+      ],
+      backgroundColor: [
+        "#fbbf24",  
+        "#3b82f6", 
+        "#a855f7", 
+        "#10b981", 
+        "#f97316", 
+        "#ef4444"  
+      ],
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top'
+      },
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem) {
+            const value = tooltipItem.raw;
+            const label = tooltipItem.label;
+            return `${label}: ${value}`;
+          }
+        }
       }
-    });
+    }
+  }
+});
+
 
     
     new Chart(document.getElementById("topProductsChart"), {
@@ -184,6 +218,8 @@ let loadOrderStats = async () => {
     orderStats.confirmed = data.data.confirmedCount;
     orderStats.received = data.data.receivedCount;
     orderStats.cancelled = data.data.cancelledCount;
+    orderStats.partiallyReceived = data.data.partiallyReceivedCount;
+    orderStats.rejected = data.data.rejectedCount;
     orderStats.totalSpent = data.data.totalSpend;
     orderStats.totalOrders = data.data.totalPurchaseOrders;
     orderStats.outStandingAmount = data.data.outstandingAmount;
