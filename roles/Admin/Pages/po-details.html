@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purchase Order Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+</head>
+<body class="bg-gray-100 p-6">
+
+  <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-2xl font-bold mb-4">Purchase Order Details</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div><strong>PO Number:</strong> <span id="poNumber"></span></div>
+      <div><strong>Supplier:</strong> <span id="supplierName"></span></div>
+      <div><strong>Status:</strong> <span id="status" class="px-2 py-1 rounded text-sm"></span></div>
+      <div><strong>Created At:</strong> <span id="createdAt"></span></div>
+      <div><strong>Approved At:</strong> <span id="approvedAt"></span></div>
+      <div><strong>Approved By:</strong> <span id="approvedBy"></span></div>
+      <div class="col-span-2"><strong>Total Amount:</strong> <span id="totalAmount" class="font-bold text-lg"></span></div>
+    </div>
+
+
+    <h2 class="text-xl font-semibold mb-2">Items</h2>
+    <table class="w-full border-collapse">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="p-3 border text-left">Image</th>
+          <th class="p-3 border text-left">Product</th>
+          <th class="p-3 border text-left">Ordered Qty</th>
+          <th class="p-3 border text-left">Received Qty</th>
+          <th class="p-3 border text-left">Unit Price</th>
+          <th class="p-3 border text-left">Line Total</th>
+        </tr>
+      </thead>
+      <tbody id="poItemsBody"></tbody>
+    </table>
+</div>
+
+<script src="/roles/Admin/Scripts/po-details.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Manager - Purchase Orders</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/roles/InventoryManager/Styles/po.css">
+  <link rel="stylesheet" href="/roles/Admin/Styles/dashboard.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex h-screen overflow-hidden">
+
+<aside id="sidebar" class="bg-gray-900 overflow-y-auto scrollbar-hide overflow-x-hidden text-white w-64 flex-shrink-0 transition-transform duration-300 md:translate-x-0 -translate-x-full fixed md:relative z-50 h-full">
+    
+  </aside>
+
+  <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40" onclick="toggleSidebar()"></div>
+
+<div class="flex-1 overflow-x-auto flex flex-col">
+  <main class="flex-1 p-6 overflow-y-auto w-full">
+       <button class="md:hidden text-gray-600" onclick="toggleSidebar()">
+        <span class="material-icons">menu</span>
+      </button>
+    <header id="dashboardHeader" class="flex justify-between items-center mb-6">
+      
+      <h1 class="text-2xl font-bold">Purchase Orders</h1>
+      
+      <div class="flex items-center space-x-4">
+        <span class="text-gray-600">Hello, Manager</span>
+        <img src="/" class="w-10 h-10 rounded-full border" alt="profile">
+      </div>
+    </header>
+
+   
+    <section class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <div id="filterForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        
+        
+        <div>
+          <label class="block text-sm font-medium mb-1">Supplier</label>
+          <select id="supplierFilter" class="w-full border rounded-md p-2">
+            <option value="all">All</option>
+          </select>
+        </div>
+        
+       
+        <div>
+          <label class="block text-sm font-medium mb-1">Status</label>
+          <select id="statusFilter" class="w-full border rounded-md p-2">
+            <option value="all">All</option>
+            <option value="Draft">Draft</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Received">Received</option>
+            <option value="PartiallyReceived">Partially Received</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+
+         
+        <div>
+          <label class="block text-sm font-medium mb-1">Start Date</label>
+          <input type="date" id="startDateFilter" class="w-full border rounded-md p-2">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">End Date</label>
+          <input type="date" id="endDateFilter" class="w-full border rounded-md p-2">
+        </div>
+
+         
+        <div class="md:col-span-4 flex justify-end">
+          <button id="applyFilters" type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+            Apply Filters
+          </button>
+        </div>
+      </div>
+    </section>
+
+   
+    <section class="bg-white shadow-md rounded-lg p-6">
+      <div id="loadingOverlay" style="display: none;">
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
+  </div>
+</div>
+      <table id="purchaseOrdersTable" class="w-full border-collapse">
+        <thead>
+          <tr class="bg-gray-50">
+            <th class="p-3 border text-left">Po-Number</th>
+            <th class="p-3 border text-left">Supplier</th>
+            <th class="p-3 border text-left">Total Cost</th>
+            <th class="p-3 border text-left">Status</th>
+            <th class="p-3 border text-left">Created</th>
+          </tr>
+        </thead>
+        <tbody id="po-body"></tbody>
+      </table>
+
+     
+      <div class="flex justify-center mt-4 space-x-2">
+        <button id="prevPage" class="px-4 py-2 bg-blue-600 text-white rounded-md disabled:bg-gray-300">Prev</button>
+        <span id="pageInfo" class="px-2"></span>
+        <button id="nextPage" class="px-4 py-2 bg-blue-600 text-white rounded-md disabled:bg-gray-300">Next</button>
+      </div>
+       <div class="flex justify-end mt-6 space-x-3 items-center">
+  <h3 class="text-lg font-semibold text-gray-800 mr-4">📁 Export Purchase Orders</h3>
+
+  <button title="Download as CSV"
+      onclick="exportTableToCSV('purchase_orders.csv')" 
+      class="flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">
+      CSV
+  </button>
+
+  <button title="Download as Excel"
+      onclick="exportTableToExcel('purchase_orders.xlsx')" 
+      class="flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+      Excel
+  </button>
+
+  <button title="Download as PDF"
+      onclick="exportTableToPDF('purchase_orders.pdf')" 
+      class="flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+      PDF
+  </button>
+</div>
+    </section>
+   
+  </main>
+</div>
+
+<script src="/roles/Admin/Scripts/sidebar.js"></script>
+<script src="/roles/Admin/Scripts/po.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</body>
+</html>

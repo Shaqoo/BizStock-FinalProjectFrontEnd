@@ -13,9 +13,19 @@ async function renderCart() {
   console.log("Rendering cart...");
   const cartContainer = document.getElementById("cart-items");
 
-  const paginatedItems = await getCart(currentPage,itemsPerPage);
+  const paginatedItems = await getCart(currentPage,itemsPerPage) ?? [];
+  console.log(paginatedItems);
 
  cartContainer.innerHTML = ""; 
+ if(!paginatedItems || paginatedItems.length === 0){
+    cartContainer.innerHTML = `
+    <div class="text-center py-10 text-gray-500">
+      <p class="text-lg font-medium">🛒 Your cart is empty.</p>
+      <p class="text-sm mt-2">Start adding products to see them here.</p>
+    </div>
+  `;
+  return;
+ }
 if (paginatedItems.items.items.length === 0) {
   cartContainer.innerHTML = `
     <div class="text-center py-10 text-gray-500">

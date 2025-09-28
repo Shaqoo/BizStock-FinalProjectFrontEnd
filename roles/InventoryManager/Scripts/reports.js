@@ -76,14 +76,6 @@ new Chart(document.getElementById("poStatusChart"), {
     }
     });
 
-      new Chart(document.getElementById("poTrendChart"), {
-        type: "line",
-        data: {
-          labels: ["Jan", "Feb", "Mar", "Apr", "May"],
-          datasets: [{ label: "Purchase Orders", data: [10, 20, 30, 25, 40], borderColor: "#3b82f6", fill: false }]
-        }
-      });
-
       new Chart(document.getElementById("topSuppliersChart"), {
         type: "bar",
         data: {
@@ -187,7 +179,8 @@ google.charts.load('current', { 'packages': ['corechart'] });
           title: 'Stock Movement Breakdown',
           is3D: true,
           chartArea: { width: '90%', height: '80%' },
-          legend: { position: 'bottom' }
+          legend: { position: 'bottom' },
+          colors: ['#4CAF50', '#F44336', '#FF9800', '#2196F3', '#9C27B0', '#00BCD4']
         };
 
         const chart = new google.visualization.PieChart(document.getElementById('stockMovementChart'));
@@ -321,4 +314,63 @@ google.charts.load('current', { 'packages': ['corechart'] });
   });
 
   loadStockTrend();
+
+
+ 
+async function loadPoTrendChart() {
+    try {
+      const response = await fetch(`${apiBaseUrl}/PurchaseOrders/trend`,{
+        headers: {
+          "Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`,
+          "Content-Type": "application/json"
+        }
+      });
+      if (!response.ok) throw new Error("Failed to load trend data");
+
+      const trendData = await response.json();
+
+      const ctx = document.getElementById("poTrendChart").getContext("2d");
+
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: trendData.data.labels,
+          datasets: [{
+            label: "Purchase Orders",
+            data: trendData.data.data,
+            borderColor: "#3b82f6",
+            backgroundColor: "#3b82f6",
+            tension: 0.3,
+            fill: false,
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: true },
+            tooltip: { enabled: true }
+          },
+          scales: {
+            x: {
+              title: { display: true, text: "Month" }
+            },
+            y: {
+              title: { display: true, text: "Orders" },
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          }
+        }
+      });
+    } catch (err) {
+      console.error("Chart loading error:", err);
+    }
+  }
+
+
+  loadPoTrendChart();
  

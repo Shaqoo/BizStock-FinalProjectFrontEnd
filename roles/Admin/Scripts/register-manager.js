@@ -27,7 +27,7 @@
   }
   function clearError(input) {
     const errorEl = input.parentElement.querySelector('p');
-     if (errorEl) {
+    if (errorEl) {
     errorEl.textContent = '';
     errorEl.classList.add('hidden');
     }
@@ -54,32 +54,27 @@
 
     if (!pwRegex.test(pw.value)) { showError(pw, 'Password too weak'); valid = false; } else clearError(pw);
     if (pw.value !== cpw.value) { showError(cpw, 'Passwords do not match'); valid = false; } else clearError(cpw);
-    if (!/^\d{4}$/.test(pin.value)) { showError(pin, 'PIN must be 4 digits'); valid = false; } else clearError(pin);
+    //if (!/^\d{4}$/.test(pin.value)) { showError(pin, 'PIN must be 4 digits'); valid = false; } else clearError(pin);
 
     return valid;
   }
 
   function validateStep3() {
-    const type = form.customerType.value;
     let valid = true;
-    if (type === 'Wholesale') {
-      if (!form.businessName.value.trim()) { showError(form.businessName, 'Business name required'); valid = false; } else clearError(form.businessName);
-      if (!form.taxId.value.trim()) { showError(form.taxId, 'Tax ID required'); valid = false; } else clearError(form.taxId);
-    }
-     if (!form.birthDate.value) {
-    showError(form.birthDate, "Date of birth is required");
+    if (!form.dob.value) {
+    showError(form.dob, "Date of birth is required");
     valid = false;
   } else {
-    const dob = new Date(form.birthDate.value);
+    const dob = new Date(form.dob.value);
     const today = new Date();
     const minDate = new Date();
     minDate.setFullYear(today.getFullYear() - 13);
 
     if (dob > minDate) {
-      showError(form.birthDate, "You must be at least 13 years old");
+      showError(form.dob, "You must be at least 13 years old");
       valid = false;
     } else {
-      clearError(form.birthDate);
+      clearError(form.dob);
     }
 }
 
@@ -89,6 +84,7 @@ if (!form.gender.value) {
 } else {
   clearError(form.gender);
 }
+
     return valid;
   }
 
@@ -179,12 +175,11 @@ if (!form.gender.value) {
         </div>
       `;
     const data = Object.fromEntries(new FormData(form).entries());
-    data.pin = parseInt(data.pin);
 
     try {
-      const res = await fetch('https://localhost:7124/api/v1/Customers', {
+      const res = await fetch('https://localhost:7124/api/v1/Managers', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`},
         body: JSON.stringify(data)
       });
       const result = await res.json();
@@ -193,7 +188,7 @@ if (!form.gender.value) {
         loadingMessage.classList.add('hidden');
       }, 3000);
 
-      console.log(result);
+      console.log(result); 
       if (!res.ok) 
         {
 
@@ -268,12 +263,14 @@ ${result.data.recoveryCodes.join('\n')}
   }
 });
 
+
 if (swalResult.isConfirmed) {
   form.reset();
   currentStep = 0;
   showStep(currentStep);
   window.location.href = '/general/verifyemail.html';
 }
+
     } catch (err) {
         Swal.fire({
           icon: 'error',
@@ -289,13 +286,10 @@ if (swalResult.isConfirmed) {
 
   showStep(0);
 
-
-
 const dobInput = document.getElementById("dob");
 const today = new Date();
 const minDate = new Date();
 minDate.setFullYear(today.getFullYear() - 13);
-
 
 const maxDate = minDate.toISOString().split("T")[0];
 dobInput.setAttribute("max", maxDate);

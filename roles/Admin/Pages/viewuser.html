@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View User - Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <div class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-gray-700">User Details</h1>
+    <button onclick="history.back()" 
+      class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow">
+      ← Back
+    </button>
+  </div>
+
+  <div class="max-w-4xl mx-auto bg-white mt-6 p-6 rounded-xl shadow">
+    <div class="flex items-center space-x-6">
+      <img id="profilePic" src="https://via.placeholder.com/100" 
+        class="w-24 h-24 rounded-full border shadow">
+      <div>
+        <h2 id="fullName" class="text-xl font-bold text-gray-800">Loading...</h2>
+        <p id="email" class="text-gray-600">Email: ...</p>
+        <p id="phoneNumber" class="text-gray-600">Phone: ...</p>
+        <p id="role" class="text-gray-600 font-medium">Role: ...</p>
+        <p id="lastLogin" class="text-gray-600">Last Login: ...</p>
+        <p id="emailVerified" class="text-gray-600 font-medium">Email Verified: ...</p>
+        <p id="phoneVerified" class="text-gray-600 font-medium">Phone Verified: ...</p>
+        <p id="gender" class="text-gray-600 font-medium">Gender: ...</p>
+        <p id="dob" class="text-gray-600 font-medium">Date of Birth: ...</p>
+        <p id="twoFactorAuth" class="text-gray-600 font-medium">Two Factor Authentication: ...</p>
+        
+        <p id="status" class="mt-1 inline-block px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-700">Active</p>
+      </div>
+    </div>
+
+    <hr class="my-6">
+
+    <div id="extraDetails" class="space-y-2 hidden">
+      <h3 class="text-lg font-semibold text-gray-700">Additional Details</h3>
+      <div id="detailsContent" class="text-gray-600"></div>
+    </div>
+
+    <div class="mt-6 flex space-x-3">
+      <button id="toggleStatusBtn" 
+        class="px-4 py-2 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-white shadow">
+       Activate User
+      </button>
+
+      <button id="deleteBtn" 
+        class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow">
+        Delete User
+      </button>
+    </div>
+  </div>
+
+<script src="/roles/Admin/Scripts/view-user.js"></script>
+</body>
+</html>

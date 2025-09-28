@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Reports</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+   <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="/roles/Admin/Styles/dashboard.css">
+</head>
+<body class="bg-gray-100 flex h-screen overflow-hidden">
+
+  <aside id="sidebar" class="bg-gray-900 overflow-y-auto scrollbar-hide overflow-x-hidden text-white w-64 flex-shrink-0 transition-transform duration-300 md:translate-x-0 -translate-x-full fixed md:relative z-50 h-full">
+    
+  </aside>
+
+  <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40" onclick="toggleSidebar()"></div>
+
+  <div class="flex-1 flex flex-col">
+    <main class="flex-1 p-6 overflow-y-auto space-y-6 overflow-x-auto">
+      <button class="md:hidden text-gray-600" onclick="toggleSidebar()">
+        <span class="material-icons">menu</span>
+      </button>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+        <div class="bg-white p-4 rounded-xl shadow text-center">
+          <p class="text-gray-500">Total Users</p>
+          <p id="totalUsers" class="text-2xl font-bold">597</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow text-center">
+          <p class="text-gray-500">New Registrations</p>
+          <p class="text-2xl font-bold">42</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow text-center">
+          <p class="text-gray-500">Revenue (This Month)</p>
+          <p class="text-2xl font-bold">$12,500</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow text-center">
+          <p class="text-gray-500">Open Complaints</p>
+          <p class="text-2xl font-bold">0</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white p-4 rounded-xl shadow">
+          <h3 class="font-semibold mb-3">User Growth (Monthly)</h3>
+          <canvas id="userGrowthChart"></canvas>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow">
+          <h3 class="font-semibold mb-3">Revenue Trend</h3>
+          <canvas id="revenueChart"></canvas>
+        </div>
+
+        <div class="bg-white shadow rounded-xl p-4">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-semibold">Stock Movement Trend</h3>
+          <div class="flex space-x-2">
+            <select id="trendRange" class="border rounded p-1 text-sm">
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+            <button id="toggleChartType" class="border rounded px-2 py-1 text-sm bg-gray-100 hover:bg-gray-200">
+              Switch to Line
+            </button>
+          </div>
+        </div>
+
+        
+        <div id="categoryToggles" class="flex flex-wrap gap-3 mb-4 text-sm">
+          <label><input type="checkbox" value="Inbound" checked /> Inbound</label>
+          <label><input type="checkbox" value="Outbound" checked /> Outbound</label>
+          <label><input type="checkbox" value="AdjustmentIn" checked /> Adjustment In</label>
+          <label><input type="checkbox" value="AdjustmentOut" checked /> Adjustment Out</label>
+          <label><input type="checkbox" value="TransferIn" checked /> Transfer In</label>
+          <label><input type="checkbox" value="TransferOut" checked /> Transfer Out</label>
+        </div>
+
+        <canvas id="stockTrendChart" height="300"></canvas>
+      </div>
+
+       <div class="bg-white p-4 rounded-xl shadow">
+      <h3 class="font-semibold mb-3">User Role Distribution</h3>
+      <div id="userTypeChart" style="width:100%; height:400px;"></div>
+    </div>
+
+      </div>
+
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white p-4 rounded-xl shadow">
+          <h3 class="font-semibold mb-3">Complaints Resolution Times (Days)</h3>
+          <canvas id="complaintsChart"></canvas>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow">
+          <h3 class="font-semibold mb-3">Login Heatmap (Weekly)</h3>
+          <canvas id="heatmapChart"></canvas>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl shadow">
+  <h3 class="font-semibold mb-3">Audit Logs</h3>
+  <div class="overflow-x-auto">
+    <table class="min-w-full border text-sm">
+      <thead class="bg-gray-200">
+        <tr>
+          <th class="p-2 border">User</th>
+          <th class="p-2 border">Action</th>
+          <th class="p-2 border">Timestamp</th>
+          <th class="p-2 border">IP</th>
+          <th class="p-2 border">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="p-2 border">john@example.com</td>
+          <td class="p-2 border">Login</td>
+          <td class="p-2 border">2025-09-20 09:15</td>
+          <td class="p-2 border">192.168.1.15</td>
+          <td class="p-2 border text-green-600">Success</td>
+        </tr>
+        <tr>
+          <td class="p-2 border">mary@example.com</td>
+          <td class="p-2 border">Password Reset</td>
+          <td class="p-2 border">2025-09-19 18:42</td>
+          <td class="p-2 border">192.168.1.21</td>
+          <td class="p-2 border text-blue-600">Requested</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+    </main>
+  </div>
+
+<script>
+    new Chart(document.getElementById('revenueChart'), {
+      type: 'bar',
+      data: {
+        labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+        datasets: [{
+          label: "Revenue",
+          data: [2500, 3200, 2800, 4000],
+          backgroundColor: "#10b981"
+        }]
+      }
+    });    
+  </script>
+<script src="/roles/Admin/Scripts/sidebar.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="/roles/Admin/Scripts/reports.js"></script>
+</body>
+</html>

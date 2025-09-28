@@ -28,37 +28,65 @@ function initAi() {
       chatWindow.style.display = "none";
     });
   }
+chatForm.addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const message = chatInput.value.trim();
+  if (message === "") return;
 
-  chatForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const message = chatInput.value.trim();
-    if (message === "") return;
+  addMessage(message, 'user');
+  chatInput.value = "";
 
-    addMessage(message, 'user');
-    chatInput.value = "";
-
-    const typing = document.createElement('div');
-    typing.classList.add('chat-message', 'bot');
-    typing.innerHTML = `
-      <div class="message-content">
-        <span class="icon">🤖</span>
-        <div class="typing-indicator">
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
+  const typing = document.createElement('div');
+  typing.classList.add('chat-message', 'bot');
+  typing.innerHTML = `
+    <div class="message-content">
+      <span class="icon">🤖</span>
+      <div class="typing-indicator">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
       </div>
-    `;
-    chatBody.appendChild(typing);
-    chatBody.scrollTop = chatBody.scrollHeight;
+    </div>
+  `;
+  chatBody.appendChild(typing);
+  chatBody.scrollTop = chatBody.scrollHeight;
 
-    setTimeout(() => {
-      typing.remove();
-      const botText = "I'm your helpful assistant. How can I help?";
-      addMessage(botText, 'bot');
-      if (!isMuted) speakBotMessage(botText);
-    }, 1500);
-  });
+  const apiUrl = `https://localhost:7124/api/v1/Ai/send-message`;
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: "guest",
+        question: message,
+        role: "Guest"
+      })
+    });
+
+    const result = await response.json();
+    typing.remove();
+
+    if (!response.ok || !result.isSuccess) {
+      const errorMsg = result?.message || "Sorry, something went wrong.";
+      addMessage(errorMsg, 'bot');
+      return;
+    }
+
+    const botText = result.data;
+    const formattedText = botText.replace(/\r?\n/g, '<br>');
+    addMessage(formattedText, 'bot');
+    if (!isMuted) speakBotMessage(botText);
+
+  } catch (error) {
+    typing.remove();
+    console.error("Error communicating with AI:", error);
+    addMessage("Sorry, I couldn't reach the AI server.", 'bot');
+  }
+});
+
 
   function speakBotMessage(text) {
     if (!window.speechSynthesis) return;

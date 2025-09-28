@@ -414,8 +414,7 @@ let getCartCount = async (isLoggedIn) => {
     const cart = document.querySelectorAll('.cart-count');
      
 
-
-    const totalQty = data?.data?.totalQuantity;
+    const totalQty = data?.data?.totalQuantity ?? 0;
     console.log(cart)
     if(cart.length > 0){
       cart.forEach(item => item.textContent = totalQty)

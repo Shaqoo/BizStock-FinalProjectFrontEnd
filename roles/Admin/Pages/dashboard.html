@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/roles/Admin/Styles/dashboard.css">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body class="bg-gray-100 flex h-screen overflow-hidden">
+
+  
+  <aside id="sidebar" class="bg-gray-900 overflow-y-auto scrollbar-hide overflow-x-hidden text-white w-64 flex-shrink-0 transition-transform duration-300 md:translate-x-0 -translate-x-full fixed md:relative z-50 h-full">
+    
+  </aside>
+
+  <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40" onclick="toggleSidebar()"></div>
+  <div class="flex-1 flex flex-col">
+    <header id="header" class="flex items-center justify-between bg-white shadow px-6 py-4">
+      
+    </header>
+    <main class="p-6 space-y-6 overflow-y-auto">
+     
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+  <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition border-t-4 border-blue-500">
+    <div class="flex items-center justify-between">
+      <h2 class="text-gray-500 text-sm font-medium">Total Users</h2>
+      <span class="material-icons text-blue-500">groups</span>
+    </div>
+    <p id="totalUsers" class="text-2xl font-bold text-gray-800 mt-2">1,250</p>
+  </div>
+
+  
+  <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition border-t-4 border-purple-500">
+    <div class="flex items-center justify-between">
+      <h2 class="text-gray-500 text-sm font-medium">Purchase Orders</h2>
+      <span class="material-icons text-purple-500">assignment</span>
+    </div>
+    <p id="totalPOs" class="text-2xl font-bold text-gray-800 mt-2">320</p>
+  </div>
+
+  <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition border-t-4 border-green-500">
+    <div class="flex items-center justify-between">
+      <h2 class="text-gray-500 text-sm font-medium">Orders</h2>
+      <span class="material-icons text-green-500">shopping_cart</span>
+    </div>
+    <p id="totalOrders" class="text-2xl font-bold text-gray-800 mt-2">540</p>
+  </div>
+
+  <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition border-t-4 border-yellow-500">
+    <div class="flex items-center justify-between">
+      <h2 class="text-gray-500 text-sm font-medium">Stock Value</h2>
+      <span class="material-icons text-yellow-500">attach_money</span>
+    </div>
+    <p id="stockValue" class="text-2xl font-bold text-gray-800 mt-2">$45k</p>
+  </div>
+</div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-4 rounded-xl shadow">
+          <h2 class="text-lg font-semibold mb-3">User Growth</h2>
+          <canvas id="userGrowthChart"></canvas>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow">
+          <h2 class="text-lg font-semibold mb-3">Orders Overview</h2>
+          <canvas id="ordersChart"></canvas>
+        </div>
+         <div class="bg-white shadow rounded-xl p-4">
+        <h3 class="text-lg font-semibold mb-3">Product Stock Health</h3>
+        <canvas id="productStockChart" height="200"></canvas>
+      </div>
+        <div class="bg-white shadow rounded-xl p-6">
+      <h3 class="text-lg font-semibold mb-3">Stock Movement Breakdown</h3>
+      <div id="stockMovementChart" style="width:100%; height:400px;"></div>
+    </div>
+
+      </div>
+      <div class="bg-white rounded-lg shadow p-6 mt-6">
+  <h2 class="text-lg font-bold mb-4">Recent Activities</h2>
+  <ul id="activity-list" class="space-y-4">
+    <li class="flex items-start">
+      <span class="material-icons text-green-500 mr-2">check_circle</span>
+      <div>
+        <p class="text-sm text-gray-700">
+          New supplier <span class="font-semibold">Acme Ltd</span> was approved.
+        </p>
+        <span class="text-xs text-gray-400">2 hours ago</span>
+      </div>
+    </li>
+    <li class="flex items-start">
+      <span class="material-icons text-blue-500 mr-2">shopping_cart</span>
+      <div>
+        <p class="text-sm text-gray-700">
+          Order <span class="font-semibold">#SO-12345</span> was created.
+        </p>
+        <span class="text-xs text-gray-400">5 hours ago</span>
+      </div>
+    </li>
+    <li class="flex items-start">
+      <span class="material-icons text-yellow-500 mr-2">person_add</span>
+      <div>
+        <p class="text-sm text-gray-700">
+          New user <span class="font-semibold">Jane Doe</span> registered.
+        </p>
+        <span class="text-xs text-gray-400">1 day ago</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+    </main>
+</div>
+
+ 
+
+
+ 
+<script src="/roles/Admin/Scripts/sidebar.js"></script>
+<script src="/roles/Admin/Scripts/dashboard.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</body>
+</html>

@@ -1,18 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BizStock - Customer Registration</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Suppliers</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon" />
   <link rel="stylesheet" href="/static/styles/register.css">
-  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="/roles/Admin/Styles/dashboard.css">
 </head>
-<body class="bg-gradient-to-r from-blue-100 to-blue-200 flex items-center justify-center min-h-screen">
+<body class="bg-gray-100 flex h-screen overflow-hidden">
 
-<div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-lg">
-  <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Customer Registration</h2>
+<aside id="sidebar" class="bg-gray-900 overflow-y-auto scrollbar-hide overflow-x-hidden text-white w-64 flex-shrink-0 transition-transform duration-300 md:translate-x-0 -translate-x-full fixed md:relative z-50 h-full">
+   </aside>
+
+  <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40" onclick="toggleSidebar()"></div>
+
+ <div class="flex-1 flex flex-col overflow-x-auto">
+    <header class="flex items-center justify-between bg-white shadow px-6 py-4">
+      <button class="md:hidden text-gray-600" onclick="toggleSidebar()">
+        <span class="material-icons">menu</span>
+      </button>
+     
+    <h1 class="text-2xl font-bold">Manage Suppliers</h1>
+    <button id="registerManagerBtn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+      Register Suppliers
+    </button>
+    </header>
+  
+  <main class="flex-1 p-6">
+  <div id="signupModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+  <div class="bg-white p-6 rounded-xl scrollbar-hide w-full max-w-lg shadow-lg overflow-y-auto max-h-[90vh]">
+   <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-lg">
+  <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Supplier Registration</h2>
  <img src="/static/images/Favicon.jpg" alt="Logo" class="mb-4 ml-48 w-14 h-14">
 
   
@@ -98,12 +120,6 @@
         <p id="matchStatus" class="text-red-500 text-sm mt-1 hidden"></p>
       </div>
 
-      <div class="relative mb-4">
-        <input type="number" name="pin" placeholder=" " required min="1000" max="9999"
-               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        <label class="floating-label">4-digit PIN</label>
-        <p class="text-red-500 text-sm mt-1 hidden"></p>
-      </div>
       <div class="flex justify-between mt-4">
         <button type="button" id="prev1" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">Back</button>
         <button type="button" id="next2" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Next</button>
@@ -117,33 +133,11 @@
     </svg>
     Additional Info
   </h3>
-
       <div class="relative mb-4">
-        <input type="text" name="address" placeholder=" " 
-               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        <label class="floating-label">Address</label>
-      </div>
-      <div class="relative mb-4">
-        <input type="text" name="businessName" placeholder=" " 
-               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        <label class="floating-label">Business Name</label>
-        <p class="text-red-500 text-sm mt-1 hidden"></p>
-      </div>
-      <div class="relative mb-4">
-        <input type="text" name="state" placeholder=" " 
-               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        <label class="floating-label">State</label>
-      </div>
-      <div class="relative mb-4">
-        <input type="text" name="taxId" placeholder=" " 
-               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        <label class="floating-label">Tax ID</label>
-        <p class="text-red-500 text-sm mt-1 hidden"></p>
-      </div>
-      <div class="relative mb-4">
-        <input type="date" id="dob" name="birthDate" required
+        <input type="date" id="dob" name="dob" required
                class="input-field w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
         <label class="floating-label">Birth Date</label>
+         <p class="text-red-500 text-sm mt-1 hidden"></p>
       </div>
      <div class="relative mb-4">
     <label for="gender" class="block text-gray-600 mb-1">Gender</label>
@@ -156,16 +150,29 @@
       <option value="NonBinary">Non-Binary</option>
       <option value="PreferNotToSay">Prefer not to say</option>
     </select>
+    <p class="text-red-500 text-sm mt-1 hidden"></p>
     </div>
+     <div class="relative mb-4">
+        <input type="text" name="address" placeholder=" " required 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">Address</label>
+        <p class="text-red-500 text-sm mt-1 hidden"></p>
+      </div>
 
       <div class="relative mb-4">
-        <select name="customerType" required
-                class="input-field w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <option value="">Select Customer Type</option>
-          <option value="Retail">Individual</option>
-          <option value="Wholesale">Business</option>
-        </select>
+        <input type="text" name="companyName" placeholder=" " required 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">Company Name</label>
+        <p class="text-red-500 text-sm mt-1 hidden"></p>
       </div>
+
+      <div class="relative mb-4">
+        <input type="text" name="taxId" placeholder=" " required 
+               class="input-field w-full border rounded px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <label class="floating-label">Tax Id</label>
+        <p class="text-red-500 text-sm mt-1 hidden"></p>
+      </div>
+
       <div id="buttonWrapper" class="flex justify-between mt-4">
         <button type="button" id="prev2" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">Back</button>
         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Register</button>
@@ -174,6 +181,38 @@
     </div>
   </form>
 </div>
-<script src="/static/scripts/register.js"></script>
+
+  </div>
+</div>
+
+  <div class="p-6">
+    <div class="bg-white shadow rounded-xl overflow-x-auto">
+      <table class="min-w-full border-collapse">
+        <thead>
+          <tr class="bg-blue-200 text-left">
+            <th class="p-3 border-b">Profile</th>
+            <th class="p-3 border-b">Name</th>
+            <th class="p-3 border-b">Email</th>
+            <th class="p-3 border-b">Phone</th>
+            <th class="p-3 border-b">Gender</th>
+            <th class="p-3 border-b">Status</th>
+            <th class="p-3 border-b">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="managersList"></tbody>
+      </table>
+    </div>
+
+    <div class="flex justify-center items-center space-x-2 mt-4">
+      <button id="prevPage" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Prev</button>
+      <span id="pageInfo" class="px-2"></span>
+      <button id="nextPage" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Next</button>
+    </div>
+  </div>
+  </main>
+  </div>
+<script src="/roles/Admin/Scripts/sidebar.js"></script>
+<script src="/roles/Admin/Scripts/manage-suppliers.js"></script>
+<script src="/roles/Admin/Scripts/register-supplier.js"></script>
 </body>
 </html>

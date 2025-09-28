@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Manage Customers</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="/roles/Admin/Styles/dashboard.css">
+</head>
+<body class="bg-gray-100 flex h-screen overflow-hidden">
+
+   <aside id="sidebar" class="bg-gray-900 overflow-y-auto scrollbar-hide overflow-x-hidden text-white w-64 flex-shrink-0 transition-transform duration-300 md:translate-x-0 -translate-x-full fixed md:relative z-50 h-full">
+   </aside>
+
+  <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40" onclick="toggleSidebar()"></div>
+
+ <div class="flex-1 flex flex-col overflow-x-auto">
+    <header class="flex items-center justify-between bg-white shadow px-6 py-4">
+      <button class="md:hidden text-gray-600" onclick="toggleSidebar()">
+        <span class="material-icons">menu</span>
+      </button>
+       <h2 class="text-2xl font-bold mb-6">Manage Customers</h2>
+    </header>
+  <main class="flex-1 p-6">
+    <div class="grid grid-cols-3 gap-6 mb-6">
+      <div class="bg-white p-4 rounded-xl shadow text-center">
+        <p class="text-gray-500">Total Customers</p>
+        <p id="totalCustomers" class="text-2xl font-bold">0</p>
+      </div>
+      <div class="bg-green-400 p-4 rounded-xl shadow text-center">
+        <p class="text-gray-700">Active Customers</p>
+        <p id="activeCustomers" class="text-2xl font-bold">0</p>
+      </div>
+      <div class="bg-red-400 p-4 rounded-xl shadow text-center">
+        <p class="text-gray-700">Inactive Customers</p>
+        <p id="inactiveCustomers" class="text-2xl font-bold">0</p>
+      </div>
+    </div>
+
+    
+    <div class="flex mb-4">
+      <input id="searchInput" 
+        type="text" 
+        placeholder="Search by name, email, or phone..." 
+        class="flex-1 border rounded-lg p-2 mr-2">
+      <button id="searchBtn" 
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Search</button>
+    </div>
+
+    
+    <div class="bg-white rounded-xl shadow overflow-x-auto">
+      <table class="min-w-full">
+        <thead class="bg-blue-200">
+          <tr>
+            <th class="p-3 text-left">Profile</th>
+            <th class="p-3 text-left">Name</th>
+            <th class="p-3 text-left">Email</th>
+            <th class="p-3 text-left">Phone</th>
+            <th class="p-3 text-left">Type</th>
+            <th class="p-3 text-left">Status</th>
+            <th class="p-3 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="customersList"></tbody>
+      </table>
+    </div>
+
+     
+    <div class="flex justify-between items-center mt-4">
+      <p id="paginationInfo" class="text-gray-600">Showing 0-0 of 0</p>
+      <div class="flex space-x-2" id="pageNumbers"></div>
+    </div>
+  </main>
+  </div>
+
+<script src="/roles/Admin/Scripts/sidebar.js"></script>
+<script src="/roles/Admin/Scripts/manage-customers.js"></script>
+</body>
+</html>

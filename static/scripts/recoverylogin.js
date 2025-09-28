@@ -22,7 +22,7 @@ const apiBase = "https://localhost:7124/api/v1/Users";
     if(!emailRegex.test(email)) return Swal.fire("Error", "Invalid email format.", "error");
 
     const token = inputs.map(i => i.value).join('');
-    if(token.length !== 10) return Swal.fire("Error", "Enter the 10-digit recovery code.", "error");
+    if(token.length !== 12) return Swal.fire("Error", "Enter the 10-digit recovery code.", "error");
 
     try {
       const res = await fetch(`${apiBase}/recovery-login`, {

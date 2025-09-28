@@ -26,7 +26,7 @@ async function loadDatas() {
             }
         });
 
-        const response2 = await fetch(`${apiBase}/recipient/count-unread`, {
+        const response2 = await fetch(`${apiBaseUrl}/Notifications/recipient/count-unread`, {
                 headers: {
                 "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`
                 }

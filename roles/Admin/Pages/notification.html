@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Notifications</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/roles/Admin/Styles/dashboard.css">
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+</head>
+<body class="bg-gray-100 flex h-screen overflow-hidden">
+
+  
+  <aside id="sidebar" class="bg-gray-900 overflow-y-auto scrollbar-hide overflow-x-hidden text-white w-64 flex-shrink-0 transition-transform duration-300 md:translate-x-0 -translate-x-full fixed md:relative z-50 h-full">
+    
+  </aside>
+
+  <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40" onclick="toggleSidebar()"></div>
+  <div class="flex-1 flex flex-col">
+    <header id="header" class="flex items-center justify-between bg-white shadow px-6 py-4">
+      
+    </header>
+<main class="p-6 space-y-6 overflow-y-auto">
+<div class="max-w-4xl mx-auto">
+
+      
+      <div class="bg-white p-6 rounded-xl shadow mb-6">
+        <h2 class="text-lg font-semibold mb-4">Send Notification</h2>
+        <form id="notificationForm" class="space-y-4">
+          <div>
+            <label class="block text-gray-700 mb-1">Title</label>
+            <input type="text" id="notifTitle" class="w-full p-2 border rounded" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-1">Message</label>
+            <textarea id="notifMessage" class="w-full p-2 border rounded" rows="3" required></textarea>
+          </div>
+          <div class="relative w-full">
+            <label class="block text-sm font-medium mb-1">Type</label>
+            <div id="customDropdown" class="border rounded px-3 py-2 cursor-pointer flex items-center justify-between">
+                <span id="selectedType"><span class="material-icons text-blue-500">info</span> Info</span>
+                <span class="material-icons">arrow_drop_down</span>
+            </div>
+            <ul id="dropdownOptions" class="absolute hidden w-full bg-white border rounded mt-1 z-50">
+                <li class="px-3 py-2 flex items-center hover:bg-gray-100 cursor-pointer" data-value="info"><span class="material-icons text-blue-500 mr-2">info</span> Info</li>
+                <li class="px-3 py-2 flex items-center hover:bg-gray-100 cursor-pointer" data-value="success"><span class="material-icons text-green-500 mr-2">check_circle</span> Success</li>
+                <li class="px-3 py-2 flex items-center hover:bg-gray-100 cursor-pointer" data-value="warning"><span class="material-icons text-yellow-500 mr-2">warning</span> Warning</li>
+                <li class="px-3 py-2 flex items-center hover:bg-gray-100 cursor-pointer" data-value="error"><span class="material-icons text-red-500 mr-2">error</span> Error</li>
+            </ul>
+        </div>
+          <div>
+            <label class="block text-gray-700 mb-1">Send To</label>
+            <select id="notifTarget" class="w-full p-2 border rounded">
+              <option value="role-Customer">All Customers</option>
+              <option value="role-Supplier">All Suppliers</option>
+              <option value="role-Manager">All Managers</option>
+              <option value="role-Admin">All Admins</option>
+              <option value="role-InventoryManager">All Inventory Managers</option>
+              <option value="role-CustomerService">All Customer Service</option>
+              <option value="role-DeliveryAgent">All Delivery Agents</option>
+              <option value="specific">Specific User</option>
+            </select>
+          </div>
+          <div id="specificUserDiv" class="hidden">
+            <label class="block text-gray-700 mb-1">User</label>
+             <div class="relative">
+            <input id="userSearch" placeholder="Search users..." class="border p-2 rounded w-full">
+
+            
+            <ul id="userSuggestions" 
+                class="absolute z-10 bg-white border rounded shadow mt-1 hidden max-h-48 overflow-y-auto w-full">
+            </ul>
+          </div>
+            <input type="hidden" id="specificUserId" class="w-full p-2 border rounded" placeholder="Enter user ID">
+          </div>
+          <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Send Notification</button>
+        </form>
+      </div>
+
+      
+      <div class="bg-white p-6 rounded-xl shadow">
+       <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold">
+            Recent Notifications
+            <sup id="unreadCount" class="text-red-500 bg-gray-200 shadow rounded px-1">15</sup>
+        </h2>
+        <button id="markAllAsRead" class="bg-blue-600 rounded-full text-white text-sm px-3 py-1 rounded hover:bg-blue-700">
+            Mark all as read
+            </button>
+        </div>
+
+        <ul id="notificationList" class="space-y-4">
+           
+        </ul>
+      </div>
+
+    </div>
+</main>
+</div>
+
+ 
+
+
+ <audio id="notificationSound" src="/static/media/file-sounds-1150-pristine.mp3"></audio>
+<script src="/roles/Admin/Scripts/sidebar.js"></script>
+<script src="/roles/Admin/Scripts/notification.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</body>
+</html>

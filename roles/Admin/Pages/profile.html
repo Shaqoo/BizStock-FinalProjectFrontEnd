@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Profile Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/static/images/Favicon.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/roles/Admin/Styles/dashboard.css">
+</head>
+<body class="bg-gray-100 flex h-screen overflow-hidden">
+
+  
+  <aside id="sidebar" class="bg-gray-900 overflow-y-auto scrollbar-hide overflow-x-hidden text-white w-64 flex-shrink-0 transition-transform duration-300 md:translate-x-0 -translate-x-full fixed md:relative z-50 h-full">
+    
+  </aside>
+
+  <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40" onclick="toggleSidebar()"></div>
+  <div class="flex-1 flex flex-col">
+    <header id="header" class="flex items-center justify-between bg-white shadow px-6 py-4">
+      
+    </header>
+<main class="p-6 space-y-6 overflow-y-auto">
+<div class="max-w-5xl mx-auto p-6">
+ 
+  <div id="dashboard-content" class="flex items-center bg-white shadow-md rounded-xl p-6 mb-8">
+    
+  </div>
+
+  
+  <div id="profile-content" class="bg-white shadow-md rounded-xl p-6 mb-8">
+   
+  </div>
+
+  
+  
+</div>
+
+</main>
+</div>
+
+ 
+
+
+ 
+<script src="/roles/Admin/Scripts/sidebar.js"></script>
+<script src="/roles/Admin/Scripts/profile.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</body>
+</html>
