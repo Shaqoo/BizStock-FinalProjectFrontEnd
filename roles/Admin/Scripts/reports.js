@@ -1,4 +1,79 @@
 const apiBaseUrl = "https://localhost:7124/api/v1";
+let currentPage = 1;
+const pageSize = 20;
+let totalPages = 1;
+let currentMode = "all";
+let isFetching = false;
+
+
+const tbody = document.getElementById("auditTableBody");
+const cards = document.getElementById("auditCards");
+const searchInput = document.getElementById("searchInput");
+const hiddenUserId = document.getElementById("specificUserId");
+
+
+let searchDebounceTimeout;
+function fetchByCurrentMode() {
+  if(currentMode === "all")
+    loadLogs();
+  else if(currentMode === "search")
+    searchLogs(searchInput.value.trim());
+  else if(currentMode === "searchByUser")
+    searchByUser(hiddenUserId.value.trim());
+}
+
+function updatePagination() {
+  const paginationInfo = document.querySelector('.paginationInfo');
+  const paginationButtonsContainer = document.querySelector('.paginationContainer');
+
+  const startItem = (currentPage - 1) * pageSize + 1;
+  const endItem = Math.min(currentPage * pageSize, pageSize * totalPages); 
+  paginationInfo.textContent = `Showing ${startItem}-${endItem} of ${pageSize * totalPages}`;
+
+  paginationButtonsContainer.innerHTML = "";
+
+  const prevBtn = document.createElement("button");
+  prevBtn.innerHTML = "&laquo;";
+  prevBtn.className = "px-3 py-1 border rounded hover:bg-gray-100";
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.onclick = () => {
+    if (currentPage > 1) {
+      currentPage--;
+      fetchByCurrentMode();
+    }
+  };
+  paginationButtonsContainer.appendChild(prevBtn);
+
+  for (let i = 1; i <= totalPages; i++) {
+    if (i < currentPage - 1 || i > currentPage + 1) continue;
+
+    const pageBtn = document.createElement("button");
+    pageBtn.textContent = i;
+    pageBtn.className = "px-3 py-1 border rounded hover:bg-gray-100";
+    if (i === currentPage) {
+      pageBtn.classList.add("bg-blue-600", "text-white");
+    }
+
+    pageBtn.onclick = () => {
+      currentPage = i;
+      fetchByCurrentMode();
+    };
+
+    paginationButtonsContainer.appendChild(pageBtn);
+  }
+
+  const nextBtn = document.createElement("button");
+  nextBtn.innerHTML = "&raquo;";
+  nextBtn.className = "px-3 py-1 border rounded hover:bg-gray-100";
+  nextBtn.disabled = currentPage === totalPages;
+  nextBtn.onclick = () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      fetchByCurrentMode();
+    }
+  };
+  paginationButtonsContainer.appendChild(nextBtn);
+}
 
  async function loadUserGrowth() {
     try {
@@ -329,12 +404,234 @@ async function loadStats() {
 }
 
 
-
-
-
+async function loadLogs() {
+  if (isFetching) return;
+     isFetching = true;
+  try{
+  const response = await fetch(`${apiBaseUrl}/AuditLogs?pageNumber=${currentPage}&pageSize=${pageSize}`,{
+    headers:{
+      "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`
+    }
+  });
+   
+  if(!response.ok) throw new Error("Failed to fetch logs");
   
- 
+  const data = await response.json();
+  renderLogs(data.items);
+  totalPages = data.totalPages;
+  updatePagination();
+}catch(err){
+  console.error("Error loading logs:", err);
+  tbody.innerHTML = `<p class="text-red-500">❌ Could not load Logs.</p>`;
+  cards.innerHTML = `<p class="text-red-500">❌ Could not load Logs.</p>`;
+}finally {
+    isFetching = false;
+  }
+}
 
+searchInput.addEventListener("input", () => {
+  const inputValue = searchInput.value.trim();
+
+  clearTimeout(searchDebounceTimeout);
+
+  searchDebounceTimeout = setTimeout(() => {
+  currentMode = inputValue === "" ? "all" : "search";
+  currentPage = 1;
+
+    fetchByCurrentMode();
+  }, 300); 
+});
+
+let searchLogs = async (input) =>{
+    if (isFetching) return;
+     isFetching = true;
+    let url = `${apiBaseUrl}/AuditLogs/search?search=${encodeURIComponent(input)}&pageNumber=${currentPage}&pageSize=${pageSize}`;
+    try {
+        const response = await fetch(url,{
+          "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`
+        });
+    if (!response.ok) throw new Error("Failed to fetch");
+
+    const data = await response.json();
+    const logs = data.items;
+    totalPages = data.totalPages;
+
+    renderLogs(logs);
+    updatePagination();
+  } catch (err) {
+    console.error("Error:", err);
+    tbody.innerHTML = `<p class="text-red-500">❌ Could not load Logs.</p>`;
+    cards.innerHTML = `<p class="text-red-500">❌ Could not load Logs.</p>`;
+  }finally {
+    isFetching = false;
+  }
+}
+
+
+
+
+function renderLogs(logs){
+  tbody.innerHTML = "";
+  cards.innerHTML = "";
+  if(logs.length == 0){
+    console.log("no logs");
+    tbody.innerHTML = `<p class="text-red-500">❌ Could not load Logs.</p>`;
+    cards.innerHTML = `<p class="text-red-500">❌ Could not load Logs.</p>`;
+    return;
+  }
+
+
+  logs.forEach(log => {
+    const tr = document.createElement("tr");
+    tr.className = "cursor-pointer hover:bg-gray-100";
+    tr.onclick = () => openModal(log);
+    tr.innerHTML = `
+      <td class="p-2 border">${log.email}</td>
+      <td class="p-2 border">${log.action}</td>
+      <td class="p-2 border">${log.timestamp}</td>
+      <td class="p-2 border">${log.ipAddress}</td>
+    `;
+    tbody.appendChild(tr);
+
+
+    const card = document.createElement("div");
+    card.className = "border rounded-lg p-3 shadow cursor-pointer hover:bg-gray-50";
+    card.onclick = () => openModal(log);
+    card.innerHTML = `
+      <div class="flex items-center space-x-3">
+        <img src="${log.profilePic ?? getAvatarUrl(log.fullname)}" alt="profile" class="w-10 h-10 rounded-full">
+        <div>
+          <p class="font-semibold">${log.fullname}</p>
+          <p class="text-xs text-gray-500">${log.email}</p>
+        </div>
+      </div>
+      <p class="mt-2 text-sm"><strong>Action:</strong> ${log.action}</p>
+      <p class="text-xs text-gray-500">${log.timestamp}</p>
+      <p class="text-xs">IP: ${log.ipAddress}</p>
+      <p class="text-xs ${log.action.toLowerCase().includes("fail") ? "text-red-600" : "text-green-600"}">${log.action.toLowerCase().includes("fail") ? "Failed" : "Success"}</p>
+    `;
+    cards.appendChild(card);
+  });
+}
+
+
+function openModal(log) {
+  document.getElementById("auditModal").classList.remove("hidden");
+  document.getElementById("auditModal").classList.add("flex");
+  document.getElementById("modalContent").innerHTML = `
+    <div class="flex items-center space-x-3">
+      <img src="${log.profilePic ?? getAvatarUrl(log.fullname)}" alt="profile" class="w-12 h-12 rounded-full">
+      <div>
+        <p class="font-semibold">${log.fullname}</p>
+        <p class="text-sm text-gray-500">${log.email}</p>
+      </div>
+    </div>
+    <p><strong>UserId:</strong> ${log.userId}</p>
+    <p><strong>Action:</strong> ${log.action}</p>
+    <p><strong>Timestamp:</strong> ${log.timestamp}</p>
+    <p><strong>IP Address:</strong> ${log.ipAddress}</p>
+    <p><strong>Device Info:</strong> ${log.userAgent}</p>
+    <p><strong>Status:</strong> ${log.action.toLowerCase().includes("fail") ? "Failed" : "Success"}</p>
+    <p><strong>Description:</strong> ${log.description}</p>
+  `;
+}
+
+
+function closeModal() {
+  document.getElementById("auditModal").classList.add("hidden");
+  document.getElementById("auditModal").classList.remove("flex");
+}
+
+
+let searchByUser = async (userId) =>{
+  if (isFetching) return;
+     isFetching = true;
+    try{
+  const response = await fetch(`${apiBaseUrl}/AuditLogs/user/${userId}?pageNumber=${currentPage}&pageSize=${pageSize}`,{
+    headers:{
+      "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`
+    }
+  });
+   
+  if(!response.ok) throw new Error("Failed to fetch logs");
+  
+  const data = await response.json();
+  renderLogs(data.items);
+  totalPages = data.totalPages;
+  updatePagination();
+}catch(err){
+  console.error("Error loading logs:", err);
+  tbody.innerHTML = `<p class="text-red-500">❌ Could not load Logs.</p>`;
+  cards.innerHTML = `<p class="text-red-500">❌ Could not load Logs.</p>`;
+}finally {
+    isFetching = false;
+  }
+}
+
+function debounce(fn, delay = 300) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn(...args), delay);
+  };
+}
+
+const userSearch = document.getElementById("userSearch");
+const userSuggestions = document.getElementById("userSuggestions");
+
+async function fetchUsers(query) {
+  if (query.length < 2) {
+    userSuggestions.classList.add("hidden");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${apiBaseUrl}/Users/search?page=1&pageSize=10&query=${encodeURIComponent(query)}`, {
+      headers: { "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}` }
+    });
+    const data = await res.json();
+
+    if (!Array.isArray(data.items)) return;
+
+    userSuggestions.innerHTML = data.items.map(p => `
+      <li class="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2" 
+          data-id="${p.id}" data-name="${p.fullName}">
+        <img src="${p.profilepicture || getAvatarUrl(p.fullName)}" alt="${p.fullName}" class="w-8 h-8 object-cover rounded">
+        <div>
+          <div class="font-medium">${p.fullName}</div>
+          <div class="text-xs text-gray-500">Email: ${p.email} | ${p.phoneNumber}</div>
+        </div>
+      </li>
+    `).join("");
+
+    userSuggestions.classList.remove("hidden");
+
+    [...userSuggestions.querySelectorAll("li")].forEach(li => {
+      li.addEventListener("click", () => {
+        userSearch.value = li.dataset.name;
+        hiddenUserId.value = li.dataset.id;
+        userSuggestions.classList.add("hidden");
+        currentPage = 1;
+        currentMode = "searchByUser";
+        fetchByCurrentMode();
+      });
+    });
+
+  } catch (err) {
+    console.error("User search error", err);
+  }
+}
+
+userSearch.addEventListener("input", debounce(e => {
+  fetchUsers(e.target.value.trim());
+}, 800)); 
+
+
+
+ 
+function getAvatarUrl(name) {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0D8ABC&color=fff&size=128&rounded=true`;
+}
 
 
 document.addEventListener("DOMContentLoaded",async () => {
@@ -342,6 +639,7 @@ document.addEventListener("DOMContentLoaded",async () => {
   await loadStockTrend();
   await loadComplaintsChart();
   await loadHeatmap();
+  fetchByCurrentMode();
  document.querySelector('#reports-sidebar-link').classList.add("bg-blue-800");
 });
 

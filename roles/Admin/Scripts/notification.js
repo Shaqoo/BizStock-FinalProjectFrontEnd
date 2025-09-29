@@ -237,7 +237,7 @@ const userSearch = document.getElementById("userSearch");
 const userSuggestions = document.getElementById("userSuggestions");
 const hiddenUserId = document.getElementById("specificUserId");
 
-async function fetchProducts(query) {
+async function fetchUsers(query) {
   if (query.length < 2) {
     userSuggestions.classList.add("hidden");
     return;
@@ -278,7 +278,7 @@ async function fetchProducts(query) {
 }
 
 userSearch.addEventListener("input", debounce(e => {
-  fetchProducts(e.target.value.trim());
+  fetchUsers(e.target.value.trim());
 }, 800)); 
 
 
